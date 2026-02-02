@@ -1,0 +1,153 @@
+name: CI Python
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "**.py"
+      - "scripts/**"
+      - "pyproject.toml"
+      - "requirements*.txt"
+      - "setup.py"
+      - "setup.cfg"
+      - ".github/workflows/ci-python.yml"
+  push:
+    branches: [main]
+    paths:
+      - "**.py"
+      - "scripts/**"
+      - "pyproject.toml"
+      - "requirements*.txt"
+      - "setup.py"
+      - "setup.cfg"
+      - ".github/workflows/ci-python.yml"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PYTHON_VERSION: "3.12"
+
+jobs:
+  detect-python:
+    runs-on: ubuntu-24.04
+    outputs:
+      has_python: ${{ steps.check.outputs.has_python }}
+      has_tests: ${{ steps.check.outputs.has_tests }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Check for Python files
+        id: check
+        run: |
+          if find . -name "*.py" -type f ! -path "./.venv/*" 2>/dev/null | head -1 | grep -q .; then
+            echo "has_python=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_python=false" >> "$GITHUB_OUTPUT"
+          fi
+          if find . -path "*/test_*.py" -o -path "*/*_test.py" -o -path "*/tests/*.py" 2>/dev/null | head -1 | grep -q .; then
+            echo "has_tests=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_tests=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  typecheck:
+    needs: detect-python
+    if: needs.detect-python.outputs.has_python == 'true'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - uses: astral-sh/setup-uv@6b9c6063abd6010835644d4c2e1bef4cf5cd0fca # v6.0.1
+        with:
+          enable-cache: true
+          cache-dependency-glob: |
+            **/pyproject.toml
+            **/requirements*.txt
+
+      - name: Set up Python
+        run: uv python install ${{ env.PYTHON_VERSION }}
+
+      - name: Install dependencies
+        run: |
+          if [ -f "pyproject.toml" ]; then
+            uv sync --frozen 2>/dev/null || uv sync
+          elif [ -f "requirements.txt" ]; then
+            uv pip install -r requirements.txt
+          fi
+          uv tool install mypy
+
+      - name: Run mypy
+        run: |
+          PYTHON_DIRS=""
+          for dir in scripts src; do
+            if [ -d "$dir" ] && find "$dir" -name "*.py" -type f | head -1 | grep -q .; then
+              PYTHON_DIRS="$PYTHON_DIRS $dir"
+            fi
+          done
+          if [ -n "$PYTHON_DIRS" ]; then
+            mypy --strict $PYTHON_DIRS --ignore-missing-imports || {
+              echo "::warning::mypy found type errors"
+              exit 1
+            }
+          else
+            echo "No Python source directories found, skipping mypy"
+          fi
+
+  test:
+    needs: detect-python
+    if: needs.detect-python.outputs.has_tests == 'true'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - uses: astral-sh/setup-uv@6b9c6063abd6010835644d4c2e1bef4cf5cd0fca # v6.0.1
+        with:
+          enable-cache: true
+          cache-dependency-glob: |
+            **/pyproject.toml
+            **/requirements*.txt
+
+      - name: Set up Python
+        run: uv python install ${{ env.PYTHON_VERSION }}
+
+      - name: Install dependencies
+        run: |
+          if [ -f "pyproject.toml" ]; then
+            uv sync --frozen 2>/dev/null || uv sync
+          elif [ -f "requirements.txt" ]; then
+            uv pip install -r requirements.txt
+          fi
+          uv tool install pytest pytest-cov
+
+      - name: Run pytest
+        run: |
+          pytest --cov=scripts --cov-report=xml --cov-report=term-missing -v || {
+            if [ $? -eq 5 ]; then
+              echo "No tests collected, skipping"
+              exit 0
+            fi
+            exit 1
+          }
+
+      - name: Upload coverage
+        if: success()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: coverage-report
+          path: coverage.xml
+          retention-days: 7
+
+  python-complete:
+    if: always()
+    needs: [detect-python, typecheck, test]
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check Python CI results
+        run: |
+          if [ "${{ needs.typecheck.result }}" = "failure" ] || [ "${{ needs.test.result }}" = "failure" ]; then
+            echo "Python CI failed"
+            exit 1
+          fi
+          echo "Python CI passed or skipped"

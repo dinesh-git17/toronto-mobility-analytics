@@ -1,0 +1,166 @@
+name: Security
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  schedule:
+    - cron: "0 6 * * 1"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  dependency-audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Check for Python dependencies
+        id: check-deps
+        run: |
+          if [ -f "requirements.txt" ] || [ -f "pyproject.toml" ]; then
+            echo "has_deps=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_deps=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: astral-sh/setup-uv@6b9c6063abd6010835644d4c2e1bef4cf5cd0fca # v6.0.1
+        if: steps.check-deps.outputs.has_deps == 'true'
+        with:
+          enable-cache: true
+
+      - name: Set up Python
+        if: steps.check-deps.outputs.has_deps == 'true'
+        run: uv python install 3.12
+
+      - name: Install pip-audit
+        if: steps.check-deps.outputs.has_deps == 'true'
+        run: uv tool install pip-audit
+
+      - name: Run pip-audit
+        if: steps.check-deps.outputs.has_deps == 'true'
+        run: |
+          if [ -f "requirements.txt" ]; then
+            pip-audit -r requirements.txt --format json --output audit-results.json || {
+              echo "::warning::pip-audit found vulnerabilities"
+              cat audit-results.json
+            }
+          elif [ -f "pyproject.toml" ]; then
+            pip-audit --format json --output audit-results.json || {
+              echo "::warning::pip-audit found vulnerabilities"
+              cat audit-results.json
+            }
+          fi
+
+      - name: Upload audit results
+        if: steps.check-deps.outputs.has_deps == 'true' && always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: dependency-audit
+          path: audit-results.json
+          retention-days: 30
+          if-no-files-found: ignore
+
+  action-pinning:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Check GitHub Actions pinning
+        run: |
+          ERRORS=0
+          WORKFLOW_DIR=".github/workflows"
+          if [ ! -d "$WORKFLOW_DIR" ]; then
+            echo "No workflows found, skipping action pinning check"
+            exit 0
+          fi
+          for workflow in "$WORKFLOW_DIR"/*.yml "$WORKFLOW_DIR"/*.yaml; do
+            [ -f "$workflow" ] || continue
+            echo "Checking: $workflow"
+            UNPINNED=$(grep -nE "uses: [^#]+@v[0-9]" "$workflow" 2>/dev/null | grep -vE "@[a-f0-9]{40}" || true)
+            if [ -n "$UNPINNED" ]; then
+              echo "::warning file=$workflow::Found actions using version tags instead of SHA pins"
+              echo "$UNPINNED"
+            fi
+            USES_LATEST=$(grep -nE "uses: .+@(latest|main|master)" "$workflow" 2>/dev/null || true)
+            if [ -n "$USES_LATEST" ]; then
+              echo "::error file=$workflow::Found actions using 'latest', 'main', or 'master' - must pin to SHA"
+              echo "$USES_LATEST"
+              ERRORS=$((ERRORS + 1))
+            fi
+          done
+          if [ $ERRORS -gt 0 ]; then
+            exit 1
+          fi
+          echo "Action pinning check passed"
+
+  secret-scanning:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0
+
+      - name: Install gitleaks
+        run: |
+          GITLEAKS_VERSION="8.21.2"
+          wget -qO- "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz" | tar xz
+          chmod +x gitleaks
+
+      - name: Run gitleaks on PR diff
+        if: github.event_name == 'pull_request'
+        run: |
+          ./gitleaks detect --source . --log-opts="origin/main..HEAD" --verbose --redact || {
+            echo "::error::Gitleaks detected potential secrets in PR changes"
+            exit 1
+          }
+
+      - name: Run gitleaks full scan
+        if: github.event_name != 'pull_request'
+        run: |
+          ./gitleaks detect --source . --verbose --redact || {
+            echo "::warning::Gitleaks detected potential secrets in repository"
+          }
+
+  supply-chain:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Check dbt package sources
+        run: |
+          if [ ! -f "packages.yml" ]; then
+            echo "No dbt packages.yml found, skipping"
+            exit 0
+          fi
+          WARNINGS=0
+          if grep -qE "git:|url:" packages.yml; then
+            echo "::warning::packages.yml contains git/url dependencies - prefer Hub packages"
+            WARNINGS=$((WARNINGS + 1))
+          fi
+          if grep -qE 'version:\s*"[><=~^]' packages.yml; then
+            echo "::warning::packages.yml uses version ranges - prefer exact versions for reproducibility"
+            WARNINGS=$((WARNINGS + 1))
+          fi
+          echo "Supply chain check completed with $WARNINGS warnings"
+
+  security-complete:
+    if: always()
+    needs: [dependency-audit, action-pinning, secret-scanning, supply-chain]
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check security results
+        run: |
+          if [ "${{ needs.action-pinning.result }}" = "failure" ] || \
+             [ "${{ needs.secret-scanning.result }}" = "failure" ]; then
+            echo "Security checks failed"
+            exit 1
+          fi
+          echo "Security checks passed"
