@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toronto Mobility Analytics — Documentation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.0/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --bg-tertiary: #f3f4f6;
+            --bg-hover: #e5e7eb;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --text-tertiary: #6b7280;
+            --border-color: #e5e7eb;
+            --accent: #2563eb;
+            --accent-hover: #1d4ed8;
+            --accent-subtle: #eff6ff;
+            --success: #059669;
+            --warning: #d97706;
+            --sidebar-width: 280px;
+            --header-height: 56px;
+            --content-max-width: 860px;
+            --radius-sm: 4px;
+            --radius-md: 6px;
+            --radius-lg: 8px;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
+            --transition: 150ms ease;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-primary: #0d1117;
+                --bg-secondary: #161b22;
+                --bg-tertiary: #21262d;
+                --bg-hover: #30363d;
+                --text-primary: #e6edf3;
+                --text-secondary: #8b949e;
+                --text-tertiary: #6e7681;
+                --border-color: #30363d;
+                --accent: #58a6ff;
+                --accent-hover: #79b8ff;
+                --accent-subtle: #1f2937;
+            }
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Layout */
+        .app {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: var(--sidebar-width);
+            height: 100vh;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+            transition: transform var(--transition);
+        }
+
+        .sidebar-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border-color);
+            flex-shrink: 0;
+        }
+
+        .sidebar-logo {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sidebar-logo-icon {
+            width: 24px;
+            height: 24px;
+            background: var(--accent);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 12px;
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            overflow-y: auto;
+            padding: 12px 0;
+        }
+
+        .nav-section {
+            margin-bottom: 4px;
+        }
+
+        .nav-section-header {
+            display: flex;
+            align-items: center;
+            padding: 8px 20px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            user-select: none;
+            transition: background var(--transition);
+        }
+
+        .nav-section-header:hover {
+            background: var(--bg-hover);
+        }
+
+        .nav-section-header.active {
+            color: var(--accent);
+        }
+
+        .nav-chevron {
+            width: 16px;
+            height: 16px;
+            margin-right: 6px;
+            transition: transform var(--transition);
+            flex-shrink: 0;
+        }
+
+        .nav-section.collapsed .nav-chevron {
+            transform: rotate(-90deg);
+        }
+
+        .nav-section-title {
+            flex: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .nav-section-badge {
+            font-size: 11px;
+            padding: 2px 6px;
+            background: var(--bg-tertiary);
+            border-radius: 10px;
+            color: var(--text-tertiary);
+            margin-left: 8px;
+        }
+
+        .nav-section-badge.complete {
+            background: var(--success);
+            color: white;
+        }
+
+        .nav-items {
+            overflow: hidden;
+            transition: max-height 0.2s ease;
+        }
+
+        .nav-section.collapsed .nav-items {
+            max-height: 0;
+        }
+
+        .nav-item {
+            display: block;
+            padding: 6px 20px 6px 42px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all var(--transition);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .nav-item:hover {
+            background: var(--bg-hover);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            background: var(--accent-subtle);
+            color: var(--accent);
+        }
+
+        .nav-root-item {
+            display: block;
+            padding: 8px 20px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all var(--transition);
+        }
+
+        .nav-root-item:hover {
+            background: var(--bg-hover);
+            color: var(--text-primary);
+        }
+
+        .nav-root-item.active {
+            background: var(--accent-subtle);
+            color: var(--accent);
+        }
+
+        /* Main Content */
+        .main {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            position: sticky;
+            top: 0;
+            height: var(--header-height);
+            background: var(--bg-primary);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+            z-index: 50;
+        }
+
+        .header-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            padding: 8px;
+            cursor: pointer;
+            color: var(--text-primary);
+            margin-right: 12px;
+        }
+
+        .content {
+            flex: 1;
+            padding: 32px 24px 64px;
+            max-width: calc(var(--content-max-width) + 48px);
+        }
+
+        /* Welcome Screen */
+        .welcome {
+            animation: fadeIn 0.3s ease;
+        }
+
+        .welcome-header {
+            margin-bottom: 32px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .welcome-title {
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+        }
+
+        .welcome-subtitle {
+            font-size: 15px;
+            color: var(--text-secondary);
+            max-width: 600px;
+            line-height: 1.7;
+        }
+
+        .welcome-section {
+            margin-bottom: 32px;
+        }
+
+        .welcome-section-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 16px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 12px;
+        }
+
+        .info-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            transition: border-color var(--transition);
+        }
+
+        .info-card:hover {
+            border-color: var(--accent);
+        }
+
+        .info-card-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .info-card-desc {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        /* Document View */
+        .document {
+            animation: fadeIn 0.2s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Markdown Styles */
+        .markdown-body {
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        .markdown-body h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin: 0 0 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            letter-spacing: -0.02em;
+        }
+
+        .markdown-body h2 {
+            font-size: 20px;
+            font-weight: 600;
+            margin: 32px 0 16px;
+            letter-spacing: -0.01em;
+        }
+
+        .markdown-body h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin: 24px 0 12px;
+        }
+
+        .markdown-body h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin: 20px 0 8px;
+        }
+
+        .markdown-body p {
+            margin: 0 0 16px;
+        }
+
+        .markdown-body ul, .markdown-body ol {
+            margin: 0 0 16px;
+            padding-left: 24px;
+        }
+
+        .markdown-body li {
+            margin: 4px 0;
+        }
+
+        .markdown-body li > ul, .markdown-body li > ol {
+            margin: 4px 0 0;
+        }
+
+        .markdown-body code {
+            font-family: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+            font-size: 13px;
+            background: var(--bg-tertiary);
+            padding: 2px 6px;
+            border-radius: var(--radius-sm);
+        }
+
+        .markdown-body pre {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            overflow-x: auto;
+            margin: 0 0 16px;
+        }
+
+        .markdown-body pre code {
+            background: none;
+            padding: 0;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .markdown-body table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0 0 16px;
+            font-size: 14px;
+        }
+
+        .markdown-body th, .markdown-body td {
+            border: 1px solid var(--border-color);
+            padding: 10px 12px;
+            text-align: left;
+        }
+
+        .markdown-body th {
+            background: var(--bg-secondary);
+            font-weight: 600;
+        }
+
+        .markdown-body tr:hover td {
+            background: var(--bg-secondary);
+        }
+
+        .markdown-body blockquote {
+            border-left: 3px solid var(--accent);
+            margin: 0 0 16px;
+            padding: 8px 16px;
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+        }
+
+        .markdown-body hr {
+            border: none;
+            border-top: 1px solid var(--border-color);
+            margin: 24px 0;
+        }
+
+        .markdown-body a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .markdown-body a:hover {
+            text-decoration: underline;
+        }
+
+        .markdown-body strong {
+            font-weight: 600;
+        }
+
+        .markdown-body img {
+            max-width: 100%;
+            border-radius: var(--radius-md);
+        }
+
+        .markdown-body input[type="checkbox"] {
+            margin-right: 8px;
+        }
+
+        /* Loading State */
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 200px;
+            color: var(--text-tertiary);
+        }
+
+        .loading-spinner {
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--border-color);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Error State */
+        .error {
+            text-align: center;
+            padding: 48px 24px;
+            color: var(--text-secondary);
+        }
+
+        .error-title {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .error-message {
+            font-size: 14px;
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .content {
+                padding: 24px 16px;
+            }
+
+            .markdown-body h1 {
+                font-size: 24px;
+            }
+
+            .markdown-body h2 {
+                font-size: 18px;
+            }
+
+            .overlay {
+                display: none;
+                position: fixed;
+                inset: 0;
+                background: rgba(0,0,0,0.5);
+                z-index: 90;
+            }
+
+            .sidebar.open + .overlay {
+                display: block;
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-tertiary);
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="#" class="sidebar-logo">
+                    <span class="sidebar-logo-icon">TM</span>
+                    <span>Documentation</span>
+                </a>
+            </div>
+            <nav class="sidebar-nav" id="nav"></nav>
+        </aside>
+        <div class="overlay" id="overlay"></div>
+        <main class="main">
+            <header class="header">
+                <button class="mobile-menu-btn" id="menuBtn" aria-label="Toggle menu">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 12h18M3 6h18M3 18h18"/>
+                    </svg>
+                </button>
+                <span class="header-title" id="headerTitle">Documentation</span>
+            </header>
+            <div class="content" id="content"></div>
+        </main>
+    </div>
+
+    <script>
+        const App = {
+            phases: [],
+            docs: new Map(),
+            currentPath: null,
+            baseUrl: '',
+            repoInfo: null,
+
+            async init() {
+                this.detectEnvironment();
+                this.setupEventListeners();
+                await this.loadPhases();
+                this.renderNav();
+                this.handleRoute();
+            },
+
+            detectEnvironment() {
+                const hostname = window.location.hostname;
+                if (hostname.endsWith('.github.io')) {
+                    const parts = window.location.pathname.split('/').filter(Boolean);
+                    if (parts.length > 0) {
+                        this.repoInfo = {
+                            owner: hostname.replace('.github.io', ''),
+                            repo: parts[0]
+                        };
+                        this.baseUrl = `/${parts[0]}/docs`;
+                    }
+                } else {
+                    const pathParts = window.location.pathname.split('/');
+                    const docsIndex = pathParts.indexOf('docs');
+                    if (docsIndex !== -1) {
+                        this.baseUrl = pathParts.slice(0, docsIndex + 1).join('/');
+                    } else {
+                        this.baseUrl = pathParts.slice(0, -1).join('/') || '.';
+                    }
+                }
+            },
+
+            setupEventListeners() {
+                window.addEventListener('hashchange', () => this.handleRoute());
+                document.getElementById('menuBtn').addEventListener('click', () => this.toggleSidebar());
+                document.getElementById('overlay').addEventListener('click', () => this.closeSidebar());
+            },
+
+            toggleSidebar() {
+                document.getElementById('sidebar').classList.toggle('open');
+            },
+
+            closeSidebar() {
+                document.getElementById('sidebar').classList.remove('open');
+            },
+
+            async loadPhases() {
+                try {
+                    const phasesContent = await this.fetchDoc('PHASES.md');
+                    this.phases = this.parsePhases(phasesContent);
+                    await this.discoverEpics();
+                } catch (e) {
+                    console.error('Failed to load phases:', e);
+                    this.phases = [];
+                }
+            },
+
+            parsePhases(content) {
+                const phases = [];
+                const tableMatch = content.match(/\|[^\n]+\|[^\n]+\|[^\n]+\|\n\|[-\s|]+\|\n([\s\S]*?)(?=\n\n|$)/);
+                if (!tableMatch) return phases;
+
+                const rows = tableMatch[1].trim().split('\n');
+                for (const row of rows) {
+                    const cells = row.split('|').map(c => c.trim()).filter(Boolean);
+                    if (cells.length >= 3) {
+                        const id = cells[0];
+                        const name = cells[1];
+                        const isComplete = name.includes('[COMPLETE]');
+                        phases.push({
+                            id,
+                            name: name.replace('[COMPLETE]', '').trim(),
+                            description: cells[2],
+                            isComplete,
+                            epics: []
+                        });
+                    }
+                }
+                return phases;
+            },
+
+            async discoverEpics() {
+                for (const phase of this.phases) {
+                    if (this.repoInfo) {
+                        phase.epics = await this.discoverEpicsViaAPI(phase.id);
+                    } else {
+                        phase.epics = await this.discoverEpicsViaFetch(phase.id);
+                    }
+                }
+            },
+
+            async discoverEpicsViaAPI(phaseId) {
+                try {
+                    const { owner, repo } = this.repoInfo;
+                    const response = await fetch(
+                        `https://api.github.com/repos/${owner}/${repo}/contents/docs/${phaseId}`,
+                        { headers: { 'Accept': 'application/vnd.github.v3+json' } }
+                    );
+                    if (!response.ok) return [];
+                    const files = await response.json();
+                    return files
+                        .filter(f => f.name.endsWith('.md'))
+                        .map(f => ({
+                            name: this.formatEpicName(f.name),
+                            path: `${phaseId}/${f.name}`
+                        }));
+                } catch (e) {
+                    return [];
+                }
+            },
+
+            async discoverEpicsViaFetch(phaseId) {
+                const knownPatterns = [
+                    'snowflake_infrastructure_E-201.md',
+                    'dbt_project_scaffold_E-202.md',
+                    'dbt_custom_macros_E-203.md',
+                    'ingestion_scripts_E-301.md',
+                    'data_validation_E-302.md',
+                    'initial_load_E-303.md'
+                ];
+
+                const epics = [];
+                for (const pattern of knownPatterns) {
+                    try {
+                        const url = `${this.baseUrl}/${phaseId}/${pattern}`;
+                        const response = await fetch(url, { method: 'HEAD' });
+                        if (response.ok) {
+                            epics.push({
+                                name: this.formatEpicName(pattern),
+                                path: `${phaseId}/${pattern}`
+                            });
+                        }
+                    } catch (e) {}
+                }
+
+                if (epics.length === 0) {
+                    try {
+                        const indexUrl = `${this.baseUrl}/${phaseId}/`;
+                        const response = await fetch(indexUrl);
+                        if (response.ok) {
+                            const html = await response.text();
+                            const matches = html.matchAll(/href="([^"]+\.md)"/g);
+                            for (const match of matches) {
+                                const filename = match[1];
+                                if (!filename.startsWith('http')) {
+                                    epics.push({
+                                        name: this.formatEpicName(filename),
+                                        path: `${phaseId}/${filename}`
+                                    });
+                                }
+                            }
+                        }
+                    } catch (e) {}
+                }
+
+                return epics;
+            },
+
+            formatEpicName(filename) {
+                return filename
+                    .replace('.md', '')
+                    .replace(/_/g, ' ')
+                    .replace(/E-\d+/, '')
+                    .trim()
+                    .split(' ')
+                    .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+                    .join(' ');
+            },
+
+            renderNav() {
+                const nav = document.getElementById('nav');
+                let html = `
+                    <a href="#" class="nav-root-item" data-path="PHASES.md">
+                        Project Phases
+                    </a>
+                `;
+
+                for (const phase of this.phases) {
+                    const hasEpics = phase.epics.length > 0;
+                    const badgeClass = phase.isComplete ? 'complete' : '';
+                    const badgeText = phase.isComplete ? 'Done' : phase.epics.length || '';
+
+                    html += `
+                        <div class="nav-section ${hasEpics ? '' : 'collapsed'}" data-phase="${phase.id}">
+                            <div class="nav-section-header">
+                                <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M6 9l6 6 6-6"/>
+                                </svg>
+                                <span class="nav-section-title">${phase.id}: ${phase.name}</span>
+                                ${badgeText ? `<span class="nav-section-badge ${badgeClass}">${badgeText}</span>` : ''}
+                            </div>
+                            <div class="nav-items">
+                                ${phase.epics.map(epic => `
+                                    <a href="#${epic.path}" class="nav-item" data-path="${epic.path}">
+                                        ${epic.name}
+                                    </a>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                }
+
+                nav.innerHTML = html;
+
+                nav.querySelectorAll('.nav-section-header').forEach(header => {
+                    header.addEventListener('click', () => {
+                        header.parentElement.classList.toggle('collapsed');
+                    });
+                });
+            },
+
+            async handleRoute() {
+                const hash = window.location.hash.slice(1);
+                const path = hash || 'PHASES.md';
+
+                if (path === this.currentPath) return;
+                this.currentPath = path;
+
+                this.updateActiveNav(path);
+                this.closeSidebar();
+
+                if (!path || path === '/') {
+                    this.renderWelcome();
+                    return;
+                }
+
+                await this.loadAndRenderDoc(path);
+            },
+
+            updateActiveNav(path) {
+                document.querySelectorAll('.nav-item, .nav-root-item').forEach(item => {
+                    item.classList.toggle('active', item.dataset.path === path);
+                });
+
+                document.querySelectorAll('.nav-section-header').forEach(header => {
+                    const section = header.parentElement;
+                    const isActive = section.querySelector(`.nav-item[data-path="${path}"]`);
+                    header.classList.toggle('active', !!isActive);
+                    if (isActive) section.classList.remove('collapsed');
+                });
+            },
+
+            async loadAndRenderDoc(path) {
+                const content = document.getElementById('content');
+                const headerTitle = document.getElementById('headerTitle');
+
+                content.innerHTML = '<div class="loading"><div class="loading-spinner"></div></div>';
+
+                try {
+                    const markdown = await this.fetchDoc(path);
+                    const html = this.renderMarkdown(markdown);
+                    content.innerHTML = `<article class="document markdown-body">${html}</article>`;
+
+                    const h1 = content.querySelector('h1');
+                    headerTitle.textContent = h1 ? h1.textContent : path;
+
+                    content.querySelectorAll('pre code').forEach(block => {
+                        hljs.highlightElement(block);
+                    });
+                } catch (e) {
+                    content.innerHTML = `
+                        <div class="error">
+                            <div class="error-title">Document not found</div>
+                            <div class="error-message">The requested document "${path}" could not be loaded.</div>
+                        </div>
+                    `;
+                    headerTitle.textContent = 'Not Found';
+                }
+            },
+
+            async fetchDoc(path) {
+                if (this.docs.has(path)) {
+                    return this.docs.get(path);
+                }
+
+                let url;
+                if (this.repoInfo) {
+                    const { owner, repo } = this.repoInfo;
+                    url = `https://raw.githubusercontent.com/${owner}/${repo}/main/docs/${path}`;
+                } else {
+                    url = `${this.baseUrl}/${path}`;
+                }
+
+                const response = await fetch(url);
+                if (!response.ok) throw new Error(`Failed to fetch ${path}`);
+
+                const content = await response.text();
+                this.docs.set(path, content);
+                return content;
+            },
+
+            renderMarkdown(text) {
+                marked.setOptions({
+                    gfm: true,
+                    breaks: false,
+                    headerIds: true,
+                    mangle: false
+                });
+                return marked.parse(text);
+            },
+
+            renderWelcome() {
+                const content = document.getElementById('content');
+                document.getElementById('headerTitle').textContent = 'Documentation';
+
+                content.innerHTML = `
+                    <div class="welcome">
+                        <header class="welcome-header">
+                            <h1 class="welcome-title">Toronto Mobility Analytics</h1>
+                            <p class="welcome-subtitle">
+                                Implementation documentation for the Toronto Urban Mobility Analytics project.
+                                This portal provides structured access to project phases, epics, and technical specifications.
+                            </p>
+                        </header>
+
+                        <section class="welcome-section">
+                            <h2 class="welcome-section-title">Documentation Structure</h2>
+                            <div class="info-grid">
+                                <div class="info-card">
+                                    <div class="info-card-title">Phases</div>
+                                    <div class="info-card-desc">Sequential implementation stages ordered by technical dependency.</div>
+                                </div>
+                                <div class="info-card">
+                                    <div class="info-card-title">Epics</div>
+                                    <div class="info-card-desc">Cohesive work packages containing related stories and deliverables.</div>
+                                </div>
+                                <div class="info-card">
+                                    <div class="info-card-title">Stories</div>
+                                    <div class="info-card-desc">Atomic implementation units with acceptance criteria.</div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="welcome-section">
+                            <h2 class="welcome-section-title">Quick Access</h2>
+                            <div class="info-grid">
+                                <a href="#PHASES.md" class="info-card" style="text-decoration: none;">
+                                    <div class="info-card-title">Project Phases</div>
+                                    <div class="info-card-desc">View the complete implementation roadmap and phase definitions.</div>
+                                </a>
+                                ${this.phases.filter(p => p.epics.length > 0).slice(0, 2).map(p => `
+                                    <a href="#${p.epics[0]?.path || ''}" class="info-card" style="text-decoration: none;">
+                                        <div class="info-card-title">${p.id}: ${p.name}</div>
+                                        <div class="info-card-desc">${p.epics.length} epic${p.epics.length !== 1 ? 's' : ''} available</div>
+                                    </a>
+                                `).join('')}
+                            </div>
+                        </section>
+                    </div>
+                `;
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => App.init());
+    </script>
+</body>
+</html>
