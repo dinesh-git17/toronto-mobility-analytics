@@ -130,10 +130,11 @@ A skill is **invalid** and MUST be rejected if:
 | `skill-creator`  | `.claude/skills/skill-creator/`  | Meta-skill for creating compliant skills       |
 | `dbt-model`      | `.claude/skills/dbt-model/`      | dbt model development (medallion architecture) |
 | `python-writing` | `.claude/skills/python-writing/` | Production-grade Python code generation        |
+| `epic-writer`    | `.claude/skills/epic-writer/`    | Epic and story generation from phases          |
 
 **Usage:**
 
-- Invoke directly: `/skill-creator`, `/dbt-model`, `/python-writing`
+- Invoke directly: `/skill-creator`, `/dbt-model`, `/python-writing`, `/epic-writer`
 - Automatic activation based on description triggers
 
 ---
@@ -199,7 +200,68 @@ Code that fails these checks is rejected.
 
 ---
 
-## 5. Engineering Standards: Data Stack
+## 5. Epic Writing Skill Enforcement (MANDATORY)
+
+### 5.1 Skill Requirement
+
+Claude Code MUST use the `epic-writer` skill for **ALL epic and story generation**.
+
+**This applies to:**
+
+- Phase decomposition into epics
+- Epic creation from requirements
+- User story writing
+- Acceptance criteria definition
+- Backlog item creation
+- Sprint planning artifacts
+- Any implementation planning documentation
+
+### 5.2 Mandatory Compliance
+
+When writing epics or stories, Claude Code MUST:
+
+1. **Activate the epic-writer skill** (automatic or `/epic-writer`)
+2. **Read required context files** before generating:
+   - `docs/PHASES.md` — phase definitions
+   - `DESIGN-DOC.md` — technical architecture
+   - `CLAUDE.md` — governance rules
+3. **Follow the exact structure** defined in `.claude/skills/epic-writer/SKILL.md`
+4. **Output to correct location**: `docs/<phase_id>/<epic_name>_<epic_id>.md`
+5. **Include all required sections**: Context, Scope, Technical Approach, Stories, Exit Criteria
+
+### 5.3 Absolute Prohibitions
+
+- ❌ Writing epics or stories without the `epic-writer` skill active
+- ❌ Using custom epic formats or structures
+- ❌ Outputting epics to locations other than `docs/<phase_id>/`
+- ❌ Creating stories without testable acceptance criteria
+- ❌ Using vague language ("set up", "improve", "handle", "etc.")
+- ❌ Omitting story points or dependencies
+- ❌ Bypassing the skill for "quick planning"
+
+### 5.4 Enforcement
+
+**If the epic-writer skill is unavailable:**
+
+- HALT immediately
+- Report the skill is missing
+- Do NOT proceed with epic or story generation
+
+**Manual epic writing outside this skill constitutes a governance violation.**
+
+### 5.5 Output Requirements
+
+All epic files MUST:
+
+- Follow deterministic naming: `<topic>_<epic_id>.md`
+- Contain unique Epic IDs across the repository
+- Include 3-8 stories per epic
+- Have story points totaling 15-40 per epic
+- Include testable acceptance criteria for every story
+
+---
+
+## 6. Engineering Standards: Data Stack
 
 ### 5.1 Snowflake & SQL Standards
 
@@ -233,41 +295,41 @@ Code that fails these checks is rejected.
 
 ---
 
-## 6. LLM / Agent Rules (Critical)
+## 7. LLM / Agent Rules (Critical)
 
-### 6.1 Modification Discipline
+### 7.1 Modification Discipline
 
 - **No Silent Refactors:** Do not "clean up" dbt models or Python scripts outside the requested scope.
 - **Schema Protection:** Agents are forbidden from altering `RAW` schema definitions without an explicit architectural review.
 - **Dependency Management:** All dbt packages MUST be pinned to specific versions in `packages.yml` (as of 2026-02-02). Do not upgrade packages unless instructed.
 - **Skill Compliance:** All skill operations MUST use the Skill Creator skill. All Python operations MUST use the python-writing skill. No exceptions.
 
-### 6.2 Research & Verification
+### 7.2 Research & Verification
 
 - Before utilizing a Snowflake function or dbt macro, verify its availability in the pinned versions.
 - **No Guessing:** If the mapping for a TTC station or Bike Share ID is ambiguous, STOP and request clarification.
 
 ---
 
-## 7. Safety & Reliability
+## 8. Safety & Reliability
 
-### 7.1 Testing Requirements
+### 8.1 Testing Requirements
 
 - **100% Coverage:** Every Mart model MUST have `unique` and `not_null` tests on primary keys.
 - **Integrity:** Relationship tests (FK to PK) are mandatory for all Fact tables.
 - **Custom Logic:** Complex business rules (e.g., "no negative delays") must be implemented as singular dbt tests in `/tests`.
 - **Python Tests:** All Python modules MUST have corresponding pytest tests.
 
-### 7.2 Observability & Logging
+### 8.2 Observability & Logging
 
 - **Elementary:** Every Mart model must be configured for Elementary anomaly detection (`volume_anomalies`, `freshness_anomalies`).
 - **Fail-Fast:** Schema mismatches in the Python layer must raise a `SchemaValidationError` and terminate the process with exit code 1.
 
 ---
 
-## 8. Repository Workflow
+## 9. Repository Workflow
 
-### 8.1 GitHub Repository Configuration
+### 9.1 GitHub Repository Configuration
 
 **Repository:** `dinesh-git17/toronto-mobility-analytics`
 **Visibility:** Public
@@ -286,7 +348,7 @@ Code that fails these checks is rejected.
 - Merge commits (squash only)
 - Rebase merges (squash only)
 
-### 8.2 Branch Protection Rules (main)
+### 9.2 Branch Protection Rules (main)
 
 The `main` branch enforces strict protection:
 
@@ -312,14 +374,14 @@ The `main` branch enforces strict protection:
 - `protocol-zero` — Governance workflow AI attribution scan
 - `dependency-audit` — Security workflow vulnerability scan
 
-### 8.3 Merge Strategy
+### 9.3 Merge Strategy
 
 - **Squash merge only** — All PRs squash to single commit
 - **Commit title:** PR title (imperative mood)
 - **Commit body:** PR description
 - **Auto-delete branches:** Enabled after merge
 
-### 8.4 Branching Convention
+### 9.4 Branching Convention
 
 **Format:** `<type>/<issue-id>-<short-description>`
 
@@ -340,7 +402,7 @@ The `main` branch enforces strict protection:
 - `fix/DATA-15-correct-timestamp-casting`
 - `refactor/DATA-22-normalize-station-names`
 
-### 8.5 Commit Messages
+### 9.5 Commit Messages
 
 **Format:** `type(scope): imperative description`
 
@@ -354,7 +416,7 @@ The `main` branch enforces strict protection:
 - `feat(skills): add python-writing skill for code generation standards`
 - `feat(scripts): add schema validation to ingestion pipeline`
 
-### 8.6 Issue Management
+### 9.6 Issue Management
 
 **All work MUST begin with an issue.** No direct commits without issue linkage.
 
@@ -383,7 +445,7 @@ The `main` branch enforces strict protection:
 
 **Blank issues are disabled.** All issues MUST use a template.
 
-### 8.7 Pull Request Workflow
+### 9.7 Pull Request Workflow
 
 **PR Template enforces governance compliance.** All sections MUST be completed.
 
@@ -395,7 +457,7 @@ The `main` branch enforces strict protection:
 4. **Design Impact** — Architecture layer and schema change classification
 5. **Testing Evidence** — Commands executed and pass confirmation
 6. **Risk Assessment** — Low/Medium/High with rollback plan
-7. **Governance Checklist** — CLAUDE.md Section 10 compliance verification
+7. **Governance Checklist** — CLAUDE.md Section 11 compliance verification
 
 **PR Lifecycle:**
 
@@ -405,7 +467,7 @@ Issue Created → Branch Created → Development → PR Opened → CI Passes →
 
 **CI/CD Gate:** GitHub Actions is the source of truth. A task is NOT complete until all required checks pass.
 
-### 8.8 Label System
+### 9.8 Label System
 
 **Category Labels:**
 
@@ -429,7 +491,7 @@ Issue Created → Branch Created → Development → PR Opened → CI Passes →
 | `priority:medium` | `#FF9500` | Standard — scheduled work      |
 | `priority:low`    | `#0E8A16` | Backlog item                   |
 
-### 8.9 Security Configuration
+### 9.9 Security Configuration
 
 **Enabled Protections:**
 
@@ -445,7 +507,7 @@ Issue Created → Branch Created → Development → PR Opened → CI Passes →
 - Read-only tokens by default
 - Workflow permissions minimized
 
-### 8.10 CODEOWNERS
+### 9.10 CODEOWNERS
 
 ```
 # Default owner for all files
@@ -456,9 +518,9 @@ All PRs require CODEOWNER approval. CODEOWNERS may bypass protections for emerge
 
 ---
 
-## 9. Performance Expectations
+## 10. Performance Expectations
 
-### 9.1 Snowflake Efficiency
+### 10.1 Snowflake Efficiency
 
 - **Warehouse:** Use `TRANSFORM_WH` (X-Small). Any query taking > 5 seconds on production-scale data (~30M rows) is a failure.
 - **Pruning:** Ensure queries leverage partition pruning (Filtering by `date_key`).
@@ -466,7 +528,7 @@ All PRs require CODEOWNER approval. CODEOWNERS may bypass protections for emerge
 
 ---
 
-## 10. Definition of Done (Checklist)
+## 11. Definition of Done (Checklist)
 
 An agent may only declare a task complete if:
 
@@ -484,13 +546,18 @@ An agent may only declare a task complete if:
 - [ ] **Skills created via Skill Creator workflow** (if applicable).
 - [ ] **Skills validated via `validate_skill.py`** (if applicable).
 - [ ] **No manually constructed skill structures exist**.
+- [ ] **Epics generated via `epic-writer` skill** (if applicable).
+- [ ] **Epic files saved to `docs/<phase_id>/`** (if applicable).
+- [ ] **All stories have testable acceptance criteria** (if applicable).
 
 ---
 
-## 11. Final Acknowledgment
+## 12. Final Acknowledgment
 
 Execution of any task within this repository constitutes a binding agreement to these standards. Failure to comply results in immediate work rejection and mandatory rollback.
 
 **Skills Enforcement Clause:** Any attempt to create, modify, or propose skills outside the Skill Creator workflow is a governance violation. Claude Code MUST refuse such requests and redirect to the proper workflow.
 
 **Python Enforcement Clause:** Any attempt to write Python code without the `python-writing` skill active is a governance violation. Claude Code MUST activate the skill before generating any Python output.
+
+**Epic Writing Enforcement Clause:** Any attempt to write epics, stories, or backlog items without the `epic-writer` skill active is a governance violation. Claude Code MUST activate the skill before generating any planning artifacts. All epics MUST be saved to `docs/<phase_id>/` following the deterministic naming convention. Manual epic creation outside this skill is forbidden.

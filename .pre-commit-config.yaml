@@ -75,9 +75,9 @@ repos:
       # Commit message scan — runs on commit-msg stage
       - id: protocol-zero-commit-msg
         name: "Protocol Zero: Commit Message"
-        entry: ./tools/protocol-zero.sh --commit-msg-file
+        entry: ./tools/protocol-zero.sh --commit-msg-file .git/COMMIT_EDITMSG
         language: script
-        pass_filenames: true
+        pass_filenames: false
         always_run: true
         stages:
           - commit-msg
