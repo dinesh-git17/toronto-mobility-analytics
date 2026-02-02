@@ -10,6 +10,7 @@ on:
       - "requirements*.txt"
       - "setup.py"
       - "setup.cfg"
+      - ".github/workflows/ci-python.yml"
   push:
     branches: [main]
     paths:
@@ -19,6 +20,7 @@ on:
       - "requirements*.txt"
       - "setup.py"
       - "setup.cfg"
+      - ".github/workflows/ci-python.yml"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
