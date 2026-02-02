@@ -1,0 +1,77 @@
+# =============================================================================
+# TORONTO MOBILITY ANALYTICS: dbt PROFILES CONFIGURATION TEMPLATE
+# =============================================================================
+# DO NOT COMMIT THIS FILE WITH REAL CREDENTIALS
+# Copy to ~/.dbt/profiles.yml or project root and replace placeholders
+# Store actual credentials in environment variables or secure vault
+# =============================================================================
+
+toronto_mobility:
+  target: dev
+  outputs:
+    # -------------------------------------------------------------------------
+    # LOCAL DEVELOPMENT
+    # -------------------------------------------------------------------------
+    # For interactive development with personal Snowflake credentials
+    # Uses TRANSFORMER_ROLE for dbt model development
+    # -------------------------------------------------------------------------
+    dev:
+      type: snowflake
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"  # e.g., xy12345.us-east-1
+      user: "{{ env_var('SNOWFLAKE_USER') }}"
+      password: "{{ env_var('SNOWFLAKE_PASSWORD') }}"
+      role: TRANSFORMER_ROLE
+      database: TORONTO_MOBILITY
+      warehouse: TRANSFORM_WH
+      schema: MARTS
+      threads: 4
+
+    # -------------------------------------------------------------------------
+    # CI/CD PIPELINE
+    # -------------------------------------------------------------------------
+    # For automated builds in GitHub Actions
+    # Uses TRANSFORMER_SVC service account
+    # -------------------------------------------------------------------------
+    ci:
+      type: snowflake
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"
+      user: TRANSFORMER_SVC
+      password: "{{ env_var('SNOWFLAKE_PASSWORD') }}"
+      role: TRANSFORMER_ROLE
+      database: TORONTO_MOBILITY
+      warehouse: TRANSFORM_WH
+      schema: MARTS
+      threads: 4
+
+    # -------------------------------------------------------------------------
+    # DATA INGESTION
+    # -------------------------------------------------------------------------
+    # For Python ingestion scripts (COPY INTO operations)
+    # Uses LOADER_SVC service account with RAW schema access
+    # -------------------------------------------------------------------------
+    loader:
+      type: snowflake
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"
+      user: LOADER_SVC
+      password: "{{ env_var('SNOWFLAKE_LOADER_PASSWORD') }}"
+      role: LOADER_ROLE
+      database: TORONTO_MOBILITY
+      warehouse: TRANSFORM_WH
+      schema: RAW
+      threads: 2
+
+# =============================================================================
+# ENVIRONMENT VARIABLE REFERENCE
+# =============================================================================
+# Required environment variables (set in shell or GitHub Secrets):
+#
+#   SNOWFLAKE_ACCOUNT         Snowflake account identifier (e.g., xy12345.us-east-1)
+#   SNOWFLAKE_USER            Username for dev target (your personal user)
+#   SNOWFLAKE_PASSWORD        Password for TRANSFORMER_SVC (CI) or personal user (dev)
+#   SNOWFLAKE_LOADER_PASSWORD Password for LOADER_SVC (ingestion scripts)
+#
+# GitHub Secrets Configuration:
+#   - SNOWFLAKE_ACCOUNT
+#   - SNOWFLAKE_PASSWORD (TRANSFORMER_SVC password)
+#   - SNOWFLAKE_LOADER_PASSWORD (LOADER_SVC password)
+# =============================================================================
