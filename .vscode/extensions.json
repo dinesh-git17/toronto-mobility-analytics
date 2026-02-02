@@ -1,0 +1,68 @@
+{
+  //===========================================================================
+  // TORONTO MOBILITY ANALYTICS — Required VS Code Extensions
+  //===========================================================================
+  // AUTHORITY: These extensions are MANDATORY for consistent development.
+  // MODIFICATION: Requires architectural review per CLAUDE.md Section 2.
+  //
+  // Install all: Cmd+Shift+P → "Extensions: Show Recommended Extensions"
+  //===========================================================================
+  "recommendations": [
+    //=========================================================================
+    // PYTHON: Language support, linting, formatting, type checking
+    //=========================================================================
+    // Core Python support (required for all Python tooling)
+    "ms-python.python",
+    // Pylance: Fast IntelliSense and type information
+    "ms-python.vscode-pylance",
+    // Ruff: Fast linter + formatter (replaces Black, Flake8, isort)
+    // Reference: https://github.com/astral-sh/ruff-vscode
+    "charliermarsh.ruff",
+    // mypy: Static type checking (per CLAUDE.md §3.3 requirement)
+    // Reference: https://github.com/microsoft/vscode-mypy
+    "ms-python.mypy-type-checker",
+    //=========================================================================
+    // SQL / dbt: Syntax, linting, formatting, IntelliSense
+    //=========================================================================
+    // dbt Power User: Comprehensive dbt support with sqlfmt integration
+    // Provides: syntax highlighting, autocomplete, lineage, sqlfmt formatting
+    // Reference: https://github.com/AltimateAI/vscode-dbt-power-user
+    "innoverio.vscode-dbt-power-user",
+    // SQLFluff: SQL linting (Snowflake dialect per CLAUDE.md §3.1)
+    // Reference: https://github.com/sqlfluff/vscode-sqlfluff
+    "dorzey.vscode-sqlfluff",
+    //=========================================================================
+    // YAML: dbt configuration files (dbt_project.yml, packages.yml, etc.)
+    //=========================================================================
+    // Red Hat YAML: Schema validation and formatting
+    "redhat.vscode-yaml",
+    //=========================================================================
+    // SHELL: Bash script linting (tools/protocol-zero.sh)
+    //=========================================================================
+    // ShellCheck: Shell script static analysis
+    "timonwong.shellcheck",
+    //=========================================================================
+    // CROSS-CUTTING: Editor consistency
+    //=========================================================================
+    // EditorConfig: Cross-editor formatting consistency
+    "editorconfig.editorconfig"
+  ],
+  //===========================================================================
+  // UNWANTED EXTENSIONS: Explicitly blocked to prevent conflicts
+  //===========================================================================
+  "unwantedRecommendations": [
+    // Conflicts with Ruff (Ruff replaces these)
+    "ms-python.black-formatter",
+    "ms-python.flake8",
+    "ms-python.isort",
+    "ms-python.autopep8",
+    // Conflicts with dbt Power User
+    "bastienboutonnet.vscode-dbt",
+    "henriblancke.vscode-dbt-formatter",
+    // Deprecated or superseded
+    "wholroyd.jinja",
+    // Unnecessary for this stack
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint"
+  ]
+}

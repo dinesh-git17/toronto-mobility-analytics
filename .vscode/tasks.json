@@ -1,0 +1,364 @@
+{
+  //===========================================================================
+  // TORONTO MOBILITY ANALYTICS — VS Code Tasks
+  //===========================================================================
+  // AUTHORITY: These tasks enforce CI/CD parity in local development.
+  // REFERENCE: DESIGN-DOC.md §7 Implementation Plan, CLAUDE.md §8 Definition of Done
+  //
+  // Run tasks: Cmd+Shift+P → "Tasks: Run Task"
+  // Keyboard: Cmd+Shift+B (default build task)
+  //===========================================================================
+
+  "version": "2.0.0",
+  "tasks": [
+    //=========================================================================
+    // dbt: Core workflow tasks
+    //=========================================================================
+    {
+      "label": "dbt: build",
+      "type": "shell",
+      "command": "dbt build",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      },
+      "detail": "Run dbt build (compile + run + test)"
+    },
+    {
+      "label": "dbt: build --full-refresh",
+      "type": "shell",
+      "command": "dbt build --full-refresh",
+      "group": "build",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      },
+      "detail": "Run dbt build with full refresh (drop + recreate)"
+    },
+    {
+      "label": "dbt: test",
+      "type": "shell",
+      "command": "dbt test",
+      "group": "test",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "detail": "Run all dbt tests"
+    },
+    {
+      "label": "dbt: run",
+      "type": "shell",
+      "command": "dbt run",
+      "group": "build",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "detail": "Run dbt models without tests"
+    },
+    {
+      "label": "dbt: compile",
+      "type": "shell",
+      "command": "dbt compile",
+      "group": "build",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "detail": "Compile dbt models (generate SQL)"
+    },
+    {
+      "label": "dbt: docs generate",
+      "type": "shell",
+      "command": "dbt docs generate",
+      "group": "build",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "detail": "Generate dbt documentation"
+    },
+    {
+      "label": "dbt: docs serve",
+      "type": "shell",
+      "command": "dbt docs serve --port 8080",
+      "group": "build",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "isBackground": true,
+      "detail": "Serve dbt documentation on localhost:8080"
+    },
+    {
+      "label": "dbt: deps",
+      "type": "shell",
+      "command": "dbt deps",
+      "group": "build",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "detail": "Install dbt package dependencies"
+    },
+    {
+      "label": "dbt: debug",
+      "type": "shell",
+      "command": "dbt debug",
+      "group": "build",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "detail": "Validate dbt project configuration"
+    },
+    {
+      "label": "dbt: clean",
+      "type": "shell",
+      "command": "dbt clean",
+      "group": "build",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "detail": "Remove target/ and dbt_packages/ directories"
+    },
+    {
+      "label": "dbt: source freshness",
+      "type": "shell",
+      "command": "dbt source freshness",
+      "group": "test",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "detail": "Check source data freshness"
+    },
+
+    //=========================================================================
+    // SQL: Linting and formatting
+    //=========================================================================
+    {
+      "label": "sqlfluff: lint",
+      "type": "shell",
+      "command": "sqlfluff lint models/ --dialect snowflake",
+      "group": "test",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "detail": "Lint SQL models with SQLFluff (Snowflake dialect)"
+    },
+    {
+      "label": "sqlfluff: fix",
+      "type": "shell",
+      "command": "sqlfluff fix models/ --dialect snowflake",
+      "group": "build",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "detail": "Auto-fix SQL lint violations"
+    },
+    {
+      "label": "sqlfmt: format",
+      "type": "shell",
+      "command": "sqlfmt models/",
+      "group": "build",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "detail": "Format SQL models with sqlfmt"
+    },
+    {
+      "label": "sqlfmt: check",
+      "type": "shell",
+      "command": "sqlfmt --check models/",
+      "group": "test",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "detail": "Check SQL formatting without modifying files"
+    },
+
+    //=========================================================================
+    // Python: Linting, formatting, type checking
+    //=========================================================================
+    {
+      "label": "ruff: check",
+      "type": "shell",
+      "command": "ruff check scripts/",
+      "group": "test",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "detail": "Lint Python scripts with Ruff"
+    },
+    {
+      "label": "ruff: fix",
+      "type": "shell",
+      "command": "ruff check scripts/ --fix",
+      "group": "build",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "detail": "Auto-fix Python lint violations"
+    },
+    {
+      "label": "ruff: format",
+      "type": "shell",
+      "command": "ruff format scripts/",
+      "group": "build",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "detail": "Format Python scripts with Ruff"
+    },
+    {
+      "label": "mypy: typecheck",
+      "type": "shell",
+      "command": "mypy scripts/ --strict --ignore-missing-imports",
+      "group": "test",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "detail": "Type check Python scripts with mypy (per CLAUDE.md §3.3)"
+    },
+
+    //=========================================================================
+    // Protocol Zero: Attribution enforcement
+    //=========================================================================
+    {
+      "label": "protocol-zero: scan",
+      "type": "shell",
+      "command": "./tools/protocol-zero.sh",
+      "group": "test",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "detail": "Scan codebase for Protocol Zero violations"
+    },
+    {
+      "label": "protocol-zero: dry-run",
+      "type": "shell",
+      "command": "./tools/protocol-zero.sh --dry-run --verbose",
+      "group": "test",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "detail": "Preview Protocol Zero scan configuration"
+    },
+
+    //=========================================================================
+    // Shell: Script linting
+    //=========================================================================
+    {
+      "label": "shellcheck: lint",
+      "type": "shell",
+      "command": "shellcheck -x tools/*.sh",
+      "group": "test",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "detail": "Lint shell scripts with ShellCheck"
+    },
+
+    //=========================================================================
+    // Composite: CI Pipeline simulation
+    //=========================================================================
+    {
+      "label": "ci: full pipeline",
+      "type": "shell",
+      "dependsOn": [
+        "sqlfmt: check",
+        "sqlfluff: lint",
+        "ruff: check",
+        "mypy: typecheck",
+        "protocol-zero: scan",
+        "dbt: build"
+      ],
+      "dependsOrder": "sequence",
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "detail": "Run full CI pipeline locally (format check → lint → typecheck → dbt build)"
+    },
+    {
+      "label": "ci: lint all",
+      "type": "shell",
+      "dependsOn": [
+        "sqlfluff: lint",
+        "ruff: check",
+        "shellcheck: lint"
+      ],
+      "dependsOrder": "parallel",
+      "group": "test",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "detail": "Run all linters in parallel"
+    },
+    {
+      "label": "ci: format all",
+      "type": "shell",
+      "dependsOn": [
+        "sqlfmt: format",
+        "ruff: format"
+      ],
+      "dependsOrder": "parallel",
+      "group": "build",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "detail": "Format all code (SQL + Python)"
+    }
+  ]
+}

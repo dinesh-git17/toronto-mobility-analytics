@@ -1,0 +1,179 @@
+#===============================================================================
+# .gitignore — Toronto Urban Mobility Analytics
+#===============================================================================
+#
+# Derived from DESIGN-DOC.md technology stack (§5.2, §15.1)
+# Reference: https://docs.getdbt.com/faqs/Git/gitignore
+#
+#===============================================================================
+
+#===============================================================================
+# dbt ARTIFACTS
+#===============================================================================
+# Per dbt-labs documentation: https://docs.getdbt.com/faqs/Git/gitignore
+
+target/
+dbt_packages/
+dbt_modules/
+logs/
+
+#===============================================================================
+# ELEMENTARY (dbt Observability)
+#===============================================================================
+# Per DESIGN-DOC.md §5.2: Elementary 0.16+
+
+edr_target/
+
+#===============================================================================
+# PYTHON
+#===============================================================================
+# Per DESIGN-DOC.md §5.2: Python 3.12
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Type checker cache (mypy --strict per CLAUDE.md §4.4)
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Test runner cache
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# Linter cache (ruff per DESIGN-DOC.md)
+.ruff_cache/
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+*.egg
+wheels/
+pip-wheel-metadata/
+MANIFEST
+
+#===============================================================================
+# CREDENTIALS & SECRETS
+#===============================================================================
+# Per DESIGN-DOC.md §10.3: NEVER commit credentials
+
+profiles.yml
+.env
+*.env
+.env.*
+!.env.example
+secrets/
+credentials.json
+**/service_account*.json
+
+#===============================================================================
+# DATA FILES
+#===============================================================================
+# Per DESIGN-DOC.md §15.1: data/raw/ is gitignored
+# Raw source files (XLSX, CSV) are not committed
+
+data/
+
+#===============================================================================
+# JUPYTER
+#===============================================================================
+
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+#===============================================================================
+# NODE.JS (if frontend tooling)
+#===============================================================================
+
+node_modules/
+.pnpm/
+.npm/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+#===============================================================================
+# IDE & EDITORS
+#===============================================================================
+
+# JetBrains
+.idea/
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+
+# Emacs
+\#*\#
+.#*
+
+#===============================================================================
+# OS GENERATED
+#===============================================================================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+
+#===============================================================================
+# TEMPORARY & SCRATCH
+#===============================================================================
+
+tmp/
+temp/
+*.tmp
+*.temp
+*.bak
+*.orig
+scratch/
+
+#===============================================================================
+# LOCK FILES (dependency managers)
+#===============================================================================
+# Note: Some projects commit lock files for reproducibility.
+# Adjust based on team policy.
+
+# *.lock
+
+#===============================================================================
+# LARGE FILES
+#===============================================================================
+
+*.parquet
+*.avro
+*.orc
+*.feather
+*.pkl
+*.pickle
+*.h5
+*.hdf5

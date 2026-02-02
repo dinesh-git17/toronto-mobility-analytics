@@ -1,0 +1,250 @@
+#===============================================================================
+# TORONTO MOBILITY ANALYTICS — Pre-commit Hook Configuration
+#===============================================================================
+#
+# AUTHORITY: This configuration enforces CLAUDE.md and DESIGN-DOC.md standards.
+# MODIFICATION: Requires architectural review per CLAUDE.md Section 2.
+#
+# ENFORCEMENT HIERARCHY:
+#   1. Protocol Zero (AI attribution scan) — BLOCKING
+#   2. Ruff (Python lint/format) — BLOCKING
+#   3. SQLFluff (SQL lint) — BLOCKING
+#   4. sqlfmt (SQL format check) — BLOCKING
+#   5. Basic hygiene (trailing whitespace, EOF) — BLOCKING
+#
+# INSTALLATION:
+#   ./tools/install-hooks.sh
+#
+# MANUAL EXECUTION:
+#   pre-commit run --all-files
+#
+# BYPASS (emergency only, requires justification):
+#   git commit --no-verify -m "message"
+#
+#===============================================================================
+
+default_install_hook_types:
+  - pre-commit
+  - commit-msg
+
+default_stages:
+  - pre-commit
+
+# Fail fast on first error to provide quick feedback
+fail_fast: false
+
+# Exclude generated/artifact directories globally
+exclude: |
+  (?x)^(
+    target/|
+    dbt_packages/|
+    dbt_modules/|
+    logs/|
+    data/|
+    \.venv/|
+    venv/|
+    __pycache__/|
+    \.mypy_cache/|
+    \.pytest_cache/|
+    \.ruff_cache/|
+    node_modules/|
+    edr_target/|
+    \.git/
+  )
+
+repos:
+  #=============================================================================
+  # PROTOCOL ZERO: AI Attribution Enforcement (HIGHEST PRIORITY)
+  #=============================================================================
+  # Scans codebase for forbidden AI attribution markers.
+  # Reference: CLAUDE.md Section 1 — Protocol Zero
+  #=============================================================================
+  - repo: local
+    hooks:
+      # Codebase scan — runs on pre-commit stage
+      - id: protocol-zero-codebase
+        name: "Protocol Zero: Codebase Scan"
+        entry: ./tools/protocol-zero.sh
+        language: script
+        pass_filenames: false
+        always_run: true
+        stages:
+          - pre-commit
+        verbose: true
+
+      # Commit message scan — runs on commit-msg stage
+      - id: protocol-zero-commit-msg
+        name: "Protocol Zero: Commit Message"
+        entry: ./tools/protocol-zero.sh --commit-msg-file
+        language: script
+        pass_filenames: true
+        always_run: true
+        stages:
+          - commit-msg
+        verbose: true
+
+  #=============================================================================
+  # BASIC HYGIENE: Whitespace, EOF, File Integrity
+  #=============================================================================
+  # Fast, non-invasive checks that catch common issues.
+  # Reference: https://github.com/pre-commit/pre-commit-hooks
+  #=============================================================================
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+        args: [--markdown-linebreak-ext=md]
+        exclude: "\\.(lock|csv|parquet)$"
+
+      - id: end-of-file-fixer
+        exclude: "\\.(lock|csv|parquet)$"
+
+      - id: check-yaml
+        args: [--unsafe]
+        exclude: "^(dbt_packages/|target/)"
+
+      - id: check-json
+        exclude: "^\\.vscode/"
+
+      - id: check-added-large-files
+        args: [--maxkb=1000]
+        exclude: "\\.(csv|parquet|xlsx)$"
+
+      - id: check-merge-conflict
+
+      - id: check-case-conflict
+
+      - id: detect-private-key
+
+      - id: no-commit-to-branch
+        args: [--branch, main, --branch, master]
+
+  #=============================================================================
+  # PYTHON: Ruff (Linting + Formatting)
+  #=============================================================================
+  # Fast, unified Python tooling. Replaces Black, Flake8, isort.
+  # Reference: CLAUDE.md §3.3, https://github.com/astral-sh/ruff-pre-commit
+  #=============================================================================
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.9.6
+    hooks:
+      # Linting — check for errors without modifying
+      - id: ruff
+        name: "Ruff: Python Lint"
+        args:
+          - --select=E,F,W,I,UP,B,C4,SIM
+          - --ignore=E501
+          - --fix
+          - --exit-non-zero-on-fix
+        types_or: [python, pyi]
+
+      # Formatting — enforce consistent style
+      - id: ruff-format
+        name: "Ruff: Python Format"
+        args: [--line-length=88]
+        types_or: [python, pyi]
+
+  #=============================================================================
+  # PYTHON: mypy (Type Checking)
+  #=============================================================================
+  # Static type verification per CLAUDE.md §3.3 requirement.
+  # Note: Runs on changed files only for speed.
+  #=============================================================================
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.14.1
+    hooks:
+      - id: mypy
+        name: "mypy: Type Check"
+        args:
+          - --strict
+          - --ignore-missing-imports
+          - --no-error-summary
+        additional_dependencies: []
+        pass_filenames: true
+        types: [python]
+
+  #=============================================================================
+  # SQL: sqlfmt (Formatting)
+  #=============================================================================
+  # Opinionated SQL formatter for dbt. Check mode only — no auto-fix on commit.
+  # Reference: CLAUDE.md §3.1, https://github.com/tconbeer/sqlfmt
+  #=============================================================================
+  - repo: https://github.com/tconbeer/sqlfmt
+    rev: v0.26.0
+    hooks:
+      - id: sqlfmt
+        name: "sqlfmt: SQL Format Check"
+        args:
+          - --check
+          - --diff
+          - --exclude
+          - "target/**/*"
+          - --exclude
+          - "dbt_packages/**/*"
+        files: "^models/.*\\.sql$"
+
+  #=============================================================================
+  # SQL: SQLFluff (Linting)
+  #=============================================================================
+  # SQL linter with Snowflake dialect support. Lint only — no auto-fix.
+  # Reference: CLAUDE.md §3.1, https://github.com/sqlfluff/sqlfluff
+  #=============================================================================
+  - repo: https://github.com/sqlfluff/sqlfluff
+    rev: 3.3.1
+    hooks:
+      - id: sqlfluff-lint
+        name: "SQLFluff: SQL Lint"
+        args:
+          - --dialect=snowflake
+        files: "^models/.*\\.sql$"
+        additional_dependencies:
+          - dbt-snowflake>=1.9.0
+          - sqlfluff-templater-dbt>=3.0.0
+
+  #=============================================================================
+  # SHELL: ShellCheck (Linting)
+  #=============================================================================
+  # Static analysis for shell scripts.
+  # Reference: https://github.com/koalaman/shellcheck
+  #=============================================================================
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.10.0.1
+    hooks:
+      - id: shellcheck
+        name: "ShellCheck: Shell Lint"
+        args: [-x, -e, SC1091]
+        files: "\\.(sh|bash)$"
+
+  #=============================================================================
+  # SECRETS: Gitleaks (Security)
+  #=============================================================================
+  # Prevent secrets from being committed.
+  # Reference: https://github.com/gitleaks/gitleaks
+  #=============================================================================
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.23.3
+    hooks:
+      - id: gitleaks
+        name: "Gitleaks: Secret Scan"
+        args: [--no-banner]
+
+#===============================================================================
+# CI CONFIGURATION
+#===============================================================================
+# These settings ensure CI uses the same configuration as local development.
+#
+# GitHub Actions integration:
+#   - name: Run pre-commit
+#     uses: pre-commit/action@v3.0.1
+#
+#===============================================================================
+ci:
+  autofix_commit_msg: |
+    style: auto-fix pre-commit violations
+
+  autofix_prs: false
+  autoupdate_branch: ""
+  autoupdate_commit_msg: "chore: update pre-commit hook versions"
+  autoupdate_schedule: monthly
+  skip: []
+  submodules: false
