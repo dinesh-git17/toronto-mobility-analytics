@@ -306,11 +306,11 @@ The `main` branch enforces strict protection:
 
 **Required Status Checks (must pass before merge):**
 
-- `lint-complete` — SQL and Python linting
-- `python-complete` — Type checking and tests
-- `dbt-complete` — dbt build and tests
-- `governance-complete` — Protocol Zero and skill validation
-- `security-complete` — Dependency audit and secret scanning
+- `detect-changes` — CI Lint workflow entry point
+- `detect-python` — CI Python workflow entry point
+- `detect-dbt` — CI dbt workflow entry point
+- `protocol-zero` — Governance workflow AI attribution scan
+- `dependency-audit` — Security workflow vulnerability scan
 
 ### 8.3 Merge Strategy
 
