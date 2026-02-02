@@ -267,23 +267,192 @@ Code that fails these checks is rejected.
 
 ## 8. Repository Workflow
 
-### 8.1 Branching & PRs
+### 8.1 GitHub Repository Configuration
 
-- **Branch Naming:** `<type>/<issue-id>-<short-description>` (e.g., `feat/DATA-01-add-subway-delays`).
-- **PR Requirement:** Every PR must include an updated `dbt docs generate` output if models were changed.
-- **CI/CD:** GitHub Actions is the source of truth for "Done". A task is not complete until the `dbt-ci` workflow is green.
-- **Skill PRs:** PRs adding or modifying skills MUST pass `validate_skill.py` validation.
-- **Python PRs:** PRs with Python code MUST pass `ruff`, `mypy --strict`, and `pytest`.
+**Repository:** `dinesh-git17/toronto-mobility-analytics`
+**Visibility:** Public
+**Default Branch:** `main`
 
-### 8.2 Commit Messages
+**Enabled Features:**
 
-- Format: `type(scope): imperative description`.
-- Examples:
-  - `feat(marts): add fct_daily_mobility for cross-modal analysis`
-  - `fix(stg): correct timestamp casting in ttc_bus_delays`
-  - `docs(seeds): update station name mapping for 2024 variants`
-  - `feat(skills): add python-writing skill for code generation standards`
-  - `feat(scripts): add schema validation to ingestion pipeline`
+- Issues (required for all work items)
+- Discussions (community engagement)
+- Dependabot security alerts
+- Secret scanning with push protection
+
+**Disabled Features:**
+
+- Wiki (documentation lives in-repo)
+- Merge commits (squash only)
+- Rebase merges (squash only)
+
+### 8.2 Branch Protection Rules (main)
+
+The `main` branch enforces strict protection:
+
+| Rule                            | Setting                |
+| ------------------------------- | ---------------------- |
+| Require pull request            | Yes                    |
+| Required approving reviews      | 1                      |
+| Dismiss stale reviews           | Yes                    |
+| Require CODEOWNER review        | Yes                    |
+| Require status checks to pass   | Yes                    |
+| Require branches up-to-date     | Yes                    |
+| Require conversation resolution | Yes                    |
+| Require linear history          | Yes                    |
+| Allow force pushes              | No                     |
+| Allow deletions                 | No                     |
+| Admin bypass                    | Yes (code owners only) |
+
+**Required Status Checks (must pass before merge):**
+
+- `lint-complete` — SQL and Python linting
+- `python-complete` — Type checking and tests
+- `dbt-complete` — dbt build and tests
+- `governance-complete` — Protocol Zero and skill validation
+- `security-complete` — Dependency audit and secret scanning
+
+### 8.3 Merge Strategy
+
+- **Squash merge only** — All PRs squash to single commit
+- **Commit title:** PR title (imperative mood)
+- **Commit body:** PR description
+- **Auto-delete branches:** Enabled after merge
+
+### 8.4 Branching Convention
+
+**Format:** `<type>/<issue-id>-<short-description>`
+
+**Types:**
+
+| Type       | Purpose                      |
+| ---------- | ---------------------------- |
+| `feat`     | New feature or capability    |
+| `fix`      | Bug fix                      |
+| `refactor` | Code restructuring           |
+| `docs`     | Documentation changes        |
+| `test`     | Test additions/modifications |
+| `chore`    | Build, CI, or tooling        |
+
+**Examples:**
+
+- `feat/DATA-01-add-subway-delays`
+- `fix/DATA-15-correct-timestamp-casting`
+- `refactor/DATA-22-normalize-station-names`
+
+### 8.5 Commit Messages
+
+**Format:** `type(scope): imperative description`
+
+**Scopes:** `marts`, `stg`, `int`, `seeds`, `scripts`, `skills`, `ci`, `docs`
+
+**Examples:**
+
+- `feat(marts): add fct_daily_mobility for cross-modal analysis`
+- `fix(stg): correct timestamp casting in ttc_bus_delays`
+- `docs(seeds): update station name mapping for 2024 variants`
+- `feat(skills): add python-writing skill for code generation standards`
+- `feat(scripts): add schema validation to ingestion pipeline`
+
+### 8.6 Issue Management
+
+**All work MUST begin with an issue.** No direct commits without issue linkage.
+
+**Issue Templates:**
+
+| Template        | Purpose                                        | Auto-Labels             |
+| --------------- | ---------------------------------------------- | ----------------------- |
+| Bug Report      | Defects in pipeline, models, or infrastructure | `bug`, `triage`         |
+| Feature Request | New capabilities or enhancements               | `enhancement`, `triage` |
+
+**Bug Report Required Fields:**
+
+- Summary (one-sentence)
+- Expected vs. Actual behavior
+- Reproduction steps
+- Environment (dbt version, Python version, Snowflake warehouse)
+- Severity classification (Critical/High/Medium/Low)
+
+**Feature Request Required Fields:**
+
+- Problem statement
+- Proposed solution
+- Alternatives considered
+- Architecture impact checklist
+- Acceptance criteria
+
+**Blank issues are disabled.** All issues MUST use a template.
+
+### 8.7 Pull Request Workflow
+
+**PR Template enforces governance compliance.** All sections MUST be completed.
+
+**Required PR Sections:**
+
+1. **Description** — Concise summary and motivation
+2. **Linked Issue** — `Closes #<issue-number>` (mandatory)
+3. **Change Type** — Single selection from conventional commit types
+4. **Design Impact** — Architecture layer and schema change classification
+5. **Testing Evidence** — Commands executed and pass confirmation
+6. **Risk Assessment** — Low/Medium/High with rollback plan
+7. **Governance Checklist** — CLAUDE.md Section 10 compliance verification
+
+**PR Lifecycle:**
+
+```
+Issue Created → Branch Created → Development → PR Opened → CI Passes → Review → Squash Merge → Branch Deleted
+```
+
+**CI/CD Gate:** GitHub Actions is the source of truth. A task is NOT complete until all required checks pass.
+
+### 8.8 Label System
+
+**Category Labels:**
+
+| Label              | Color     | Description                                |
+| ------------------ | --------- | ------------------------------------------ |
+| `bug`              | `#D73A4A` | Defect requiring correction                |
+| `enhancement`      | `#0E8A16` | New feature or capability                  |
+| `docs`             | `#1D76DB` | Documentation improvements                 |
+| `refactor`         | `#FBCA04` | Code restructuring without behavior change |
+| `chore`            | `#FEF2C0` | Maintenance and tooling tasks              |
+| `ci`               | `#5319E7` | Continuous integration and deployment      |
+| `security`         | `#B60205` | Security vulnerability or hardening        |
+| `breaking-change`  | `#E99695` | Backwards-incompatible modification        |
+| `good-first-issue` | `#7057FF` | Suitable for newcomers                     |
+
+**Priority Labels:**
+
+| Label             | Color     | Description                    |
+| ----------------- | --------- | ------------------------------ |
+| `priority:high`   | `#FF0000` | Critical — immediate attention |
+| `priority:medium` | `#FF9500` | Standard — scheduled work      |
+| `priority:low`    | `#0E8A16` | Backlog item                   |
+
+### 8.9 Security Configuration
+
+**Enabled Protections:**
+
+- Dependabot vulnerability alerts
+- Dependabot automated security updates
+- Secret scanning (all commits)
+- Push protection (blocks secrets before push)
+- Dependency graph analysis
+
+**Actions Security:**
+
+- All third-party actions pinned to SHA
+- Read-only tokens by default
+- Workflow permissions minimized
+
+### 8.10 CODEOWNERS
+
+```
+# Default owner for all files
+* @dinesh-git17
+```
+
+All PRs require CODEOWNER approval. CODEOWNERS may bypass protections for emergency fixes.
 
 ---
 

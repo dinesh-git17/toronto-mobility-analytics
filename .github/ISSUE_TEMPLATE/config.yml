@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Design Document
+    url: https://github.com/dinesh-git17/toronto-mobility-analytics/blob/main/DESIGN-DOC.md
+    about: Review the technical design document before proposing changes
+  - name: Governance Standards
+    url: https://github.com/dinesh-git17/toronto-mobility-analytics/blob/main/CLAUDE.md
+    about: Review repository governance and engineering standards

@@ -1,0 +1,65 @@
+version: 2
+
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "America/Toronto"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "ci(deps)"
+    labels:
+      - "dependencies"
+      - "ci"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
+
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "America/Toronto"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "build(deps)"
+    labels:
+      - "dependencies"
+      - "python"
+    groups:
+      python-minor:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+
+  - package-ecosystem: "pip"
+    directory: "/scripts"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "America/Toronto"
+    open-pull-requests-limit: 3
+    commit-message:
+      prefix: "build(deps)"
+    labels:
+      - "dependencies"
+      - "python"
+      - "scripts"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
