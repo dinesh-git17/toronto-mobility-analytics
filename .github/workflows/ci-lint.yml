@@ -106,8 +106,8 @@ jobs:
 
       - name: Install SQL tools
         run: |
-          uv tool install sqlfmt
-          uv tool install sqlfluff
+          uv tool install shandy-sqlfmt==0.26.0
+          uv tool install sqlfluff==3.3.1
 
       - name: Run sqlfmt check
         run: |
