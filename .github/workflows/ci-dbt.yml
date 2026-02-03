@@ -12,7 +12,7 @@ on:
       - "dbt_project.yml"
       - "packages.yml"
       - "profiles.yml.example"
-      - ".github/workflows/ci-dbt.yml"
+      - ".github/workflows/**"
   push:
     branches: [main]
     paths:
@@ -24,7 +24,7 @@ on:
       - "dbt_project.yml"
       - "packages.yml"
       - "profiles.yml.example"
-      - ".github/workflows/ci-dbt.yml"
+      - ".github/workflows/**"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
