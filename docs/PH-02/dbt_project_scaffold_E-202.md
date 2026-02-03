@@ -187,10 +187,10 @@ This epic initializes the dbt Core project that powers all data transformations 
   - `warehouse: TRANSFORM_WH`
   - `schema: MARTS`
   - `threads: 4`
-- [ ] Contains `ci` output configuration with environment variable references:
+{% raw %}- [ ] Contains `ci` output configuration with environment variable references:
   - `account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"`
   - `user: "{{ env_var('SNOWFLAKE_USER') }}"`
-  - `password: "{{ env_var('SNOWFLAKE_PASSWORD') }}"`
+  - `password: "{{ env_var('SNOWFLAKE_PASSWORD') }}"`{% endraw %}
 - [ ] File includes header comment explaining usage
 - [ ] `profiles.yml` is in .gitignore
 
