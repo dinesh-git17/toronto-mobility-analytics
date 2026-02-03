@@ -1,0 +1,104 @@
+version: 2
+
+macros:
+  - name: generate_schema_name
+    description: >
+      Overrides dbt default schema resolution to route models into the correct
+      Snowflake schema based on their position within the medallion architecture.
+
+      Routing rules are evaluated in the following order:
+
+      1. Explicit schema config — when custom_schema_name is not None, the value
+         is uppercased and returned directly, allowing model-level overrides.
+
+      2. Seeds — models with resource_type 'seed' route to SEEDS.
+
+      3. Staging — models whose fully qualified name contains 'staging' route
+         to STAGING.
+
+      4. Intermediate — models whose fully qualified name contains 'intermediate'
+         route to INTERMEDIATE.
+
+      5. Marts — models whose fully qualified name contains 'marts' route
+         to MARTS.
+
+      6. Fallback — returns target.schema when no rule matches.
+
+
+      Usage in dbt_project.yml (project-level routing):
+
+          models:
+            toronto_mobility:
+              staging:
+                +schema: staging
+              marts:
+                +schema: marts
+
+
+      Usage as a model-level override:
+
+          {# config(schema='custom_analytics') #}
+
+    docs:
+      show: true
+    arguments:
+      - name: custom_schema_name
+        type: string
+        description: >
+          Schema name resolved from the model's +schema configuration in
+          dbt_project.yml or a model-level config block. Passed automatically
+          by dbt at compile time. When not None, the uppercased value is
+          returned directly. When None, folder-based routing takes effect.
+      - name: node
+        type: object
+        description: >
+          dbt node object containing model metadata. The macro inspects
+          node.fqn for folder path detection and node.resource_type for
+          seed identification. Passed automatically by dbt at compile time.
+
+  - name: get_date_spine
+    description: >
+      Generates a daily date spine from start_date through end_date (both
+      inclusive), wrapping dbt_utils.date_spine with project-specific defaults.
+      Produces a single output column named date_day with one row per calendar
+      day. The default range of 2019-01-01 to 2026-12-31 yields 2922 rows,
+      covering the full project data window plus a forward buffer through 2026.
+      The macro internally adds one day to end_date to account for the exclusive
+      upper boundary in dbt_utils.date_spine.
+
+
+      Usage in a model (default date range):
+
+          SELECT
+              date_day,
+              EXTRACT(year FROM date_day) AS year,
+              EXTRACT(month FROM date_day) AS month
+          FROM (
+              {# get_date_spine() #}
+          )
+
+
+      Usage with a custom date range:
+
+          {# get_date_spine(start_date='2020-01-01', end_date='2025-12-31') #}
+
+
+      Invocation via run-operation:
+
+          dbt run-operation get_date_spine
+
+    docs:
+      show: true
+    arguments:
+      - name: start_date
+        type: string
+        description: >
+          First date in the generated spine (inclusive). Must be a valid
+          ISO 8601 date string in YYYY-MM-DD format. Default: '2019-01-01'.
+      - name: end_date
+        type: string
+        description: >
+          Last date in the generated spine (inclusive). The macro adds one day
+          internally to satisfy the exclusive upper boundary of
+          dbt_utils.date_spine. Must be a valid ISO 8601 date string in
+          YYYY-MM-DD format. Default: '2026-12-31'.
