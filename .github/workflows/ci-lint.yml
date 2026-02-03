@@ -15,6 +15,7 @@ on:
       - "requirements*.txt"
       - ".sqlfluff"
       - ".github/workflows/**"
+      - "docs/**"
   push:
     branches: [main]
     paths:
@@ -29,6 +30,7 @@ on:
       - "requirements*.txt"
       - ".sqlfluff"
       - ".github/workflows/**"
+      - "docs/**"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
