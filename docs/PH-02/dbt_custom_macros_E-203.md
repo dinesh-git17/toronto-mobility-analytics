@@ -88,6 +88,7 @@ This epic implements the custom dbt macros required for schema routing and date 
 
 **Technical Notes**: The macro inspects `node.fqn` (fully qualified name) to determine folder location. Use Jinja conditional logic to match path patterns. Reference dbt documentation on custom schema handling: <https://docs.getdbt.com/docs/build/custom-schemas>
 
+{% raw %}
 ```sql
 {% macro generate_schema_name(custom_schema_name, node) -%}
     {%- set default_schema = target.schema -%}
@@ -107,6 +108,7 @@ This epic implements the custom dbt macros required for schema routing and date 
     {%- endif -%}
 {%- endmacro %}
 ```
+{% endraw %}
 
 **Definition of Done**:
 
@@ -134,6 +136,7 @@ This epic implements the custom dbt macros required for schema routing and date 
 
 **Technical Notes**: The macro provides consistent date spine generation across the project. Default dates align with project data range (2019-present) plus future buffer through 2026.
 
+{% raw %}
 ```sql
 {% macro get_date_spine(start_date='2019-01-01', end_date='2026-12-31') %}
     {{ dbt_utils.date_spine(
@@ -143,6 +146,7 @@ This epic implements the custom dbt macros required for schema routing and date 
     ) }}
 {% endmacro %}
 ```
+{% endraw %}
 
 **Definition of Done**:
 
