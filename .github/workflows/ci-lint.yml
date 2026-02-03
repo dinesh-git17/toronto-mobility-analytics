@@ -14,7 +14,7 @@ on:
       - "pyproject.toml"
       - "requirements*.txt"
       - ".sqlfluff"
-      - ".github/workflows/ci-lint.yml"
+      - ".github/workflows/**"
   push:
     branches: [main]
     paths:
@@ -28,7 +28,7 @@ on:
       - "pyproject.toml"
       - "requirements*.txt"
       - ".sqlfluff"
-      - ".github/workflows/ci-lint.yml"
+      - ".github/workflows/**"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
