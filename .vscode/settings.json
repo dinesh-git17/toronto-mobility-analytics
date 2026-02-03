@@ -139,6 +139,7 @@
   // dbt Power User configuration
   "dbt.enableNewLineagePanel": true,
   "dbt.queryLimit": 500,
+  "dbt.dbtPythonPathOverride": "/opt/homebrew/bin/python3",
   // SQLFluff configuration
   "sqlfluff.dialect": "snowflake",
   "sqlfluff.linter.run": "onSave",
@@ -159,7 +160,9 @@
   "yaml.format.bracketSpacing": true,
   "yaml.validate": true,
   "yaml.schemas": {
-    "https://raw.githubusercontent.com/dbt-labs/dbt-jsonschema/main/schemas/dbt_project.json": "dbt_project.yml",
+    "https://raw.githubusercontent.com/dbt-labs/dbt-jsonschema/main/schemas/latest/dbt_project-latest.json": [
+      "dbt_project.yml"
+    ],
     "https://raw.githubusercontent.com/dbt-labs/dbt-jsonschema/main/schemas/packages.json": "packages.yml"
   },
   //===========================================================================

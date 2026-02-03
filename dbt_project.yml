@@ -1,0 +1,70 @@
+# =============================================================================
+# TORONTO MOBILITY ANALYTICS: dbt PROJECT CONFIGURATION
+# =============================================================================
+# Medallion Architecture: Staging (views) → Intermediate (ephemeral) → Marts (tables)
+# Reference: DESIGN-DOC.md Section 5.2, Section 6.3
+# =============================================================================
+
+name: "toronto_mobility"
+version: "1.0.0"
+config-version: 2
+
+profile: "toronto_mobility"
+
+# =============================================================================
+# PATH CONFIGURATION
+# =============================================================================
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+test-paths: ["tests"]
+macro-paths: ["macros"]
+analysis-paths: ["analyses"]
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+# =============================================================================
+# FLAGS
+# =============================================================================
+# Required by Elementary for materialization override support (dbt 1.8+)
+
+flags:
+  require_explicit_package_overrides_for_builtin_materializations: false
+
+# =============================================================================
+# MODEL CONFIGURATION
+# =============================================================================
+# Materialization strategy per DESIGN-DOC.md Section 5.2:
+#   - Staging: Always VIEW (lightweight, computed from RAW)
+#   - Intermediate: Always EPHEMERAL (compiled as CTEs)
+#   - Marts: Always TABLE (query targets, optimized for reads)
+# =============================================================================
+
+models:
+  toronto_mobility:
+    staging:
+      +materialized: view
+      +schema: staging
+    intermediate:
+      +materialized: ephemeral
+    marts:
+      +materialized: table
+      +schema: marts
+
+# =============================================================================
+# SEED CONFIGURATION
+# =============================================================================
+
+seeds:
+  toronto_mobility:
+    +schema: seeds
+
+# =============================================================================
+# TEST CONFIGURATION
+# =============================================================================
+
+tests:
+  toronto_mobility:
+    +severity: error
