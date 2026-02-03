@@ -106,16 +106,22 @@ jobs:
 
       - name: Install SQL tools
         run: |
-          uv tool install sqlfmt
-          uv tool install sqlfluff
+          uv tool install shandy-sqlfmt==0.26.0
+          uv tool install sqlfluff==3.3.1
 
       - name: Run sqlfmt check
         run: |
-          SQL_FILES=$(find . -path ./target -prune -o -name "*.sql" -type f -print 2>/dev/null || true)
-          if [ -n "$SQL_FILES" ]; then
-            sqlfmt --check --exclude target .
+          # Only check dbt model directories (matching pre-commit config)
+          SQL_DIRS=""
+          for dir in models macros analyses; do
+            if [ -d "$dir" ]; then
+              SQL_DIRS="$SQL_DIRS $dir"
+            fi
+          done
+          if [ -n "$SQL_DIRS" ]; then
+            sqlfmt --check --exclude target $SQL_DIRS
           else
-            echo "No SQL files found, skipping sqlfmt"
+            echo "No SQL model directories found, skipping sqlfmt"
           fi
 
       - name: Run SQLFluff lint
