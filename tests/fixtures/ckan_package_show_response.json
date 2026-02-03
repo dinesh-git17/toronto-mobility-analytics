@@ -1,0 +1,43 @@
+{
+  "help": "https://ckan0.cf.opendata.inter.prod-toronto.ca/api/3/action/help_show?name=package_show",
+  "success": true,
+  "result": {
+    "id": "996cfe8d-fb35-40ce-b569-698d51fc683b",
+    "name": "ttc-subway-delay-data",
+    "title": "TTC Subway Delay Data",
+    "resources": [
+      {
+        "id": "res-001",
+        "name": "ttc-subway-delay-data-2023",
+        "url": "https://ckan0.cf.opendata.inter.prod-toronto.ca/dataset/ttc-subway-delay-data/resource/res-001/download/ttc-subway-delay-data-2023.xlsx",
+        "format": "XLSX",
+        "last_modified": "2024-02-15T10:00:00",
+        "datastore_active": false
+      },
+      {
+        "id": "res-002",
+        "name": "ttc-subway-delay-data-2022",
+        "url": "https://ckan0.cf.opendata.inter.prod-toronto.ca/dataset/ttc-subway-delay-data/resource/res-002/download/ttc-subway-delay-data-2022.xlsx",
+        "format": "XLSX",
+        "last_modified": "2023-03-10T10:00:00",
+        "datastore_active": false
+      },
+      {
+        "id": "res-003",
+        "name": "ttc-subway-delay-data-2019",
+        "url": "https://ckan0.cf.opendata.inter.prod-toronto.ca/dataset/ttc-subway-delay-data/resource/res-003/download/ttc-subway-delay-data-2019.xlsx",
+        "format": "XLSX",
+        "last_modified": "2020-01-20T10:00:00",
+        "datastore_active": false
+      },
+      {
+        "id": "res-004",
+        "name": "ttc-subway-delay-codes",
+        "url": "https://ckan0.cf.opendata.inter.prod-toronto.ca/dataset/ttc-subway-delay-data/resource/res-004/download/ttc-subway-delay-codes.xlsx",
+        "format": "XLSX",
+        "last_modified": "2020-01-15T10:00:00",
+        "datastore_active": false
+      }
+    ]
+  }
+}

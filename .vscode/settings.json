@@ -91,9 +91,12 @@
     },
     "editor.tabSize": 4
   },
+  "python.defaultInterpreterPath": "/opt/homebrew/bin/python3",
   "python.analysis.typeCheckingMode": "basic",
   "python.analysis.autoImportCompletions": true,
   "python.analysis.diagnosticMode": "workspace",
+  // Pylint: disabled — Ruff is the sole linter for this project (CLAUDE.md §6.3)
+  "pylint.enabled": false,
   // Ruff configuration (native language server - replaces Black, Flake8, isort)
   // Reference: https://docs.astral.sh/ruff/editors/settings/
   "ruff.nativeServer": "on",
@@ -235,5 +238,7 @@
   // TELEMETRY: Disabled for privacy
   //===========================================================================
   "telemetry.telemetryLevel": "off",
-  "redhat.telemetry.enabled": false
+  "redhat.telemetry.enabled": false,
+  "python-envs.defaultEnvManager": "ms-python.python:system",
+  "python-envs.pythonProjects": []
 }
