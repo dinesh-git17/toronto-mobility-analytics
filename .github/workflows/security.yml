@@ -20,7 +20,7 @@ jobs:
   dependency-audit:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
       - name: Check for Python dependencies
         id: check-deps
@@ -71,7 +71,7 @@ jobs:
   action-pinning:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
       - name: Check GitHub Actions pinning
         run: |
@@ -104,7 +104,7 @@ jobs:
   secret-scanning:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 0
 
@@ -132,7 +132,7 @@ jobs:
   supply-chain:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
       - name: Check dbt package sources
         run: |
