@@ -5,7 +5,7 @@
 | Epic ID      | E-402         |
 | Phase        | PH-04         |
 | Owner        | @dinesh-git17 |
-| Status       | Draft         |
+| Status       | Complete      |
 | Dependencies | [E-401]       |
 | Created      | 2026-02-09    |
 
@@ -74,13 +74,13 @@ The medallion architecture requires three additional seed datasets beyond TTC re
 
 ## Stories
 
-| ID   | Story                                                                    | Points | Dependencies                       | Status |
-| ---- | ------------------------------------------------------------------------ | ------ | ---------------------------------- | ------ |
-| S001 | Build bike_station_ref.csv from Bike Share Toronto GBFS station snapshot | 5      | None                               | Draft  |
-| S002 | Generate date_spine.csv via Python script with date dimension attributes | 5      | None                               | Draft  |
-| S003 | Create \_seeds.yml with column-level documentation for all seed tables   | 3      | E-401.S002, E-401.S003, S001, S002 | Draft  |
-| S004 | Add dbt schema tests for all seed tables in \_seeds.yml                  | 3      | S003                               | Draft  |
-| S005 | Execute dbt seed and validate all seeds load to SEEDS schema             | 3      | S004                               | Draft  |
+| ID   | Story                                                                    | Points | Dependencies                       | Status   |
+| ---- | ------------------------------------------------------------------------ | ------ | ---------------------------------- | -------- |
+| S001 | Build bike_station_ref.csv from Bike Share Toronto GBFS station snapshot | 5      | None                               | Complete |
+| S002 | Generate date_spine.csv via Python script with date dimension attributes | 5      | None                               | Complete |
+| S003 | Create \_seeds.yml with column-level documentation for all seed tables   | 3      | E-401.S002, E-401.S003, S001, S002 | Complete |
+| S004 | Add dbt schema tests for all seed tables in \_seeds.yml                  | 3      | S003                               | Complete |
+| S005 | Execute dbt seed and validate all seeds load to SEEDS schema             | 3      | S004                               | Complete |
 
 ---
 
