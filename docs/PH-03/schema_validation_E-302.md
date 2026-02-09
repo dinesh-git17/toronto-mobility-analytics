@@ -76,13 +76,13 @@ Raw source files acquired by E-301 arrive in heterogeneous formats (XLSX for TTC
 
 | ID   | Story                                                          | Points | Dependencies                 | Status |
 | ---- | -------------------------------------------------------------- | ------ | ---------------------------- | ------ |
-| S001 | Define schema contracts for all five source datasets           | 5      | None                         | Draft  |
-| S002 | Implement XLSX-to-CSV conversion module                        | 5      | None                         | Draft  |
-| S003 | Implement schema validation engine with fail-fast behavior     | 5      | S001                         | Draft  |
-| S004 | Implement encoding detection and normalization                 | 3      | None                         | Draft  |
-| S007 | Implement ZIP archive extraction for Bike Share datasets       | 3      | None                         | Draft  |
-| S005 | Add comprehensive test suite for validation and transformation | 5      | S001, S002, S003, S004, S007 | Draft  |
-| S006 | Validate all downloaded source files against contracts         | 3      | S005, E-301.S006             | Draft  |
+| S001 | Define schema contracts for all five source datasets           | 5      | None                         | Done   |
+| S002 | Implement XLSX-to-CSV conversion module                        | 5      | None                         | Done   |
+| S003 | Implement schema validation engine with fail-fast behavior     | 5      | S001                         | Done   |
+| S004 | Implement encoding detection and normalization                 | 3      | None                         | Done   |
+| S007 | Implement ZIP archive extraction for Bike Share datasets       | 3      | None                         | Done   |
+| S005 | Add comprehensive test suite for validation and transformation | 5      | S001, S002, S003, S004, S007 | Done   |
+| S006 | Validate all downloaded source files against contracts         | 3      | S005, E-301.S006             | Done   |
 
 ---
 
@@ -92,24 +92,24 @@ Raw source files acquired by E-301 arrive in heterogeneous formats (XLSX for TTC
 
 **Acceptance Criteria**:
 
-- [ ] File `scripts/contracts.py` exists and defines a `ColumnContract` dataclass with fields: `name` (str), `expected_dtype` (str, one of: `DATE`, `TIME`, `STRING`, `INTEGER`, `DECIMAL`, `TIMESTAMP`), `nullable` (bool)
-- [ ] File defines a `SchemaContract` dataclass with fields: `dataset_name` (str), `columns` (tuple of `ColumnContract`), `min_row_count` (int, used as sanity check)
-- [ ] TTC Subway contract matches DESIGN-DOC.md Section 4.3.1 exactly: 9 columns (`Date`, `Time`, `Day`, `Station`, `Code`, `Min Delay`, `Min Gap`, `Bound`, `Line`) with correct types and nullability
-- [ ] Bike Share contract matches DESIGN-DOC.md Section 4.3.2 exactly: 10 columns with correct types and nullability
-- [ ] Weather contract matches DESIGN-DOC.md Section 4.3.3 exactly: 5 key columns with correct types and nullability (additional Environment Canada columns are permitted and ignored)
-- [ ] TTC Bus and TTC Streetcar contracts define their expected column structures (Bus includes `Route`, `Direction`, `Location`; Streetcar includes `Route`, `Direction`, `Location`)
-- [ ] Module-level constant `CONTRACTS: dict[str, SchemaContract]` maps dataset names to their contracts
-- [ ] `mypy --strict scripts/contracts.py` passes with zero errors
-- [ ] `ruff check scripts/contracts.py && ruff format --check scripts/contracts.py` passes
+- [x] File `scripts/contracts.py` exists and defines a `ColumnContract` dataclass with fields: `name` (str), `expected_dtype` (str, one of: `DATE`, `TIME`, `STRING`, `INTEGER`, `DECIMAL`, `TIMESTAMP`), `nullable` (bool)
+- [x] File defines a `SchemaContract` dataclass with fields: `dataset_name` (str), `columns` (tuple of `ColumnContract`), `min_row_count` (int, used as sanity check)
+- [x] TTC Subway contract matches DESIGN-DOC.md Section 4.3.1 exactly: 9 columns (`Date`, `Time`, `Day`, `Station`, `Code`, `Min Delay`, `Min Gap`, `Bound`, `Line`) with correct types and nullability
+- [x] Bike Share contract matches DESIGN-DOC.md Section 4.3.2 exactly: 10 columns with correct types and nullability
+- [x] Weather contract matches DESIGN-DOC.md Section 4.3.3 exactly: 5 key columns with correct types and nullability (additional Environment Canada columns are permitted and ignored)
+- [x] TTC Bus and TTC Streetcar contracts define their expected column structures (Bus includes `Route`, `Direction`, `Location`; Streetcar includes `Route`, `Direction`, `Location`)
+- [x] Module-level constant `CONTRACTS: dict[str, SchemaContract]` maps dataset names to their contracts
+- [x] `mypy --strict scripts/contracts.py` passes with zero errors
+- [x] `ruff check scripts/contracts.py && ruff format --check scripts/contracts.py` passes
 
 **Technical Notes**: TTC Bus and Streetcar schemas differ slightly from Subway (Route instead of Line, Location instead of Station). Verify actual column names by inspecting sample files from the 2023 and 2024 releases. Weather CSVs from Environment Canada contain 20+ columns; the contract should define the 5 required columns and allow additional columns to pass through.
 
 **Definition of Done**:
 
-- [ ] Code committed to feature branch
-- [ ] Tests pass locally
-- [ ] PR opened with linked issue
-- [ ] CI checks green
+- [x] Code committed to feature branch
+- [x] Tests pass locally
+- [x] PR opened with linked issue
+- [x] CI checks green
 
 ---
 
@@ -119,25 +119,25 @@ Raw source files acquired by E-301 arrive in heterogeneous formats (XLSX for TTC
 
 **Acceptance Criteria**:
 
-- [ ] File `scripts/transform.py` exists and defines function `convert_xlsx_to_csv(xlsx_path: Path, csv_path: Path, sheet_name: str | None = None) -> TransformResult`
-- [ ] `TransformResult` dataclass contains: `input_path`, `output_path`, `row_count`, `column_count`, `elapsed_seconds`
-- [ ] Function uses `openpyxl.load_workbook(xlsx_path, read_only=True, data_only=True)` for memory-efficient reading
-- [ ] Function writes output as UTF-8 CSV with `csv.writer` using `quoting=csv.QUOTE_MINIMAL`
-- [ ] If `sheet_name` is `None`, function reads the first (active) worksheet
-- [ ] If `sheet_name` is provided but does not exist in the workbook, function raises `TransformError` listing available sheet names
-- [ ] Function creates parent directories of `csv_path` with `Path.mkdir(parents=True, exist_ok=True)`
-- [ ] Function `batch_convert(source_dir: Path, output_dir: Path, file_pattern: str = "*.xlsx") -> list[TransformResult]` processes all matching XLSX files in a directory tree, preserving subdirectory structure
-- [ ] `mypy --strict scripts/transform.py` passes with zero errors
-- [ ] `ruff check scripts/transform.py && ruff format --check scripts/transform.py` passes
+- [x] File `scripts/transform.py` exists and defines function `convert_xlsx_to_csv(xlsx_path: Path, csv_path: Path, sheet_name: str | None = None) -> TransformResult`
+- [x] `TransformResult` dataclass contains: `input_path`, `output_path`, `row_count`, `column_count`, `elapsed_seconds`
+- [x] Function uses `openpyxl.load_workbook(xlsx_path, read_only=True, data_only=True)` for memory-efficient reading
+- [x] Function writes output as UTF-8 CSV with `csv.writer` using `quoting=csv.QUOTE_MINIMAL`
+- [x] If `sheet_name` is `None`, function reads the first (active) worksheet
+- [x] If `sheet_name` is provided but does not exist in the workbook, function raises `TransformError` listing available sheet names
+- [x] Function creates parent directories of `csv_path` with `Path.mkdir(parents=True, exist_ok=True)`
+- [x] Function `batch_convert(source_dir: Path, output_dir: Path, file_pattern: str = "*.xlsx") -> list[TransformResult]` processes all matching XLSX files in a directory tree, preserving subdirectory structure
+- [x] `mypy --strict scripts/transform.py` passes with zero errors
+- [x] `ruff check scripts/transform.py && ruff format --check scripts/transform.py` passes
 
 **Technical Notes**: TTC XLSX files use the default sheet name (typically "Sheet1" or the dataset name). Use `wb.active` when `sheet_name` is None. Handle `openpyxl` returning `None` for empty cells by writing empty string to CSV. Close workbook explicitly after reading to release file handles.
 
 **Definition of Done**:
 
-- [ ] Code committed to feature branch
-- [ ] Tests pass locally
-- [ ] PR opened with linked issue
-- [ ] CI checks green
+- [x] Code committed to feature branch
+- [x] Tests pass locally
+- [x] PR opened with linked issue
+- [x] CI checks green
 
 ---
 
@@ -147,25 +147,25 @@ Raw source files acquired by E-301 arrive in heterogeneous formats (XLSX for TTC
 
 **Acceptance Criteria**:
 
-- [ ] File `scripts/validate.py` exists and defines function `validate_file(csv_path: Path, contract: SchemaContract) -> ValidationResult`
-- [ ] `ValidationResult` dataclass contains: `file_path`, `dataset_name`, `is_valid` (bool), `row_count`, `column_count`, `errors` (list of `ValidationError`)
-- [ ] `SchemaValidationError` exception class contains: `file_path`, `expected_columns` (list of str), `actual_columns` (list of str), `mismatches` (list of str describing each deviation)
-- [ ] Structural validation checks: all required columns from the contract exist in the CSV header (case-insensitive comparison)
-- [ ] Structural validation identifies: missing columns, unexpected extra columns (logged as warning, not blocking), column name case mismatches
-- [ ] Type validation samples the first 1,000 data rows and verifies: DATE columns parse as dates, INTEGER columns contain only digits (or empty for nullable), DECIMAL columns parse as float, TIMESTAMP columns parse as timestamps
-- [ ] On first validation failure, function raises `SchemaValidationError` with the file path, expected schema, actual schema, and list of specific mismatches
-- [ ] Function `validate_dataset(dataset_dir: Path, contract: SchemaContract) -> list[ValidationResult]` validates all CSV files in a directory tree against a single contract, failing fast on first invalid file
-- [ ] `mypy --strict scripts/validate.py` passes with zero errors
-- [ ] `ruff check scripts/validate.py && ruff format --check scripts/validate.py` passes
+- [x] File `scripts/validate.py` exists and defines function `validate_file(csv_path: Path, contract: SchemaContract) -> ValidationResult`
+- [x] `ValidationResult` dataclass contains: `file_path`, `dataset_name`, `is_valid` (bool), `row_count`, `column_count`, `errors` (list of `ValidationError`)
+- [x] `SchemaValidationError` exception class contains: `file_path`, `expected_columns` (list of str), `actual_columns` (list of str), `mismatches` (list of str describing each deviation)
+- [x] Structural validation checks: all required columns from the contract exist in the CSV header (case-insensitive comparison)
+- [x] Structural validation identifies: missing columns, unexpected extra columns (logged as warning, not blocking), column name case mismatches
+- [x] Type validation samples the first 1,000 data rows and verifies: DATE columns parse as dates, INTEGER columns contain only digits (or empty for nullable), DECIMAL columns parse as float, TIMESTAMP columns parse as timestamps
+- [x] On first validation failure, function raises `SchemaValidationError` with the file path, expected schema, actual schema, and list of specific mismatches
+- [x] Function `validate_dataset(dataset_dir: Path, contract: SchemaContract) -> list[ValidationResult]` validates all CSV files in a directory tree against a single contract, failing fast on first invalid file
+- [x] `mypy --strict scripts/validate.py` passes with zero errors
+- [x] `ruff check scripts/validate.py && ruff format --check scripts/validate.py` passes
 
 **Technical Notes**: Use `csv.DictReader` for header extraction. For type inference sampling, read 1,000 rows and apply regex-based type checks (`r'^\d{4}-\d{2}-\d{2}$'` for DATE, `r'^-?\d+$'` for INTEGER). Allow empty strings in nullable columns. Log validation progress to stderr for observability during long runs.
 
 **Definition of Done**:
 
-- [ ] Code committed to feature branch
-- [ ] Tests pass locally
-- [ ] PR opened with linked issue
-- [ ] CI checks green
+- [x] Code committed to feature branch
+- [x] Tests pass locally
+- [x] PR opened with linked issue
+- [x] CI checks green
 
 ---
 
@@ -175,23 +175,23 @@ Raw source files acquired by E-301 arrive in heterogeneous formats (XLSX for TTC
 
 **Acceptance Criteria**:
 
-- [ ] File `scripts/transform.py` defines function `normalize_encoding(input_path: Path, output_path: Path | None = None) -> EncodingResult`
-- [ ] `EncodingResult` dataclass contains: `input_path`, `output_path`, `detected_encoding`, `confidence` (float 0-1), `byte_count`, `had_bom` (bool)
-- [ ] Function uses `charset-normalizer` library to detect source encoding with minimum confidence threshold of 0.7
-- [ ] If detected encoding is already UTF-8 with confidence >= 0.7, function copies file unchanged (or returns early if `output_path` is `None`)
-- [ ] If encoding is not UTF-8, function reads with detected encoding and writes as UTF-8 to `output_path` (or overwrites `input_path` if `output_path` is `None`)
-- [ ] Function strips UTF-8 BOM (`\xef\xbb\xbf`) and UTF-16 BOM if present at file start
-- [ ] If detection confidence is below 0.7, function raises `EncodingError` with the file path and top 3 encoding candidates
-- [ ] `mypy --strict scripts/transform.py` passes with zero errors
+- [x] File `scripts/transform.py` defines function `normalize_encoding(input_path: Path, output_path: Path | None = None) -> EncodingResult`
+- [x] `EncodingResult` dataclass contains: `input_path`, `output_path`, `detected_encoding`, `confidence` (float 0-1), `byte_count`, `had_bom` (bool)
+- [x] Function uses `charset-normalizer` library to detect source encoding with minimum confidence threshold of 0.7
+- [x] If detected encoding is already UTF-8 with confidence >= 0.7, function copies file unchanged (or returns early if `output_path` is `None`)
+- [x] If encoding is not UTF-8, function reads with detected encoding and writes as UTF-8 to `output_path` (or overwrites `input_path` if `output_path` is `None`)
+- [x] Function strips UTF-8 BOM (`\xef\xbb\xbf`) and UTF-16 BOM if present at file start
+- [x] If detection confidence is below 0.7, function raises `EncodingError` with the file path and top 3 encoding candidates
+- [x] `mypy --strict scripts/transform.py` passes with zero errors
 
 **Technical Notes**: Install `charset-normalizer` (not `chardet` — it is unmaintained). Read files in binary mode for detection, then re-read with the detected encoding for transcoding. Process files in 1MB chunks to limit memory usage on large CSVs.
 
 **Definition of Done**:
 
-- [ ] Code committed to feature branch
-- [ ] Tests pass locally
-- [ ] PR opened with linked issue
-- [ ] CI checks green
+- [x] Code committed to feature branch
+- [x] Tests pass locally
+- [x] PR opened with linked issue
+- [x] CI checks green
 
 ---
 
@@ -201,24 +201,24 @@ Raw source files acquired by E-301 arrive in heterogeneous formats (XLSX for TTC
 
 **Acceptance Criteria**:
 
-- [ ] File `scripts/transform.py` defines function `extract_zip(zip_path: Path, output_dir: Path) -> list[ExtractResult]`
-- [ ] `ExtractResult` dataclass contains: `zip_path` (source archive), `extracted_path` (output CSV path), `original_name` (name inside archive), `byte_size` (extracted file size), `skipped` (bool, True if file already existed with matching size)
-- [ ] Function discovers CSV members dynamically via `zipfile.ZipFile.infolist()` and filters to `.csv` entries only, ignoring `__MACOSX/` metadata directories and non-CSV files
-- [ ] Function extracts CSVs to `output_dir/<filename>` with flattened paths (strips internal subdirectory prefixes such as `bikeshare-ridership-2023/`)
-- [ ] Extraction is idempotent: if a target CSV already exists and matches the archive member's uncompressed size, extraction is skipped and logged as `SKIPPED`
-- [ ] Function validates the ZIP archive integrity via `zipfile.ZipFile.testzip()` before extraction; raises `TransformError` if the archive is corrupt
-- [ ] Function `batch_extract_zips(source_dir: Path, output_dir: Path, file_pattern: str = "*.zip") -> list[ExtractResult]` processes all matching ZIP files in a directory tree, preserving the `<source>/<year>/` subdirectory structure in the output
-- [ ] `mypy --strict scripts/transform.py` passes with zero errors
-- [ ] `ruff check scripts/transform.py && ruff format --check scripts/transform.py` passes
+- [x] File `scripts/transform.py` defines function `extract_zip(zip_path: Path, output_dir: Path) -> list[ExtractResult]`
+- [x] `ExtractResult` dataclass contains: `zip_path` (source archive), `extracted_path` (output CSV path), `original_name` (name inside archive), `byte_size` (extracted file size), `skipped` (bool, True if file already existed with matching size)
+- [x] Function discovers CSV members dynamically via `zipfile.ZipFile.infolist()` and filters to `.csv` entries only, ignoring `__MACOSX/` metadata directories and non-CSV files
+- [x] Function extracts CSVs to `output_dir/<filename>` with flattened paths (strips internal subdirectory prefixes such as `bikeshare-ridership-2023/`)
+- [x] Extraction is idempotent: if a target CSV already exists and matches the archive member's uncompressed size, extraction is skipped and logged as `SKIPPED`
+- [x] Function validates the ZIP archive integrity via `zipfile.ZipFile.testzip()` before extraction; raises `TransformError` if the archive is corrupt
+- [x] Function `batch_extract_zips(source_dir: Path, output_dir: Path, file_pattern: str = "*.zip") -> list[ExtractResult]` processes all matching ZIP files in a directory tree, preserving the `<source>/<year>/` subdirectory structure in the output
+- [x] `mypy --strict scripts/transform.py` passes with zero errors
+- [x] `ruff check scripts/transform.py && ruff format --check scripts/transform.py` passes
 
 **Technical Notes**: Bike Share ZIP archives contain a subdirectory matching the archive name (e.g., `bikeshare-ridership-2023/Bike share ridership 2023-01.csv`). Strip this prefix during extraction to produce flat CSVs at the year level. Use `zipfile.Path` or `PurePosixPath` to handle cross-platform path separators inside archives. Each archive contains 12 monthly CSVs ranging from 23 MB to 96 MB uncompressed.
 
 **Definition of Done**:
 
-- [ ] Code committed to feature branch
-- [ ] Tests pass locally
-- [ ] PR opened with linked issue
-- [ ] CI checks green
+- [x] Code committed to feature branch
+- [x] Tests pass locally
+- [x] PR opened with linked issue
+- [x] CI checks green
 
 ---
 
@@ -228,22 +228,22 @@ Raw source files acquired by E-301 arrive in heterogeneous formats (XLSX for TTC
 
 **Acceptance Criteria**:
 
-- [ ] File `tests/test_validate.py` exists with tests covering: valid CSV passes validation, missing required column raises `SchemaValidationError`, extra column logs warning but passes, type mismatch in sampled rows raises `SchemaValidationError`, nullable column with empty values passes, case-insensitive column matching works
-- [ ] File `tests/test_transform.py` exists with tests covering: XLSX-to-CSV produces correct row/column count, missing worksheet raises `TransformError`, encoding detection identifies UTF-8 correctly, Windows-1252 file is transcoded to UTF-8, BOM is stripped from output, ZIP extraction produces correct CSV files, ZIP extraction skips existing files (idempotency), corrupt ZIP raises `TransformError`, ZIP extraction strips internal subdirectory prefixes
-- [ ] Test fixtures exist at `tests/fixtures/`: `valid_subway_delays.csv` (10 rows matching TTC subway contract), `invalid_missing_column.csv` (subway data with "Station" column removed), `valid_delays.xlsx` (small XLSX with 10 rows), `windows_1252.csv` (file with Windows-1252 encoding)
-- [ ] All tests use `tmp_path` fixture for filesystem operations — no writes to project directories
-- [ ] `pytest tests/test_validate.py tests/test_transform.py -v` passes with zero failures
-- [ ] `mypy --strict tests/test_validate.py tests/test_transform.py` passes
-- [ ] `ruff check tests/ && ruff format --check tests/` passes on test files
+- [x] File `tests/test_validate.py` exists with tests covering: valid CSV passes validation, missing required column raises `SchemaValidationError`, extra column logs warning but passes, type mismatch in sampled rows raises `SchemaValidationError`, nullable column with empty values passes, case-insensitive column matching works
+- [x] File `tests/test_transform.py` exists with tests covering: XLSX-to-CSV produces correct row/column count, missing worksheet raises `TransformError`, encoding detection identifies UTF-8 correctly, Windows-1252 file is transcoded to UTF-8, BOM is stripped from output, ZIP extraction produces correct CSV files, ZIP extraction skips existing files (idempotency), corrupt ZIP raises `TransformError`, ZIP extraction strips internal subdirectory prefixes
+- [x] Test fixtures exist at `tests/fixtures/`: `valid_subway_delays.csv` (10 rows matching TTC subway contract), `invalid_missing_column.csv` (subway data with "Station" column removed), `valid_delays.xlsx` (small XLSX with 10 rows), `windows_1252.csv` (file with Windows-1252 encoding)
+- [x] All tests use `tmp_path` fixture for filesystem operations — no writes to project directories
+- [x] `pytest tests/test_validate.py tests/test_transform.py -v` passes with zero failures
+- [x] `mypy --strict tests/test_validate.py tests/test_transform.py` passes
+- [x] `ruff check tests/ && ruff format --check tests/` passes on test files
 
 **Technical Notes**: Generate XLSX fixtures programmatically in a `conftest.py` using `openpyxl` to avoid committing binary files. For encoding fixtures, encode a known UTF-8 string as Windows-1252 bytes and write to `tmp_path`.
 
 **Definition of Done**:
 
-- [ ] Code committed to feature branch
-- [ ] Tests pass locally
-- [ ] PR opened with linked issue
-- [ ] CI checks green
+- [x] Code committed to feature branch
+- [x] Tests pass locally
+- [x] PR opened with linked issue
+- [x] CI checks green
 
 ---
 
@@ -253,23 +253,23 @@ Raw source files acquired by E-301 arrive in heterogeneous formats (XLSX for TTC
 
 **Acceptance Criteria**:
 
-- [ ] Running `python scripts/validate.py --all --source-dir data/raw --output-dir data/validated` processes all downloaded files
-- [ ] All TTC XLSX files are converted to CSV via `transform.py` before validation
-- [ ] All Bike Share ZIP archives are extracted to individual monthly CSVs via `transform.py` before validation
-- [ ] All converted CSVs, extracted Bike Share CSVs, and weather CSVs pass schema validation against their respective contracts
-- [ ] `data/validated/` directory contains only validated, UTF-8 encoded CSV files organized as `data/validated/<source>/<year>/<filename>.csv`
-- [ ] Validation summary logged to stdout reports: total files processed, files passed, files failed (must be zero), total rows across all files
-- [ ] If any file fails validation, the process exits with code 1 and logs the `SchemaValidationError` details including file path and specific mismatches
-- [ ] Re-running validation on already-validated files in `data/validated/` produces identical results (idempotent)
+- [x] Running `python scripts/validate.py --all --source-dir data/raw --output-dir data/validated` processes all downloaded files
+- [x] All TTC XLSX files are converted to CSV via `transform.py` before validation
+- [x] All Bike Share ZIP archives are extracted to individual monthly CSVs via `transform.py` before validation
+- [x] All converted CSVs, extracted Bike Share CSVs, and weather CSVs pass schema validation against their respective contracts
+- [x] `data/validated/` directory contains only validated, UTF-8 encoded CSV files organized as `data/validated/<source>/<year>/<filename>.csv`
+- [x] Validation summary logged to stdout reports: total files processed, files passed, files failed (must be zero), total rows across all files
+- [x] If any file fails validation, the process exits with code 1 and logs the `SchemaValidationError` details including file path and specific mismatches
+- [x] Re-running validation on already-validated files in `data/validated/` produces identical results (idempotent)
 
 **Technical Notes**: The CLI entry point uses `argparse` with `--all`, `--dataset <name>`, `--source-dir <path>`, and `--output-dir <path>` flags. Wire up the encoding normalization step between XLSX conversion and schema validation. Log per-file progress to stderr for observability.
 
 **Definition of Done**:
 
-- [ ] Code committed to feature branch
-- [ ] Tests pass locally
-- [ ] PR opened with linked issue
-- [ ] CI checks green
+- [x] Code committed to feature branch
+- [x] Tests pass locally
+- [x] PR opened with linked issue
+- [x] CI checks green
 
 ---
 
@@ -277,12 +277,12 @@ Raw source files acquired by E-301 arrive in heterogeneous formats (XLSX for TTC
 
 This epic is complete when:
 
-- [ ] `scripts/validate.py`, `scripts/transform.py`, and `scripts/contracts.py` exist, are type-annotated, and pass `mypy --strict`
-- [ ] Schema contracts for all five datasets match DESIGN-DOC.md Section 4.3 specifications
-- [ ] All downloaded source files pass schema validation with zero failures
-- [ ] XLSX files are converted to UTF-8 CSV format
-- [ ] ZIP archives are extracted to individual CSV files
-- [ ] `SchemaValidationError` is raised and ingestion aborts on any schema deviation (fail-fast verified by test)
-- [ ] `pytest tests/test_validate.py tests/test_transform.py` passes with zero failures
-- [ ] `ruff check` and `ruff format` pass on all Python files
-- [ ] Python code generated via `python-writing` skill
+- [x] `scripts/validate.py`, `scripts/transform.py`, and `scripts/contracts.py` exist, are type-annotated, and pass `mypy --strict`
+- [x] Schema contracts for all five datasets match DESIGN-DOC.md Section 4.3 specifications
+- [x] All downloaded source files pass schema validation with zero failures
+- [x] XLSX files are converted to UTF-8 CSV format
+- [x] ZIP archives are extracted to individual CSV files
+- [x] `SchemaValidationError` is raised and ingestion aborts on any schema deviation (fail-fast verified by test)
+- [x] `pytest tests/test_validate.py tests/test_transform.py` passes with zero failures
+- [x] `ruff check` and `ruff format` pass on all Python files
+- [x] Python code generated via `python-writing` skill

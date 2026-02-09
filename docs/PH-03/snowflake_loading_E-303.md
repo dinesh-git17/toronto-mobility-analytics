@@ -5,7 +5,7 @@
 | Epic ID      | E-303           |
 | Phase        | PH-03           |
 | Owner        | @dinesh-git17   |
-| Status       | Draft           |
+| Status       | Complete        |
 | Dependencies | [E-301, E-302]  |
 | Created      | 2026-02-03      |
 
@@ -79,13 +79,13 @@ With source files downloaded (E-301) and validated against schema contracts (E-3
 
 | ID | Story | Points | Dependencies | Status |
 | --- | --- | --- | --- | --- |
-| S001 | Create Snowflake internal stage and verify LOADER_ROLE permissions | 2 | None | Draft |
-| S002 | Implement Snowflake connection manager with credential resolution | 3 | None | Draft |
-| S003 | Implement CSV upload via PUT and COPY INTO bulk loading | 5 | S001, S002 | Draft |
-| S004 | Implement MERGE-based idempotent upsert with natural keys | 5 | S003 | Draft |
-| S005 | Build pipeline orchestrator with atomic transaction control | 5 | S003, S004, E-301.S002, E-302.S003 | Draft |
-| S006 | Execute initial load and validate row counts for all datasets | 5 | S005 | Draft |
-| S007 | Add comprehensive test suite for loading and orchestration | 5 | S003, S004, S005 | Draft |
+| S001 | Create Snowflake internal stage and verify LOADER_ROLE permissions | 2 | None | Done  |
+| S002 | Implement Snowflake connection manager with credential resolution | 3 | None | Done  |
+| S003 | Implement CSV upload via PUT and COPY INTO bulk loading | 5 | S001, S002 | Done  |
+| S004 | Implement MERGE-based idempotent upsert with natural keys | 5 | S003 | Done  |
+| S005 | Build pipeline orchestrator with atomic transaction control | 5 | S003, S004, E-301.S002, E-302.S003 | Done  |
+| S006 | Execute initial load and validate row counts for all datasets | 5 | S005 | Done  |
+| S007 | Add comprehensive test suite for loading and orchestration | 5 | S003, S004, S005 | Done  |
 
 ---
 
@@ -95,21 +95,21 @@ With source files downloaded (E-301) and validated against schema contracts (E-3
 
 **Acceptance Criteria**:
 
-- [ ] SQL script `setup/create_ingestion_stage.sql` exists and creates stage: `CREATE STAGE IF NOT EXISTS TORONTO_MOBILITY.RAW.INGESTION_STAGE FILE_FORMAT = (TYPE = 'CSV' FIELD_OPTIONALLY_ENCLOSED_BY = '"' SKIP_HEADER = 1 NULL_IF = ('', 'NULL', 'null') COMPRESSION = 'AUTO')`
-- [ ] Stage file format specifies: `FIELD_DELIMITER = ','`, `RECORD_DELIMITER = '\n'`, `ENCODING = 'UTF8'`
-- [ ] Script grants `USAGE` on the stage to `LOADER_ROLE`: `GRANT USAGE ON STAGE TORONTO_MOBILITY.RAW.INGESTION_STAGE TO ROLE LOADER_ROLE`
-- [ ] Verification query confirms LOADER_ROLE can execute `LIST @TORONTO_MOBILITY.RAW.INGESTION_STAGE` without permission errors
-- [ ] Verification query confirms LOADER_ROLE can execute `PUT` to the stage (upload a 1-row test CSV, then `REMOVE` it)
-- [ ] Verification query confirms all five RAW tables exist: `TTC_SUBWAY_DELAYS`, `TTC_BUS_DELAYS`, `TTC_STREETCAR_DELAYS`, `BIKE_SHARE_TRIPS`, `WEATHER_DAILY`
+- [x] SQL script `setup/create_ingestion_stage.sql` exists and creates stage: `CREATE STAGE IF NOT EXISTS TORONTO_MOBILITY.RAW.INGESTION_STAGE FILE_FORMAT = (TYPE = 'CSV' FIELD_OPTIONALLY_ENCLOSED_BY = '"' SKIP_HEADER = 1 NULL_IF = ('', 'NULL', 'null') COMPRESSION = 'AUTO')`
+- [x] Stage file format specifies: `FIELD_DELIMITER = ','`, `RECORD_DELIMITER = '\n'`, `ENCODING = 'UTF8'`
+- [x] Script grants `USAGE` on the stage to `LOADER_ROLE`: `GRANT USAGE ON STAGE TORONTO_MOBILITY.RAW.INGESTION_STAGE TO ROLE LOADER_ROLE`
+- [x] Verification query confirms LOADER_ROLE can execute `LIST @TORONTO_MOBILITY.RAW.INGESTION_STAGE` without permission errors
+- [x] Verification query confirms LOADER_ROLE can execute `PUT` to the stage (upload a 1-row test CSV, then `REMOVE` it)
+- [x] Verification query confirms all five RAW tables exist: `TTC_SUBWAY_DELAYS`, `TTC_BUS_DELAYS`, `TTC_STREETCAR_DELAYS`, `BIKE_SHARE_TRIPS`, `WEATHER_DAILY`
 
 **Technical Notes**: Execute this script via `snowsql` or the Snowflake web UI using SYSADMIN role. The file format definition is embedded in the stage to avoid separate file format object management. `FIELD_OPTIONALLY_ENCLOSED_BY` handles quoted fields in CSV exports.
 
 **Definition of Done**:
 
-- [ ] Code committed to feature branch
-- [ ] Tests pass locally
-- [ ] PR opened with linked issue
-- [ ] CI checks green
+- [x] Code committed to feature branch
+- [x] Tests pass locally
+- [x] PR opened with linked issue
+- [x] CI checks green
 
 ---
 
@@ -119,22 +119,22 @@ With source files downloaded (E-301) and validated against schema contracts (E-3
 
 **Acceptance Criteria**:
 
-- [ ] File `scripts/load.py` defines class `SnowflakeConnectionManager` with method `connect() -> snowflake.connector.SnowflakeConnection`
-- [ ] Credential resolution order: (1) environment variables `SNOWFLAKE_ACCOUNT`, `SNOWFLAKE_USER`, `SNOWFLAKE_PASSWORD`, (2) `~/.snowflake/connections.toml` file with `[loader]` section
-- [ ] Connection parameters include: `role='LOADER_ROLE'`, `warehouse='TRANSFORM_WH'`, `database='TORONTO_MOBILITY'`, `schema='RAW'`
-- [ ] Context manager protocol (`__enter__` / `__exit__`) is implemented, ensuring `connection.close()` on exit
-- [ ] On connection failure, raises `LoadError` with the Snowflake error code and message (credential values are never included in the error message)
-- [ ] `mypy --strict scripts/load.py` passes with zero errors
-- [ ] `ruff check scripts/load.py && ruff format --check scripts/load.py` passes
+- [x] File `scripts/load.py` defines class `SnowflakeConnectionManager` with method `connect() -> snowflake.connector.SnowflakeConnection`
+- [x] Credential resolution order: (1) environment variables `SNOWFLAKE_ACCOUNT`, `SNOWFLAKE_USER`, `SNOWFLAKE_PASSWORD`, (2) `~/.snowflake/connections.toml` file with `[loader]` section
+- [x] Connection parameters include: `role='LOADER_ROLE'`, `warehouse='TRANSFORM_WH'`, `database='TORONTO_MOBILITY'`, `schema='RAW'`
+- [x] Context manager protocol (`__enter__` / `__exit__`) is implemented, ensuring `connection.close()` on exit
+- [x] On connection failure, raises `LoadError` with the Snowflake error code and message (credential values are never included in the error message)
+- [x] `mypy --strict scripts/load.py` passes with zero errors
+- [x] `ruff check scripts/load.py && ruff format --check scripts/load.py` passes
 
 **Technical Notes**: Use `snowflake.connector.connect()` directly. Do not use SQLAlchemy. Set `client_session_keep_alive=True` to prevent session timeout during long upload operations. Set `login_timeout=30` and `network_timeout=60`.
 
 **Definition of Done**:
 
-- [ ] Code committed to feature branch
-- [ ] Tests pass locally
-- [ ] PR opened with linked issue
-- [ ] CI checks green
+- [x] Code committed to feature branch
+- [x] Tests pass locally
+- [x] PR opened with linked issue
+- [x] CI checks green
 
 ---
 
@@ -144,25 +144,25 @@ With source files downloaded (E-301) and validated against schema contracts (E-3
 
 **Acceptance Criteria**:
 
-- [ ] Function `upload_to_stage(connection: SnowflakeConnection, local_path: Path, stage_path: str) -> StageUploadResult` exists in `scripts/load.py`
-- [ ] `StageUploadResult` dataclass contains: `local_path`, `stage_path`, `status` (enum: `UPLOADED`, `SKIPPED`), `source_size_bytes`, `dest_size_bytes`, `elapsed_seconds`
-- [ ] Function executes `PUT file://<local_path> @TORONTO_MOBILITY.RAW.INGESTION_STAGE/<stage_path> AUTO_COMPRESS=TRUE OVERWRITE=TRUE`
-- [ ] Function `copy_into_table(connection: SnowflakeConnection, table_name: str, stage_path: str, column_mapping: list[str]) -> CopyResult` exists in `scripts/load.py`
-- [ ] `CopyResult` dataclass contains: `table_name`, `rows_loaded`, `rows_parsed`, `errors_seen`, `first_error` (str or None), `elapsed_seconds`
-- [ ] COPY INTO statement uses: `ON_ERROR = 'ABORT_STATEMENT'` to fail on first row-level error
-- [ ] COPY INTO statement uses: `PURGE = FALSE` to retain staged files for debugging
-- [ ] Function `copy_into_table` accepts a `column_mapping` parameter to handle column ordering differences between CSV headers and target table DDL
-- [ ] On COPY INTO failure, function raises `LoadError` with the table name, file path, row number, and error message from Snowflake
-- [ ] `mypy --strict scripts/load.py` passes with zero errors
+- [x] Function `upload_to_stage(connection: SnowflakeConnection, local_path: Path, stage_path: str) -> StageUploadResult` exists in `scripts/load.py`
+- [x] `StageUploadResult` dataclass contains: `local_path`, `stage_path`, `status` (enum: `UPLOADED`, `SKIPPED`), `source_size_bytes`, `dest_size_bytes`, `elapsed_seconds`
+- [x] Function executes `PUT file://<local_path> @TORONTO_MOBILITY.RAW.INGESTION_STAGE/<stage_path> AUTO_COMPRESS=TRUE OVERWRITE=TRUE`
+- [x] Function `copy_into_table(connection: SnowflakeConnection, table_name: str, stage_path: str, column_mapping: list[str]) -> CopyResult` exists in `scripts/load.py`
+- [x] `CopyResult` dataclass contains: `table_name`, `rows_loaded`, `rows_parsed`, `errors_seen`, `first_error` (str or None), `elapsed_seconds`
+- [x] COPY INTO statement uses: `ON_ERROR = 'ABORT_STATEMENT'` to fail on first row-level error
+- [x] COPY INTO statement uses: `PURGE = FALSE` to retain staged files for debugging
+- [x] Function `copy_into_table` accepts a `column_mapping` parameter to handle column ordering differences between CSV headers and target table DDL
+- [x] On COPY INTO failure, function raises `LoadError` with the table name, file path, row number, and error message from Snowflake
+- [x] `mypy --strict scripts/load.py` passes with zero errors
 
 **Technical Notes**: The `PUT` command is executed via cursor's `execute()` method. Use `cursor.fetchall()` after PUT to retrieve upload status. COPY INTO uses the stage file format defined in S001. For column mapping, use `COPY INTO ... (col1, col2, ...) FROM (SELECT $1, $2, ... FROM @stage/path)` syntax when CSV column order differs from table DDL.
 
 **Definition of Done**:
 
-- [ ] Code committed to feature branch
-- [ ] Tests pass locally
-- [ ] PR opened with linked issue
-- [ ] CI checks green
+- [x] Code committed to feature branch
+- [x] Tests pass locally
+- [x] PR opened with linked issue
+- [x] CI checks green
 
 ---
 
@@ -172,26 +172,26 @@ With source files downloaded (E-301) and validated against schema contracts (E-3
 
 **Acceptance Criteria**:
 
-- [ ] Function `merge_into_table(connection: SnowflakeConnection, target_table: str, natural_keys: list[str], all_columns: list[str]) -> MergeResult` exists in `scripts/load.py`
-- [ ] `MergeResult` dataclass contains: `target_table`, `rows_inserted`, `rows_updated`, `elapsed_seconds`
-- [ ] Function creates a temporary table `{target_table}_STAGING` with identical DDL to the target table
-- [ ] Function executes COPY INTO the temporary table first, then MERGE from temporary to target
-- [ ] MERGE ON clause joins on all columns specified in `natural_keys`
-- [ ] WHEN MATCHED clause updates all non-key columns
-- [ ] WHEN NOT MATCHED clause inserts all columns
-- [ ] Function drops the temporary table after MERGE completes (in both success and failure paths)
-- [ ] Natural key definitions per dataset match DESIGN-DOC.md Section 6.4: TTC subway `[DATE, TIME, STATION, LINE, CODE, MIN_DELAY]`, TTC bus `[DATE, TIME, ROUTE, DIRECTION, DELAY_CODE, MIN_DELAY]`, TTC streetcar `[DATE, TIME, ROUTE, DIRECTION, DELAY_CODE, MIN_DELAY]`, Bike Share `[TRIP_ID]`, weather `[DATE_TIME]`
-- [ ] Running the same load twice produces identical row counts in the target table (verified by test)
-- [ ] `mypy --strict scripts/load.py` passes with zero errors
+- [x] Function `merge_into_table(connection: SnowflakeConnection, target_table: str, natural_keys: list[str], all_columns: list[str]) -> MergeResult` exists in `scripts/load.py`
+- [x] `MergeResult` dataclass contains: `target_table`, `rows_inserted`, `rows_updated`, `elapsed_seconds`
+- [x] Function creates a temporary table `{target_table}_STAGING` with identical DDL to the target table
+- [x] Function executes COPY INTO the temporary table first, then MERGE from temporary to target
+- [x] MERGE ON clause joins on all columns specified in `natural_keys`
+- [x] WHEN MATCHED clause updates all non-key columns
+- [x] WHEN NOT MATCHED clause inserts all columns
+- [x] Function drops the temporary table after MERGE completes (in both success and failure paths)
+- [x] Natural key definitions per dataset match DESIGN-DOC.md Section 6.4: TTC subway `[DATE, TIME, STATION, LINE, CODE, MIN_DELAY]`, TTC bus `[DATE, TIME, ROUTE, DIRECTION, DELAY_CODE, MIN_DELAY]`, TTC streetcar `[DATE, TIME, ROUTE, DIRECTION, DELAY_CODE, MIN_DELAY]`, Bike Share `[TRIP_ID]`, weather `[DATE_TIME]`
+- [x] Running the same load twice produces identical row counts in the target table (verified by test)
+- [x] `mypy --strict scripts/load.py` passes with zero errors
 
 **Technical Notes**: Use `CREATE TEMPORARY TABLE {target}_STAGING LIKE {target}` for DDL cloning. The temporary table is session-scoped and auto-drops on connection close, but explicit `DROP` in a `finally` block ensures cleanup on exceptions. For the MERGE statement, dynamically construct the SQL from the `natural_keys` and `all_columns` parameters using parameterized f-strings (column names only, no user input — SQL injection is not a concern for internal column names).
 
 **Definition of Done**:
 
-- [ ] Code committed to feature branch
-- [ ] Tests pass locally
-- [ ] PR opened with linked issue
-- [ ] CI checks green
+- [x] Code committed to feature branch
+- [x] Tests pass locally
+- [x] PR opened with linked issue
+- [x] CI checks green
 
 ---
 
@@ -201,27 +201,27 @@ With source files downloaded (E-301) and validated against schema contracts (E-3
 
 **Acceptance Criteria**:
 
-- [ ] File `scripts/ingest.py` exists and defines function `run_pipeline(datasets: list[str] | None = None, skip_download: bool = False) -> PipelineResult`
-- [ ] `PipelineResult` dataclass contains: `datasets_processed` (list of `DatasetResult`), `total_rows_loaded`, `total_elapsed_seconds`, `success` (bool)
-- [ ] `DatasetResult` dataclass contains: `dataset_name`, `stage` (enum: `DOWNLOAD`, `TRANSFORM`, `VALIDATE`, `LOAD`), `rows_loaded`, `elapsed_seconds`, `status` (enum: `SUCCESS`, `FAILED`, `SKIPPED`)
-- [ ] Pipeline sequence per dataset: (1) download via E-301 `download.py`, (2) transform XLSX→CSV via E-302 `transform.py`, (3) validate against schema contract via E-302 `validate.py`, (4) load into Snowflake via `load.py`
-- [ ] Each dataset's load stage executes within a single Snowflake transaction: `connection.cursor().execute("BEGIN")` before COPY INTO / MERGE, `connection.commit()` on success, `connection.rollback()` on any exception
-- [ ] If validation fails for a dataset (E-302 `SchemaValidationError`), that dataset is marked `FAILED` and subsequent datasets continue processing (fail-per-dataset, not fail-all)
-- [ ] If load fails for a dataset (`LoadError`), the transaction rolls back, the dataset is marked `FAILED`, and subsequent datasets continue processing
-- [ ] CLI entry point: `python scripts/ingest.py --all` runs all datasets; `python scripts/ingest.py --dataset ttc_subway_delays` runs a single dataset; `python scripts/ingest.py --all --skip-download` skips the download stage (for re-processing already-downloaded files)
-- [ ] Pipeline exits with code 0 if all datasets succeed, code 1 if any dataset fails
-- [ ] Execution summary is logged to stdout as structured output: dataset name, stage, status, rows, elapsed time
-- [ ] `mypy --strict scripts/ingest.py` passes with zero errors
-- [ ] `ruff check scripts/ingest.py && ruff format --check scripts/ingest.py` passes
+- [x] File `scripts/ingest.py` exists and defines function `run_pipeline(datasets: list[str] | None = None, skip_download: bool = False) -> PipelineResult`
+- [x] `PipelineResult` dataclass contains: `datasets_processed` (list of `DatasetResult`), `total_rows_loaded`, `total_elapsed_seconds`, `success` (bool)
+- [x] `DatasetResult` dataclass contains: `dataset_name`, `stage` (enum: `DOWNLOAD`, `TRANSFORM`, `VALIDATE`, `LOAD`), `rows_loaded`, `elapsed_seconds`, `status` (enum: `SUCCESS`, `FAILED`, `SKIPPED`)
+- [x] Pipeline sequence per dataset: (1) download via E-301 `download.py`, (2) transform XLSX→CSV via E-302 `transform.py`, (3) validate against schema contract via E-302 `validate.py`, (4) load into Snowflake via `load.py`
+- [x] Each dataset's load stage executes within a single Snowflake transaction: `connection.cursor().execute("BEGIN")` before COPY INTO / MERGE, `connection.commit()` on success, `connection.rollback()` on any exception
+- [x] If validation fails for a dataset (E-302 `SchemaValidationError`), that dataset is marked `FAILED` and subsequent datasets continue processing (fail-per-dataset, not fail-all)
+- [x] If load fails for a dataset (`LoadError`), the transaction rolls back, the dataset is marked `FAILED`, and subsequent datasets continue processing
+- [x] CLI entry point: `python scripts/ingest.py --all` runs all datasets; `python scripts/ingest.py --dataset ttc_subway_delays` runs a single dataset; `python scripts/ingest.py --all --skip-download` skips the download stage (for re-processing already-downloaded files)
+- [x] Pipeline exits with code 0 if all datasets succeed, code 1 if any dataset fails
+- [x] Execution summary is logged to stdout as structured output: dataset name, stage, status, rows, elapsed time
+- [x] `mypy --strict scripts/ingest.py` passes with zero errors
+- [x] `ruff check scripts/ingest.py && ruff format --check scripts/ingest.py` passes
 
 **Technical Notes**: Use `argparse` for CLI parsing. Import functions from `download.py`, `transform.py`, `validate.py`, and `load.py` — do not duplicate logic. Wrap each dataset in a `try`/`except` block that catches `DownloadError`, `TransformError`, `SchemaValidationError`, and `LoadError`. Log to stderr for progress, stdout for final summary.
 
 **Definition of Done**:
 
-- [ ] Code committed to feature branch
-- [ ] Tests pass locally
-- [ ] PR opened with linked issue
-- [ ] CI checks green
+- [x] Code committed to feature branch
+- [x] Tests pass locally
+- [x] PR opened with linked issue
+- [x] CI checks green
 
 ---
 
@@ -231,25 +231,25 @@ With source files downloaded (E-301) and validated against schema contracts (E-3
 
 **Acceptance Criteria**:
 
-- [ ] Running `python scripts/ingest.py --all` completes with exit code 0 for all five datasets
-- [ ] Snowflake table `TORONTO_MOBILITY.RAW.TTC_SUBWAY_DELAYS` contains rows and `SELECT COUNT(*)` matches source file row count within 1% tolerance (expected ~300K rows per DESIGN-DOC.md Section 4.1)
-- [ ] Snowflake table `TORONTO_MOBILITY.RAW.TTC_BUS_DELAYS` contains rows and count matches source within 1% (expected ~1.2M rows)
-- [ ] Snowflake table `TORONTO_MOBILITY.RAW.TTC_STREETCAR_DELAYS` contains rows and count matches source within 1% (expected ~300K rows)
-- [ ] Snowflake table `TORONTO_MOBILITY.RAW.BIKE_SHARE_TRIPS` contains rows and count matches source within 1% (expected ~30M rows)
-- [ ] Snowflake table `TORONTO_MOBILITY.RAW.WEATHER_DAILY` contains rows and count matches source within 1% (expected ~2,500 rows for 2019-2025)
-- [ ] Row count validation script `scripts/validate_load.py` exists and executes: reads source file row counts from the download manifest, queries `SELECT COUNT(*)` from each RAW table, computes percentage difference, passes if all datasets are within 1%
-- [ ] Running `python scripts/validate_load.py` exits with code 0 and prints a comparison table: dataset name, source rows, loaded rows, difference percentage
-- [ ] Re-running `python scripts/ingest.py --all` produces identical row counts (idempotency verified via MERGE)
-- [ ] `mypy --strict scripts/validate_load.py` passes with zero errors
+- [x] Running `python scripts/ingest.py --all` completes with exit code 0 for all five datasets
+- [x] Snowflake table `TORONTO_MOBILITY.RAW.TTC_SUBWAY_DELAYS` contains rows and `SELECT COUNT(*)` matches source file row count within 1% tolerance (expected ~300K rows per DESIGN-DOC.md Section 4.1)
+- [x] Snowflake table `TORONTO_MOBILITY.RAW.TTC_BUS_DELAYS` contains rows and count matches source within 1% (expected ~1.2M rows)
+- [x] Snowflake table `TORONTO_MOBILITY.RAW.TTC_STREETCAR_DELAYS` contains rows and count matches source within 1% (expected ~300K rows)
+- [x] Snowflake table `TORONTO_MOBILITY.RAW.BIKE_SHARE_TRIPS` contains rows and count matches source within 1% (expected ~30M rows)
+- [x] Snowflake table `TORONTO_MOBILITY.RAW.WEATHER_DAILY` contains rows and count matches source within 1% (expected ~2,500 rows for 2019-2025)
+- [x] Row count validation script `scripts/validate_load.py` exists and executes: reads source file row counts from the download manifest, queries `SELECT COUNT(*)` from each RAW table, computes percentage difference, passes if all datasets are within 1%
+- [x] Running `python scripts/validate_load.py` exits with code 0 and prints a comparison table: dataset name, source rows, loaded rows, difference percentage
+- [x] Re-running `python scripts/ingest.py --all` produces identical row counts (idempotency verified via MERGE)
+- [x] `mypy --strict scripts/validate_load.py` passes with zero errors
 
 **Technical Notes**: The 1% tolerance accounts for edge cases: Bike Share files occasionally contain duplicate trip IDs across quarterly files (MERGE deduplicates these), and Environment Canada CSVs sometimes include partial-month data at file boundaries. The validation script connects using LOADER_ROLE credentials. Log per-table results in a formatted table to stdout.
 
 **Definition of Done**:
 
-- [ ] Code committed to feature branch
-- [ ] Tests pass locally
-- [ ] PR opened with linked issue
-- [ ] CI checks green
+- [x] Code committed to feature branch
+- [x] Tests pass locally
+- [x] PR opened with linked issue
+- [x] CI checks green
 
 ---
 
@@ -259,22 +259,22 @@ With source files downloaded (E-301) and validated against schema contracts (E-3
 
 **Acceptance Criteria**:
 
-- [ ] File `tests/test_load.py` exists with tests covering: connection manager credential resolution from environment variables, connection manager context manager closes connection on exit, `upload_to_stage` constructs correct PUT SQL, `copy_into_table` constructs correct COPY INTO SQL with ON_ERROR=ABORT_STATEMENT, `merge_into_table` constructs correct MERGE SQL with natural keys, `merge_into_table` drops temporary table in finally block, `LoadError` is raised on Snowflake error response
-- [ ] File `tests/test_ingest.py` exists with tests covering: successful pipeline run returns PipelineResult with SUCCESS status, validation failure for one dataset does not block other datasets, load failure triggers transaction rollback, `--skip-download` flag skips download stage, CLI exits with code 1 when any dataset fails
-- [ ] All Snowflake interactions are mocked using `unittest.mock.patch` on `snowflake.connector.connect` — no real Snowflake connections during test execution
-- [ ] Tests verify SQL statements passed to `cursor.execute()` contain expected keywords (`PUT`, `COPY INTO`, `MERGE`, `BEGIN`, `COMMIT`, `ROLLBACK`)
-- [ ] `pytest tests/test_load.py tests/test_ingest.py -v` passes with zero failures
-- [ ] `mypy --strict tests/test_load.py tests/test_ingest.py` passes
-- [ ] `ruff check tests/ && ruff format --check tests/` passes on test files
+- [x] File `tests/test_load.py` exists with tests covering: connection manager credential resolution from environment variables, connection manager context manager closes connection on exit, `upload_to_stage` constructs correct PUT SQL, `copy_into_table` constructs correct COPY INTO SQL with ON_ERROR=ABORT_STATEMENT, `merge_into_table` constructs correct MERGE SQL with natural keys, `merge_into_table` drops temporary table in finally block, `LoadError` is raised on Snowflake error response
+- [x] File `tests/test_ingest.py` exists with tests covering: successful pipeline run returns PipelineResult with SUCCESS status, validation failure for one dataset does not block other datasets, load failure triggers transaction rollback, `--skip-download` flag skips download stage, CLI exits with code 1 when any dataset fails
+- [x] All Snowflake interactions are mocked using `unittest.mock.patch` on `snowflake.connector.connect` — no real Snowflake connections during test execution
+- [x] Tests verify SQL statements passed to `cursor.execute()` contain expected keywords (`PUT`, `COPY INTO`, `MERGE`, `BEGIN`, `COMMIT`, `ROLLBACK`)
+- [x] `pytest tests/test_load.py tests/test_ingest.py -v` passes with zero failures
+- [x] `mypy --strict tests/test_load.py tests/test_ingest.py` passes
+- [x] `ruff check tests/ && ruff format --check tests/` passes on test files
 
 **Technical Notes**: Mock the Snowflake connector at the module level: `@patch('scripts.load.snowflake.connector.connect')`. Create mock cursor objects that return predefined results for `fetchall()` and `fetchone()`. For MERGE tests, verify the SQL contains both `WHEN MATCHED THEN UPDATE` and `WHEN NOT MATCHED THEN INSERT` clauses.
 
 **Definition of Done**:
 
-- [ ] Code committed to feature branch
-- [ ] Tests pass locally
-- [ ] PR opened with linked issue
-- [ ] CI checks green
+- [x] Code committed to feature branch
+- [x] Tests pass locally
+- [x] PR opened with linked issue
+- [x] CI checks green
 
 ---
 
@@ -282,13 +282,13 @@ With source files downloaded (E-301) and validated against schema contracts (E-3
 
 This epic is complete when:
 
-- [ ] `scripts/load.py` and `scripts/ingest.py` exist, are type-annotated, and pass `mypy --strict`
-- [ ] Snowflake internal stage `@TORONTO_MOBILITY.RAW.INGESTION_STAGE` exists with correct file format and LOADER_ROLE permissions
-- [ ] All five RAW schema tables are populated with 2019-present data
-- [ ] Row counts for each table match source file counts within 1% tolerance
-- [ ] MERGE-based loading is idempotent: re-running produces identical row counts
-- [ ] Per-dataset atomic transactions prevent partial loads on failure
-- [ ] `pytest tests/test_load.py tests/test_ingest.py` passes with zero failures
-- [ ] `ruff check` and `ruff format` pass on all Python files in `scripts/` and `tests/`
-- [ ] Python code generated via `python-writing` skill
-- [ ] PH-03 exit criterion met: RAW schema tables populated with row counts validated against source files within 1% tolerance
+- [x] `scripts/load.py` and `scripts/ingest.py` exist, are type-annotated, and pass `mypy --strict`
+- [x] Snowflake internal stage `@TORONTO_MOBILITY.RAW.INGESTION_STAGE` exists with correct file format and LOADER_ROLE permissions
+- [x] All five RAW schema tables are populated with 2019-present data
+- [x] Row counts for each table match source file counts within 1% tolerance
+- [x] MERGE-based loading is idempotent: re-running produces identical row counts
+- [x] Per-dataset atomic transactions prevent partial loads on failure
+- [x] `pytest tests/test_load.py tests/test_ingest.py` passes with zero failures
+- [x] `ruff check` and `ruff format` pass on all Python files in `scripts/` and `tests/`
+- [x] Python code generated via `python-writing` skill
+- [x] PH-03 exit criterion met: RAW schema tables populated with row counts validated against source files within 1% tolerance
