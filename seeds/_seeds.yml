@@ -1,0 +1,183 @@
+version: 2
+
+seeds:
+  - name: ttc_station_mapping
+    description: >
+      Maps raw TTC station name variants from delay CSVs to canonical
+      station names and surrogate keys. Covers 1,101 unique raw name
+      forms across all four subway lines (YU, BD, SHP, SRT), including
+      yards, intersections, and infrastructure references.
+    columns:
+      - name: raw_station_name
+        description: >
+          Verbatim station name as recorded in TTC delay CSV files.
+          Includes truncated forms, directional suffixes, and typos
+          found across 2020-2025 data releases.
+        tests:
+          - unique
+          - not_null
+      - name: canonical_station_name
+        description: >
+          Standardized station name aligned to the official TTC subway
+          station registry. Unmappable entries resolve to 'Unknown'.
+        tests:
+          - not_null
+      - name: station_key
+        description: >
+          Surrogate key in ST_NNN format (ST_001 through ST_075 for
+          canonical stations, ST_000 for Unknown). Used as the join
+          key in dim_station and downstream fact tables.
+        tests:
+          - not_null
+      - name: line_code
+        description: >
+          TTC subway line identifier: YU (Yonge-University),
+          BD (Bloor-Danforth), SHP (Sheppard), SRT (Scarborough RT).
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['YU', 'BD', 'SHP', 'SRT']
+
+  - name: ttc_delay_codes
+    description: >
+      Reference mapping of TTC delay incident codes to human-readable
+      descriptions and operational categories. Covers 334 codes across
+      subway, bus, streetcar, and SRT modes for the 2020-2025 period.
+    columns:
+      - name: delay_code
+        description: >
+          Alphanumeric incident code from TTC delay records. Short
+          prefix codes (e.g., MUPAA, SUDP) for subway/SRT and
+          full-text descriptions for bus/streetcar pre-2025 data.
+        tests:
+          - unique
+          - not_null
+      - name: delay_description
+        description: >
+          Human-readable description of the delay incident type,
+          limited to 1-10 words for consistency across modes.
+        tests:
+          - not_null
+      - name: delay_category
+        description: >
+          Operational category grouping: Mechanical, Signal, Passenger,
+          Infrastructure, Operations, Weather, Security, or General.
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Mechanical', 'Signal', 'Passenger', 'Infrastructure', 'Operations', 'Weather', 'Security', 'General']
+
+  - name: bike_station_ref
+    description: >
+      Bike Share Toronto station reference data sourced from a GBFS
+      station_information endpoint snapshot. Provides station identity,
+      geographic coordinates, and neighborhood classification for trip
+      record enrichment in the intermediate layer.
+    columns:
+      - name: station_id
+        description: >
+          Numeric station identifier matching START_STATION_ID and
+          END_STATION_ID columns in the BIKE_SHARE_TRIPS raw table.
+        tests:
+          - unique
+          - not_null
+      - name: station_name
+        description: >
+          Station name from the GBFS feed, typically formatted as a
+          street intersection (e.g., 'King St W / York St').
+        tests:
+          - not_null
+      - name: latitude
+        description: >
+          WGS84 latitude of the station dock location, constrained
+          to the Toronto bounding box (43.58 to 43.86).
+        tests:
+          - not_null
+      - name: longitude
+        description: >
+          WGS84 longitude of the station dock location, constrained
+          to the Toronto bounding box (-79.64 to -79.10).
+        tests:
+          - not_null
+      - name: neighborhood
+        description: >
+          Toronto neighborhood derived from the GBFS station group
+          taxonomy. Used for geographic aggregation in bike trip
+          analysis and the dim_station dimension table.
+        tests:
+          - not_null
+
+  - name: date_spine
+    description: >
+      Pre-computed date dimension covering 2019-01-01 through 2026-12-31
+      (2,922 rows). Includes calendar attributes and Ontario statutory
+      holiday flags. Referenced by dim_date mart model via dbt ref().
+    columns:
+      - name: date_key
+        description: >
+          Integer surrogate key in YYYYMMDD format (e.g., 20240101).
+          Primary key for the date dimension, used as the join target
+          in all fact tables.
+        tests:
+          - unique
+          - not_null
+      - name: full_date
+        description: >
+          ISO 8601 calendar date string (YYYY-MM-DD). Natural key
+          representation used for human-readable filtering and display.
+        tests:
+          - unique
+          - not_null
+      - name: day_of_week
+        description: >
+          Full English day name: Monday through Sunday. Derived from
+          ISO 8601 weekday computation.
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+      - name: day_of_week_num
+        description: >
+          ISO 8601 weekday number: 1 (Monday) through 7 (Sunday).
+          Enables numeric sorting and weekday/weekend partitioning.
+        tests:
+          - not_null
+      - name: month_num
+        description: >
+          Calendar month number: 1 (January) through 12 (December).
+        tests:
+          - not_null
+      - name: month_name
+        description: >
+          Full English month name: January through December.
+        tests:
+          - not_null
+      - name: quarter
+        description: >
+          Calendar quarter: 1 (Jan-Mar), 2 (Apr-Jun), 3 (Jul-Sep),
+          4 (Oct-Dec).
+        tests:
+          - not_null
+      - name: year
+        description: >
+          Four-digit calendar year (2019 through 2026).
+        tests:
+          - not_null
+      - name: is_weekend
+        description: >
+          Boolean flag as lowercase string ('true'/'false'). True for
+          Saturday and Sunday, false for weekdays.
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['true', 'false']
+      - name: is_holiday
+        description: >
+          Boolean flag as lowercase string ('true'/'false'). True for
+          Ontario statutory holidays: New Year's Day, Family Day, Good
+          Friday, Victoria Day, Canada Day, Civic Holiday, Labour Day,
+          Thanksgiving, Christmas Day.
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['true', 'false']

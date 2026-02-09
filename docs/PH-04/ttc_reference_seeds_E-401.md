@@ -5,7 +5,7 @@
 | Epic ID      | E-401         |
 | Phase        | PH-04         |
 | Owner        | @dinesh-git17 |
-| Status       | Draft         |
+| Status       | Complete      |
 | Dependencies | [E-303]       |
 | Created      | 2026-02-09    |
 
@@ -67,12 +67,12 @@ TTC delay data in the RAW schema contains raw station names with inconsistent sp
 
 ## Stories
 
-| ID   | Story                                                                | Points | Dependencies | Status |
-| ---- | -------------------------------------------------------------------- | ------ | ------------ | ------ |
-| S001 | Extract and catalog distinct TTC station names from validated data   | 3      | None         | Draft  |
-| S002 | Build ttc_station_mapping.csv with variant-to-canonical mappings     | 8      | S001         | Draft  |
-| S003 | Build ttc_delay_codes.csv with code-description-category definitions | 5      | None         | Draft  |
-| S004 | Validate TTC seed CSV structural integrity and data completeness     | 2      | S002, S003   | Draft  |
+| ID   | Story                                                                | Points | Dependencies | Status   |
+| ---- | -------------------------------------------------------------------- | ------ | ------------ | -------- |
+| S001 | Extract and catalog distinct TTC station names from validated data   | 3      | None         | Complete |
+| S002 | Build ttc_station_mapping.csv with variant-to-canonical mappings     | 8      | S001         | Complete |
+| S003 | Build ttc_delay_codes.csv with code-description-category definitions | 5      | None         | Complete |
+| S004 | Validate TTC seed CSV structural integrity and data completeness     | 2      | S002, S003   | Complete |
 
 ---
 

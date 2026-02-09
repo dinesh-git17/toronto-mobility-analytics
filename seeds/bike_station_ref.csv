@@ -1,0 +1,1010 @@
+station_id,station_name,latitude,longitude,neighborhood
+7000,Fort York  Blvd / Capreol Ct,43.639832,-79.395954,Fort York - Entertainment District
+7001,Wellesley Station Green P,43.664964,-79.383550,Church Wellesley / Yorkville
+7002,St. George St / Bloor St W,43.667131,-79.399555,U of T - Hospital Row
+7003,Madison Ave / Bloor St W,43.667018,-79.402796,Bloor St W / Annex
+7005,King St W / York St,43.648001,-79.383177,Financial District
+7006,Bay St / College St (East Side),43.660439,-79.385525,U of T - Hospital Row
+7007,College St / Huron St,43.658148,-79.398167,U of T - Hospital Row
+7008,Wellesley St W / Queen's Park Cres,43.663376,-79.392125,U of T - Hospital Row
+7009,King St E / Jarvis St,43.650181,-79.372523,Financial District
+7010,King St W / Spadina Ave,43.645142,-79.395104,Fort York - Entertainment District
+7013,Scott St / The Esplanade,43.646597,-79.375309,Financial District
+7014,Sherbourne St / Carlton St (Allan Gardens),43.663102,-79.373181,Church Wellesley / Yorkville
+7015,King St W / Bay St (West Side),43.648520,-79.380576,Valet Stations
+7016,Bay St / Queens Quay W (Ferry Terminal),43.640978,-79.376785,Waterfront
+7017,Widmer St / Adelaide St W - SMART,43.647548,-79.391552,Fort York - Entertainment District
+7018,Bremner Blvd / Rees St,43.641529,-79.386741,Waterfront
+7019,Temperance St Station,43.650945,-79.379498,Valet Stations
+7020,Phoebe St / Spadina Ave,43.650033,-79.396555,Fort York - Entertainment District
+7021,Bay St / Albert St,43.653264,-79.382458,Financial District
+7023,College St / Borden St,43.657100,-79.405600,College St - Harbord St
+7024,Dundonald St / Church St,43.666630,-79.381480,Church Wellesley / Yorkville
+7025,Ted Rogers Way / Bloor St E,43.671293,-79.380471,Church Wellesley / Yorkville
+7026,Bay St / St. Joseph St,43.665527,-79.387499,U of T - Hospital Row
+7027,Beverley St / Dundas St W,43.652823,-79.393388,Fort York - Entertainment District
+7028,Gould St / Mutual St,43.658200,-79.376800,Financial District
+7029,Bay St / Bloor St W (East Side),43.669430,-79.389150,Church Wellesley / Yorkville
+7030,Bay St / Wellesley St W,43.664088,-79.387095,U of T - Hospital Row
+7031,Jarvis St / Isabella St,43.668991,-79.379385,Church Wellesley / Yorkville
+7032,Augusta Ave / Dundas St W,43.652473,-79.401456,College St - Harbord St
+7033,Union Station,43.645609,-79.380386,Financial District
+7034,Church St / Bloor St E,43.671389,-79.382919,Church Wellesley / Yorkville
+7035,Queen St W / Ossington Ave,43.643975,-79.419576,Liberty Village - Queen West
+7036,Trinity St /Front St E,43.651318,-79.360230,Regent Park - Distillery
+7037,Bathurst St / Dundas St W,43.651892,-79.405779,College St - Harbord St
+7038,Dundas St W / Yonge St,43.656094,-79.381484,Financial District
+7039,Simcoe St / Michael Sweet Ave,43.652327,-79.388254,Financial District
+7040,Euclid Ave / Bloor St W,43.664467,-79.414783,Bloor St W / Annex
+7041,Edward St / Yonge St,43.656729,-79.382736,Financial District
+7042,Sherbourne St / Wellesley St E,43.667300,-79.374000,Church Wellesley / Yorkville
+7043,Queens Quay W / Lower Simcoe St,43.639510,-79.383717,Waterfront
+7044,Church St / Alexander St,43.663722,-79.380288,Church Wellesley / Yorkville
+7045,Bond St / Queen St E,43.653236,-79.376716,Financial District
+7046,Niagara St / Richmond St W,43.645340,-79.409597,Liberty Village - Queen West
+7047,University Ave / Gerrard St W (East Side),43.657763,-79.389165,Valet Stations
+7048,Front St W / Yonge St (Hockey Hall of Fame),43.646323,-79.377465,Financial District
+7049,Portland St / Queen St W,43.647600,-79.401500,Fort York - Entertainment District
+7050,Richmond St E / Jarvis St Green P,43.652634,-79.374222,South
+7052,Wellington St W / Bay St,43.647259,-79.379878,Financial District
+7053,Metro Hall Plaza,43.645859,-79.387830,Financial District
+7054,Navy Wharf Crt / Bremner Blvd,43.640722,-79.391051,Waterfront
+7055,Jarvis St / Carlton St,43.662070,-79.376170,Church Wellesley / Yorkville
+7057,Simcoe St / Wellington St W South,43.645857,-79.385365,Financial District
+7058,Huron St / Harbord St,43.663700,-79.400053,South
+7059,Front St W / Blue Jays Way,43.643473,-79.390477,Waterfront
+7061,Dalton Rd / Bloor St W,43.666294,-79.406643,Bloor St W / Annex
+7063,Queen's Park / Bloor St W,43.668456,-79.393899,Church Wellesley / Yorkville
+7064,51 Parliament St,43.652169,-79.362841,Regent Park - Distillery
+7065,Dundas St E / Parliament St,43.659575,-79.365769,Regent Park - Distillery
+7066,Willcocks St / St. George St,43.662085,-79.397735,U of T - Hospital Row
+7069,Queen St W / Spadina Ave,43.649147,-79.395504,Fort York - Entertainment District
+7070,25 York St – Union Station South,43.643667,-79.380414,Waterfront
+7071,161 Bleecker St (South of Wellesley),43.666233,-79.373327,Church Wellesley / Yorkville
+7073,Spadina Ave / Fort York Blvd,43.640114,-79.393249,Fort York - Entertainment District
+7074,King St E / Church St,43.650204,-79.373351,Financial District
+7075,Queens Quay W / Dan Leckie Way,43.636533,-79.395854,Waterfront
+7076,York St / Queens Quay W,43.640132,-79.380464,Waterfront
+7077,College Park South,43.659457,-79.382365,U of T - Hospital Row
+7078,College St / Major St,43.657600,-79.403200,College St - Harbord St
+7079,McGill St / Church St,43.660694,-79.379052,Church Wellesley / Yorkville
+7083,Danforth Ave / Barrington Ave,43.688325,-79.300463,Danforth
+7084,High Park - Grenadier Cafe,43.645599,-79.465712,Bloor St W - High Park
+7085,Danforth Ave / Westlake Ave,43.687323,-79.304848,Danforth
+7086,High Park - West Rd,43.651922,-79.465693,Bloor St W - High Park
+7087,Danforth Ave / Aldridge Ave,43.684758,-79.316767,Danforth
+7088,Danforth Ave / Coxwell Ave,43.683378,-79.322961,Danforth
+7089,Church St  / Wood St,43.662712,-79.379903,Church Wellesley / Yorkville
+7090,Danforth Ave / Lamb Ave,43.681991,-79.329455,Danforth
+7091,Donlands Subway Station,43.681114,-79.337389,Danforth
+7093,Danforth Ave / Gough Ave,43.678401,-79.346289,Danforth
+7094,14 Arundel Ave,43.678483,-79.351356,Danforth
+7095,Danforth Ave / Ellerbeck St,43.677076,-79.356670,Danforth
+7096,Lower Don River Trail and Taylor Creek Trail,43.702727,-79.333681,Thorncliffe Park - Sunnybrook
+7097,Riverdale Park North (Broadview Ave),43.671172,-79.354704,Leslieville - Woodbine
+7098,Riverdale Park South (Broadview Ave),43.667819,-79.353470,Leslieville - Woodbine
+7099,Mill St / Cherry St,43.651414,-79.356805,East
+7100,Dundas St E / Regent Park Blvd,43.660207,-79.361275,Regent Park - Distillery
+7101,Lower Sherbourne St / The Esplanade,43.648655,-79.367061,Regent Park - Distillery
+7102,Nelson St / Duncan St,43.648711,-79.389728,Fort York - Entertainment District
+7103,Jimmie Simpson Park (Queen St E),43.660560,-79.343766,Leslieville - Woodbine
+7104,King St E / River St,43.656785,-79.356274,Regent Park - Distillery
+7105,Queen St E / Sackville St,43.656111,-79.361389,Regent Park - Distillery
+7106,Mill St / Tannery Rd,43.652152,-79.354582,Regent Park - Distillery
+7107,Cherry St / Distillery Ln,43.650279,-79.356832,Regent Park - Distillery
+7109,Seaton St / Dundas St E - SMART,43.658777,-79.369596,Regent Park - Distillery
+7110,Queen St E / Berkeley St,43.655278,-79.365833,Regent Park - Distillery
+7111,King St W / Douro St,43.640885,-79.416379,Liberty Village - Queen West
+7112,Liberty St / Fraser Ave Green P,43.637981,-79.424146,Liberty Village - Queen West
+7113,Parliament St / Aberdeen Ave,43.665278,-79.368333,Church Wellesley / Yorkville
+7114,Carlton St / Parliament St,43.664524,-79.367930,Church Wellesley / Yorkville
+7115,Howard St / Sherbourne St,43.671258,-79.376367,Church Wellesley / Yorkville
+7116,Bloor St E / Parliament St,43.671946,-79.372451,Church Wellesley / Yorkville
+7117,Castle Frank Subway Station,43.674180,-79.367958,Church Wellesley / Yorkville
+7118,King St W / Bay St (East Side),43.648575,-79.380042,Financial District
+7119,Sumach St / Carlton St (Riverdale Farm),43.665867,-79.362506,Church Wellesley / Yorkville
+7120,Gerrard St E / River St,43.663993,-79.358534,Regent Park - Distillery
+7121,Jarvis St / Dundas St E,43.657266,-79.374756,Regent Park - Distillery
+7122,Niagara St / Tecumseth St,43.641389,-79.404444,Fort York - Entertainment District
+7123,420 Wellington St W,43.643834,-79.396649,Fort York - Entertainment District
+7124,Dundas St E / Broadview Ave,43.662365,-79.351104,Leslieville - Woodbine
+7126,Yonge St / Yorkville Ave,43.671944,-79.387778,Church Wellesley / Yorkville
+7127,Bay St / Scollard St,43.672152,-79.390180,Church Wellesley / Yorkville
+7128,Yonge St / Aylmer Ave,43.675492,-79.388858,Davenport - Dupont
+7129,Davenport Rd / Avenue Rd,43.674991,-79.396273,Davenport - Dupont
+7130,Davenport Rd / Bedford Rd,43.674446,-79.398331,Davenport - Dupont
+7131,Taddle Creek Park,43.669860,-79.398443,Bloor St W / Annex
+7132,Kendal Ave / Spadina Rd,43.670318,-79.405181,Bloor St W / Annex
+7133,Summerhill Subway Station,43.682012,-79.391307,Davenport - Dupont
+7135,Hanna Ave / Liberty St,43.638609,-79.419654,Liberty Village - Queen West
+7137,Davenport Rd / Bathurst St,43.676667,-79.416111,Davenport - Dupont
+7138,Davenport Rd / Christie St,43.675278,-79.423889,Annex Efit drop off
+7139,Glen Edyth Dr / Davenport Rd,43.677778,-79.405556,Davenport - Dupont
+7140,Macpherson Ave / Spadina Rd,43.675791,-79.406980,Davenport - Dupont
+7141,Bridgman Ave / Kendal Ave,43.675556,-79.410278,Davenport - Dupont
+7142,Bridgman Ave / Bathurst St,43.674444,-79.414722,Davenport - Dupont
+7143,Kendal Ave / Bernard Ave,43.671513,-79.408317,Annex Efit drop off
+7144,Palmerston Ave / Vermont Ave,43.671389,-79.416389,Davenport - Dupont
+7146,Christie St / Benson Ave (Wychwood Barns),43.680000,-79.425000,St Clair Ave W
+7147,King St W / Fraser Ave,43.639444,-79.425278,Liberty Village - Queen West
+7148,King St W / Joe Shuster Way,43.639444,-79.423611,Liberty Village - Queen West
+7149,Yarmouth Rd / Christie St,43.670000,-79.420833,Davenport - Dupont
+7150,Dufferin St / Sylvan Av (Dufferin Grove Park),43.655556,-79.433611,Annex Efit drop off
+7151,Essex St / Christie St,43.668611,-79.420278,Davenport - Dupont
+7152,Ossington Ave / Bloor St W,43.661710,-79.425592,Bloor St W / Annex
+7153,Bloor St W / Christie St,43.663889,-79.418889,Annex Efit drop off
+7154,Bathurst Subway Station,43.666667,-79.411667,Bloor St W / Annex
+7155,Bathurst St / Lennox St,43.663808,-79.410491,Bloor St W / Annex
+7156,Salem Ave / Bloor St W,43.660833,-79.431667,Bloor St W / Annex
+7157,Dufferin St / Bloor St W,43.660833,-79.435833,Bloor St W / Annex
+7158,King St W / Stafford St,43.642222,-79.411111,Liberty Village - Queen West
+7160,King St W / Tecumseth St,43.643333,-79.405556,Fort York - Entertainment District
+7161,Beverley St / College St,43.657500,-79.395278,U of T - Hospital Row
+7162,Hayter St / La Plante Ave,43.659167,-79.385556,U of T - Hospital Row
+7164,Gould St / Yonge St (TMU),43.657424,-79.381019,Financial District
+7168,Queens Quay / Yonge St,43.641646,-79.375308,Waterfront
+7169,Front St W / Bay St (North Side),43.646162,-79.378912,Financial District
+7170,Spadina Ave / Willcocks St,43.661667,-79.401389,U of T - Hospital Row
+7171,Ontario Place Blvd / Lake Shore Blvd W,43.632244,-79.410810,Waterfront
+7172,Strachan Ave / Princes' Blvd,43.635000,-79.408889,Liberty Village - Queen West
+7173,Cariboo Ave / Railpath Trail,43.666667,-79.458333,Davenport - Dupont
+7174,Bloor St W / Dundas St W,43.656389,-79.451667,Bloor St W / Annex
+7175,HTO Park (Queens Quay W),43.637960,-79.387502,Waterfront
+7176,Bathurst St / Fort York Blvd,43.639179,-79.399595,Fort York - Entertainment District
+7178,Dundas St W / Edna Ave,43.657192,-79.452559,Bloor St W / Annex
+7180,Lansdowne Subway Station,43.659229,-79.443209,Bloor St W / Annex
+7181,Lansdowne Ave / Whytock Ave,43.653889,-79.441389,College St - Harbord St
+7182,Sterling Rd / Dundas St W,43.650833,-79.443056,College St - Harbord St
+7183,St Clarens Ave / College St,43.651238,-79.438680,College St - Harbord St
+7184,Ossington Ave / College St,43.654491,-79.422634,College St - Harbord St
+7188,Exhibition GO (Atlantic Ave),43.637695,-79.420232,Liberty Village - Queen West
+7189,Augusta Ave / Denison Sq,43.653766,-79.401676,College St - Harbord St
+7190,St. George St / Hoskin Ave,43.663740,-79.398064,U of T - Hospital Row
+7191,Central Tech  (Harbord St),43.661975,-79.407896,Annex Efit drop off
+7192,Harbord St / Clinton St,43.660414,-79.415646,Annex Efit drop off
+7193,Dufferin St / Queen St W,43.643097,-79.428756,Liberty Village - Queen West
+7194,Mortimer Ave / Coxwell Ave,43.690564,-79.326319,Danforth
+7195,Ulster St / Bathurst St,43.660000,-79.408889,College St - Harbord St
+7196,Roxton Rd / Harbord St,43.659050,-79.422988,College St - Harbord St
+7197,Queen St W / Dovercourt Rd,43.643860,-79.422757,Liberty Village - Queen West
+7198,Queen St W / Cowan Ave,43.640897,-79.432836,Liberty Village - Queen West
+7199,College St / Markham St,43.656389,-79.409167,College St - Harbord St
+7202,York St / Queen St W (City Hall),43.651606,-79.384047,Financial District
+7203,Bathurst St/Queens Quay(Billy Bishop Airport),43.635492,-79.398253,Waterfront
+7204,College St / Crawford St,43.655000,-79.418889,College St - Harbord St
+7205,Rusholme Park Cres / College St,43.652778,-79.429722,College St - Harbord St
+7206,Claremont St / Dundas St W,43.651281,-79.411717,College St - Harbord St
+7207,Dundas St W / Crawford St,43.649722,-79.416944,College St - Harbord St
+7208,80 Clinton St,43.656296,-79.414663,College St - Harbord St
+7209,Ossington Ave / Harrison St,43.651111,-79.421389,College St - Harbord St
+7210,Mary McCormick Rec Centre (Sheridan Ave),43.647500,-79.433056,College St - Harbord St
+7211,Fort York Blvd / Garrison Rd,43.637381,-79.406112,Fort York - Entertainment District
+7216,Wellington St W / Stafford St,43.640996,-79.409666,Liberty Village - Queen West
+7217,Soho St / Queen St W,43.649650,-79.393721,Fort York - Entertainment District
+7220,Lake Shore Blvd W / Ellis Ave,43.635932,-79.465083,Humber Bay Shores
+7221,High Park Subway Station,43.654360,-79.465530,Bloor St W - High Park
+7222,Sunnyside - Gus Ryder Pool,43.637894,-79.454823,Humber Bay Shores
+7223,Parkside Dr / Bloor St W - SMART,43.654501,-79.460053,Bloor St W - High Park
+7224,Bloor St W / High Park Ave (High Park),43.653527,-79.465057,Bloor St W - High Park
+7225,Lake Shore Blvd W / Windermere Ave,43.634896,-79.467763,Humber Bay Shores
+7226,Lake Shore Blvd W / The Boulevard Club,43.636731,-79.444966,Waterfront
+7227,Martin Goodman Trail (Marilyn Bell Park),43.631400,-79.430400,Waterfront
+7228,King St W / Wilson Park Blvd,43.637296,-79.442324,Liberty Village - Queen West
+7230,Garden Ave / Roncesvalles Ave,43.643769,-79.447915,College St - Harbord St
+7231,Wright Ave / Sorauren Ave - SMART,43.646677,-79.442741,College St - Harbord St
+7232,Queen St W  /  Fuller Ave - SMART,43.640255,-79.439223,Liberty Village - Queen West
+7233,King St W / Cowan Ave - SMART,43.637922,-79.431734,Liberty Village - Queen West
+7234,Roncesvalles Ave / Marmaduke St,43.650492,-79.450842,College St - Harbord St
+7235,Bay St / College St (West Side) - SMART,43.660087,-79.385655,U of T - Hospital Row
+7236,Thompson St / Broadview Ave - SMART,43.659471,-79.350325,Leslieville - Woodbine
+7237,Ward St / Wallace Ave,43.662857,-79.446180,Davenport - Dupont
+7238,Sorauren Ave / Geoffrey St - SMART,43.649172,-79.444509,College St - Harbord St
+7239,Bloor St W / Manning Ave - SMART,43.663912,-79.416124,Annex Efit drop off
+7240,Bloor St W / Shaw St - SMART,43.662403,-79.423098,Annex Efit drop off
+7241,519 Church St ,43.666833,-79.381204,P7241-7024
+7242,Lake Shore Blvd W / Ontario Dr,43.630254,-79.420317,Waterfront
+7243,Exhibition GO Station,43.635201,-79.418771,Liberty Village - Queen West
+7244,Dufferin Gate - SMART,43.633473,-79.425679,Waterfront
+7246,Yonge St / Bloor St,43.669969,-79.386532,Church Wellesley / Yorkville
+7247,Howard Park Ave / Dundas St W - SMART,43.652100,-79.448600,P7229-7247
+7248,Baldwin St / Spadina Ave - SMART,43.654905,-79.398448,College St - Harbord St
+7249,144 Harrison St,43.651145,-79.423742,West
+7250,Ursula Franklin St / St. George St - SMART,43.660296,-79.397107,P7250-7358
+7252,Robert St / Bloor St W - SMART,43.665846,-79.404998,Annex Efit drop off
+7253,John St  / Mercer St - SMART,43.646100,-79.389500,Financial District
+7256,Vanauley St / Queen St W - SMART,43.648437,-79.398380,Fort York - Entertainment District
+7257,Dundas St W / St. Patrick St,43.654517,-79.389532,U of T - Hospital Row
+7258,Queen St E / Rushbrooke Ave,43.662663,-79.332370,Leslieville - Woodbine
+7259,Lower Spadina Ave / Lake Shore Blvd W,43.638497,-79.391920,Waterfront
+7260,Spadina Ave / Adelaide St W,43.647202,-79.395339,Fort York - Entertainment District
+7261,Queens Quay E / Lower Sherbourne St,43.645215,-79.364898,Waterfront
+7262,Wychwood Ave / Benson Ave - SMART,43.680916,-79.422968,St Clair Ave W
+7264,Bloor St E / Huntley St - SMART,43.671535,-79.379173,Church Wellesley / Yorkville
+7265,Wallace Ave / Symington Ave - SMART,43.661324,-79.449534,Davenport - Dupont
+7266,Victoria Park Subway Station - SMART,43.695102,-79.289703,Danforth
+7267,Dundas St E / Pembroke St ,43.658295,-79.372346,Regent Park - Distillery
+7268,111 Bond St (North of Dundas St E)  - SMART,43.656927,-79.378497,Financial District
+7269,Toronto Eaton Centre (Yonge St) - SMART,43.655431,-79.380653,Financial District
+7270,Church St / Dundas St E - SMART,43.657024,-79.377257,Financial District
+7271,Yonge St / Alexander St - SMART,43.662862,-79.383572,Church Wellesley / Yorkville
+7272,Yonge St / Dundonald St ,43.665960,-79.384614,Church Wellesley / Yorkville
+7273,Bay St / Charles St W - SMART,43.668153,-79.388910,Church Wellesley / Yorkville
+7276,Bloor St W / Balmuto St,43.669811,-79.388011,Church Wellesley / Yorkville
+7277,Chorley Park - SMART,43.685600,-79.371800,Davenport - Dupont
+7278,Mallon Ave / Jones Ave -SMART,43.665870,-79.334430,Leslieville - Woodbine
+7279,Rosehill Ave / Avoca Ave - SMART,43.687999,-79.389060,Mid Town
+7281,Charles St W / Balmuto St - SMART,43.668427,-79.387250,Church Wellesley / Yorkville
+7282,Adelaide St W / Bay St,43.650152,-79.379856,Valet Stations
+7283,Front St W / Bay St (South Side),43.645950,-79.378761,Valet Stations
+7284,University Ave / King St W - SMART,43.647779,-79.384793,Financial District
+7285,Spadina Ave / Harbord St - SMART,43.662923,-79.401845,U of T - Hospital Row
+7286,Gerrard St E / Broadview Ave  - SMART,43.665656,-79.352055,Leslieville - Woodbine
+7287,Queen St E / Pape Ave - SMART,43.661673,-79.337789,Leslieville - Woodbine
+7288,Humber Bay Shores Park West,43.622443,-79.480284,Humber Bay Shores
+7289,Humber Bay Shores Park East,43.630893,-79.472262,Humber Bay Shores
+7291,190 Queens Quay E,43.645427,-79.365208,Waterfront
+7292,Granby St / Church St - SMART,43.661460,-79.378946,Church Wellesley / Yorkville
+7296,Westmoreland Ave / Fernbank Ave,43.665327,-79.432350,Annex Efit drop off
+7297,Havelock St / Dufferin Park,43.657343,-79.431120,College St - Harbord St
+7298,Bathurst St / Adelaide St W,43.645324,-79.403450,Fort York - Entertainment District
+7299,Mill St / Parliament St,43.650256,-79.361630,Regent Park - Distillery
+7301,Primrose Ave / Davenport Rd,43.671420,-79.445947,Davenport - Dupont
+7302,Winona Dr / Davenport Rd,43.674923,-79.430465,Davenport - Dupont
+7303,Queen St E / Woodward Ave,43.665269,-79.319796,Leslieville - Woodbine
+7309,Queen St E / Rhodes Ave,43.666224,-79.317693,Leslieville - Woodbine
+7311,Sherbourne St / Isabella St,43.669576,-79.375961,Church Wellesley / Yorkville
+7312,Amelia St / Sumach St,43.668520,-79.363525,Church Wellesley / Yorkville
+7313,Emdaabiimok Ave / Lake Shore Blvd E,43.662771,-79.315223,Leslieville - Woodbine
+7314,Queen St. E / Eastern Ave,43.667208,-79.312315,Leslieville - Woodbine
+7315,Queen St E / Hammersmith Ave,43.671349,-79.294510,Leslieville - Woodbine
+7316,Queen St. E / Spruce Hill Rd.,43.672571,-79.289000,Leslieville - Woodbine
+7317,Hubbard Blvd / Balsam Av,43.669328,-79.288949,Leslieville - Woodbine
+7318,Hubbard Blvd / Glen Manor Dr,43.668633,-79.291162,Leslieville - Woodbine
+7319,Lake Shore Blvd E / Knox Ave,43.660206,-79.324400,Leslieville - Woodbine
+7320,Front St W / University Ave (1),43.645164,-79.383176,Financial District
+7321,Front St W / University Ave (2),43.645297,-79.382791,Financial District
+7322,East Liberty St / Western Battery Rd,43.639278,-79.411574,Liberty Village - Queen West
+7323,457 King St W,43.645209,-79.396074,Fort York - Entertainment District
+7324,King St W / Charlotte St,43.645572,-79.393990,Fort York - Entertainment District
+7326,Davenport Rd / Lansdowne Ave,43.671526,-79.448740,Davenport - Dupont
+7329,Crawford St / Queen St W,43.645665,-79.415345,Liberty Village - Queen West
+7331,Coxwell Ave / Plains Rd,43.695950,-79.328535,Danforth
+7332,200 Bloor St E,43.671561,-79.381170,Church Wellesley / Yorkville
+7333,King St E / Victoria St,43.649579,-79.376210,Financial District
+7334,Simcoe St / Wellington St W (North),43.646460,-79.385577,Financial District
+7335,Bay St / Bloor St W (West Side),43.669244,-79.389400,Church Wellesley / Yorkville
+7336,Queen St E / Alton Av,43.663912,-79.327987,Leslieville - Woodbine
+7337,Gerrard Square Mall (1010 Gerrard St E),43.668553,-79.338673,Leslieville - Woodbine
+7338,Logan Ave / Bain Ave,43.672027,-79.347056,Leslieville - Woodbine
+7339,Carlaw Ave / Strathcona Ave,43.675319,-79.346279,Danforth
+7340,Blake St / Boultbee Ave,43.672453,-79.338259,Leslieville - Woodbine
+7341,Eastern Ave / Winnifred Ave,43.659209,-79.334840,Leslieville - Woodbine
+7342,Morse St / Eastern Ave,43.657991,-79.340075,Leslieville - Woodbine
+7343,Alton Ave / Dundas St E (Greenwood Park),43.667450,-79.329408,Leslieville - Woodbine
+7344,Cherry Beach,43.637764,-79.345359,Waterfront
+7345,Cherry Beach Sports Fields (55 Unwin Ave),43.640835,-79.342907,Waterfront
+7346,Logan Ave / Gerrard St E,43.667214,-79.345270,Leslieville - Woodbine
+7347,Regal Rd / Dufferin St,43.673939,-79.441159,Davenport - Dupont
+7348,Pape Ave / Gamble Ave,43.690237,-79.350119,Danforth
+7349,Gamble Ave / Broadview Ave,43.689211,-79.354380,Danforth
+7350,Broadview Ave / Westwood Ave,43.684865,-79.356602,Danforth
+7351,Pretoria Ave / Broadview Ave,43.678321,-79.358220,Danforth
+7352,Cosburn Ave / Donlands Ave,43.690537,-79.341307,Danforth
+7353,Fulton Ave / Pape Ave,43.683950,-79.347046,Danforth
+7354,Tommy Thompson Park (Leslie Street Spit),43.652227,-79.322954,Leslieville - Woodbine
+7355,Beltline Trail / Chaplin Cres,43.704461,-79.423122,Eglinton Ave W
+7356,King St E / Berkeley St,43.651885,-79.364900,Regent Park - Distillery
+7357,Lake Shore Blvd E / Leslie St,43.659195,-79.329196,Leslieville - Woodbine
+7358,Galbraith Rd / King's College Rd,43.660387,-79.395378,U of T - Hospital Row
+7359,Rosedale Park (20 Scholfield Ave),43.682645,-79.377557,Davenport - Dupont
+7360,Concord Ave / Dewson St,43.656945,-79.424911,College St - Harbord St
+7361,Hocken Ave / Vaughan Rd,43.681735,-79.418472,St Clair Ave W
+7362,St. Clair Ave W / Bathurst St,43.683296,-79.418734,St Clair Ave W
+7363,Wells Hill Ave / St. Clair Ave W,43.683351,-79.415620,St Clair Ave W
+7364,Queen St E / Nursewood Rd,43.673831,-79.281455,Leslieville - Woodbine
+7365,Kewbeach Ave / Kenilworth Ave,43.666325,-79.301400,Leslieville - Woodbine
+7366,Fort York Blvd / Bathurst St - SMART,43.639052,-79.399792,Fort York - Entertainment District
+7367,Alma Ave / Gladstone Ave SMART,43.644862,-79.428220,Liberty Village - Queen West
+7368,Lisgar St / Dundas St W - SMART,43.649347,-79.426680,College St - Harbord St
+7371,Eglinton Ave W / Henning Ave SMART,43.706347,-79.401610,Mid Town
+7373,George St / King St E,43.650955,-79.370700,Regent Park - Distillery
+7374,Frederick St / The Esplanade,43.648725,-79.368390,Regent Park - Distillery
+7375,Front St E / Scott St,43.647662,-79.375490,Financial District
+7376,Frobisher Ave / Lascelles Blvd,43.696708,-79.400450,Mid Town
+7377,Balliol St / Yonge St - SMART,43.697870,-79.394190,Mid Town
+7378,Yonge St / Davisville Ave,43.697597,-79.396540,Mid Town
+7379,Lawton Blvd / Yonge St,43.691067,-79.395350,Mid Town
+7380,Erskine Ave / Yonge St SMART,43.711215,-79.398940,Mid Town
+7381,Yonge St / Orchard View Blvd,43.708358,-79.398862,Mid Town
+7382,Simcoe St / Adelaide St W,43.648130,-79.386320,Downtown
+7383,12 Harbour St,43.642564,-79.376200,Waterfront
+7384,Cumberland St / Bay St -  SMART,43.670454,-79.390140,Church Wellesley / Yorkville
+7385,20 Charles St E,43.669110,-79.385510,Church Wellesley / Yorkville
+7386,D'Arcy St / McCaul St - SMART,43.655227,-79.392010,U of T - Hospital Row
+7387,Mortimer Ave / Carlaw Ave SMART,43.685167,-79.349620,Danforth
+7388,Broadview Subway Station,43.677200,-79.358580,Danforth
+7389,College Park - Gerrard Entrance,43.658938,-79.383518,U of T - Hospital Row
+7391,Yonge St / Dundas Sq,43.655766,-79.380200,Financial District
+7395,Dentonia Park,43.694341,-79.291416,Danforth
+7398,York St / Lake Shore Blvd W,43.641952,-79.380723,Waterfront
+7399,Lower Jarvis St / Queens Quay E,43.644220,-79.369270,Waterfront
+7400,Polson Pier,43.641675,-79.354006,Waterfront
+7403,Lascelles Blvd / Eglinton Ave W,43.705470,-79.403550,Mid Town
+7404,Roehampton Ave / Mount Pleasant Rd,43.709420,-79.391390,Mid Town
+7407,University Ave / Queen St W,43.650524,-79.386727,Financial District
+7409,Isabella St / Church St,43.668340,-79.382350,Church Wellesley / Yorkville
+7410,Howard St / Rose Ave,43.671278,-79.372127,Church Wellesley / Yorkville
+7411,Little Norway Park,43.635023,-79.399505,Waterfront
+7412,King St W / Crawford St,43.641785,-79.413115,Liberty Village - Queen West
+7414,Keele St / Annette St,43.664020,-79.464180,Bloor St W - High Park
+7415,Keele St / Vine Ave,43.666860,-79.465260,Bloor St W - High Park
+7416,Spadina Ave / Blue Jays Way,43.641705,-79.393295,Fort York - Entertainment District
+7417,King St W / Jordan St,43.648928,-79.378623,Financial District
+7418,College Park - Yonge St Entrance,43.659880,-79.382790,U of T - Hospital Row
+7419,Bloor St W / Huron St,43.667023,-79.401805,Bloor St W / Annex
+7420,Barton Ave / Howland Ave - SMART,43.668420,-79.410585,Bloor St W / Annex
+7422,Tyndall Ave / King St W - SMART,43.638426,-79.429142,Liberty Village - Queen West
+7425,The Queensway at South Kingsway,43.636320,-79.473070,Humber Bay Shores
+7427,Northern Dancer Blvd / Lake Shore Blvd E,43.663162,-79.309765,Leslieville - Woodbine
+7428,Woodbine Ave / Lake Shore Blvd E,43.665645,-79.304711,Leslieville - Woodbine
+7429,Woodbine Subway Station,43.686442,-79.313404,Danforth
+7430,Marilyn Bell Park Tennis Court,43.633537,-79.437461,Waterfront
+7431,Gerrard St E / Leslie St,43.669813,-79.333500,Leslieville - Woodbine
+7432,Frederick St / King St E,43.651118,-79.369411,Regent Park - Distillery
+7433,Dundas St E / Boulton Ave - SMART,43.663148,-79.347938,Leslieville - Woodbine
+7434,91 Via Italia,43.676650,-79.445030,St Clair Ave W
+7435,Rushton Rd / St. Clair Ave W,43.681140,-79.427700,St Clair Ave W
+7437,Concord Ave / Bloor St W,43.661890,-79.426790,Annex Efit drop off
+7438,Gothic Ave / Quebec Ave,43.653890,-79.467500,Bloor St W - High Park
+7441,Pacific Ave / Glenlake Ave,43.657160,-79.464780,Bloor St W - High Park
+7442,Lonsdale Rd / Spadina Rd,43.688526,-79.412903,St Clair Ave W
+7443,Dundas St E / George St,43.657477,-79.373446,Regent Park - Distillery
+7444,Clendenan Ave / Rowland St - SMART,43.660730,-79.471490,Bloor St W - High Park
+7445,Eastwood Rd / Coxwell Ave,43.673118,-79.318651,Leslieville - Woodbine
+7446,Orchard Park,43.669080,-79.314900,Leslieville - Woodbine
+7447,Trent Ave / Danforth Ave,43.689293,-79.295895,Danforth
+7448,Goodwood Park Crt / Dentonia Park,43.694826,-79.295208,Danforth
+7449,Cosburn Ave / Cedarvale Ave,43.697139,-79.314690,Danforth
+7450,Carlaw Ave / Danforth Ave,43.678248,-79.347097,East
+7451,Western Battery Rd / Pirandello St,43.640075,-79.414156,Liberty Village - Queen West
+7452,Bleecker St / St James Ave,43.669232,-79.374495,Church Wellesley / Yorkville
+7453,Jarvis St / Maitland Pl,43.664769,-79.377260,Church Wellesley / Yorkville
+7454,Pottery Rd / Lower Don River Trail,43.688148,-79.362101,Davenport - Dupont
+7455,E.T. Seton Park (Eglinton Ave E / Leslie St),43.715951,-79.351246,Thorncliffe Park - Sunnybrook
+7457,Queen's Park Cres W / Hoskin Ave,43.665221,-79.394009,U of T - Hospital Row
+7458,Church St / Lombard St,43.651678,-79.375233,Financial District
+7459,St. Clair Ave W / Winona Dr,43.680466,-79.432522,St Clair Ave W
+7460,High Park Outdoor Pool,43.650154,-79.464934,Bloor St W - High Park
+7461,High Park Amphitheatre,43.646251,-79.464720,Bloor St W - High Park
+7462,Richmond St E / Yonge St,43.651838,-79.378743,Financial District
+7465,Russell Hill Rd / St. Clair Ave W,43.685569,-79.408019,St Clair Ave W
+7466,Glendonwynne Rd / Bloor St W,43.651820,-79.474210,Bloor St W - High Park
+7467,Lower Simcoe St / Bremner Blvd,43.642830,-79.384090,Waterfront
+7468,Front St W / Simcoe St,43.644480,-79.386988,Waterfront
+7469,York St / Wellington St W (1) ,43.646734,-79.383010,Financial District
+7471,2300 Lakeshore Blvd W,43.618680,-79.486740,Humber Bay Shores
+7473,Adelaide St W / Strachan Ave,43.643253,-79.412305,Liberty Village - Queen West
+7474,Clarence Square,43.644070,-79.392900,Fort York - Entertainment District
+7475,Jarvis St / Richmond St E,43.652777,-79.372637,Financial District
+7476,Symington Ave / Dupont St,43.665538,-79.451263,Davenport - Dupont
+7477,Antler St / Campbell Ave - SMART,43.664182,-79.449066,Davenport - Dupont
+7478,Ellis Ave / The Queensway,43.638550,-79.466930,Humber Bay Shores
+7479,Jane St / Bloor St W (Jane Subway Station),43.649760,-79.484770,Bloor St W - High Park
+7480,Neil McLellan Park,43.651430,-79.477790,Bloor St W - High Park
+7483,Southwood Dr / Kingston Rd - SMART,43.678685,-79.297974,Leslieville - Woodbine
+7484,Briar Hill Ave / Yonge St - SMART,43.713524,-79.400162,Mid Town
+7485,Blythwood Rd / Yonge St - SMART,43.716652,-79.399993,Mid Town
+7486,Gerrard St E / Main St,43.684261,-79.299332,Leslieville - Woodbine
+7487,Eastwood Rd / Woodbine Ave - SMART,43.676216,-79.309395,Leslieville - Woodbine
+7488,Summerhill Ave / Maclennan Ave,43.685924,-79.376304,Davenport - Dupont
+7489,Sumach St  / Queen St E,43.656638,-79.358749,Regent Park - Distillery
+7492,Cherry St / Lake Shore Blvd E,43.648270,-79.356517,Waterfront
+7493,Sackville St / Eastern Ave - SMART,43.653809,-79.359500,Regent Park - Distillery
+7494,Davenport Rd / McAlpine St - SMART,43.673768,-79.391253,Davenport - Dupont
+7496,Sunnyside Ave / The Queensway - SMART,43.639700,-79.448650,Liberty Village - Queen West
+7497,128 Sterling Rd - SMART,43.654004,-79.444792,College St - Harbord St
+7501,Humberside Grounds - SMART,43.659170,-79.469970,Bloor St W - High Park
+7502,University Ave / College St (East),43.659950,-79.389640,U of T - Hospital Row
+7503,Gerrard St E / Malvern Ave - SMART,43.685221,-79.294766,Leslieville - Woodbine
+7504,Gerrard St E / Victoria Park Ave - SMART,43.686962,-79.286864,Leslieville - Woodbine
+7505,Ontario St / Adelaide St E -SMART,43.653505,-79.366769,Regent Park - Distillery
+7506,Berkeley St / Adelaide St E - SMART,43.653269,-79.364820,Regent Park - Distillery
+7508,Berkeley St / Dundas St E - SMART,43.658816,-79.367318,Regent Park - Distillery
+7514,Humber Bay Shores Park / Marine Parade Dr,43.626265,-79.476723,Humber Bay Shores
+7515,Amos Waites Park,43.613606,-79.488354,Humber Bay Shores
+7516,Superior Ave / Lake Shore Blvd W,43.614669,-79.487315,Humber Bay Shores
+7517,Ripley Ave / Ormskirk Ave,43.639044,-79.476011,Bloor St W - High Park
+7518,Lake Shore Blvd W / Colborne Lodge Dr,43.637710,-79.458173,Humber Bay Shores
+7519,406 Oakwood Ave,43.688271,-79.439378,Eglinton Ave W
+7520,St Clarens Ave / Shirley St,43.648660,-79.437641,College St - Harbord St
+7521,Emerson Ave / Bloor St W,43.658739,-79.440691,Bloor St W / Annex
+7522,Wallace Ave / Pauline Ave,43.663226,-79.439705,Davenport - Dupont
+7523,Lynn Williams St / East Liberty St,43.638925,-79.416866,Liberty Village - Queen West
+7524,Lisgar Park,43.642385,-79.424028,Liberty Village - Queen West
+7526,Bartlett Parkette,43.670224,-79.436023,Annex Efit drop off
+7527,Joseph J Piccininni Community Centre,43.675648,-79.452762,St Clair Ave W
+7528,Spadina Rd / Austin Terrace,43.678830,-79.408723,Annex Efit drop off
+7529,Symington Ave / Davenport Rd,43.670440,-79.453285,Davenport - Dupont
+7530,Sherbourne St N / Elm Ave,43.675273,-79.377846,Davenport - Dupont
+7531,541 Huron St - SMART,43.670206,-79.402643,Annex Efit drop off
+7533,Housey St / Dan Leckie Way,43.638110,-79.397877,Fort York - Entertainment District
+7534,Walnut Ave / Queen St W,43.645469,-79.411084,Liberty Village - Queen West
+7536,Palmerston Ave / Dundas St W,43.651603,-79.408346,College St - Harbord St
+7537,Euclid Ave / Herrick St - SMART,43.661559,-79.413845,College St - Harbord St
+7538,Vaughan Rd /Wychwood Ave,43.688282,-79.425386,Eglinton Ave W
+7539,Davisville Ave / Pailton Cres,43.699330,-79.391990,Mid Town
+7540,Alvin Ave / St. Clair Ave E,43.688710,-79.392640,Mid Town
+7541,Bellwoods Ave / Treford Pl - SMART,43.652460,-79.413528,College St - Harbord St
+7542,Queen St W / John St,43.650077,-79.391291,Fort York - Entertainment District
+7543,Nassau St / Bellevue Ave,43.654842,-79.403512,College St - Harbord St
+7545,Baldwin St / Henry St,43.656076,-79.393259,U of T - Hospital Row
+7546,Ross St / Cecil St - SMART,43.656825,-79.396616,U of T - Hospital Row
+7547,Orde St / McCaul St,43.658044,-79.392740,U of T - Hospital Row
+7549,439 Sherbourne St,43.666051,-79.374161,Church Wellesley / Yorkville
+7551,The Esplanade / Hahn Pl,43.649709,-79.364184,Downtown
+7552,Lake Shore Blvd W / Thirty Ninth Street,43.592742,-79.540330,Humber Bay Shores
+7553,Lake Shore Blvd W / Twenty Fourth St,43.597082,-79.522768,Humber Bay Shores
+7554,Humber College (Lakeshore Campus),43.596169,-79.516058,Humber Bay Shores
+7555,Royal York Rd / Mimico Ave,43.612063,-79.496573,Humber Bay Shores
+7556,Windsor St / Newcastle St,43.617163,-79.497107,Humber Bay Shores
+7557,The Queensway / High St,43.630874,-79.482407,Humber Bay Shores
+7558,Berry Rd / Bell Manor Dr,43.637320,-79.489083,Bloor St W - High Park
+7559,Swansea Community Centre,43.643804,-79.477033,Bloor St W - High Park
+7561,Annette St / Jane St,43.658574,-79.487246,Bloor St W - High Park
+7562,Priscilla Ave / Dundas St W,43.664665,-79.489385,Bloor St W - High Park
+7563,St. Clair Ave W / Castleton Ave,43.668496,-79.485426,St Clair Ave W
+7564,Durie St / Dundas St W,43.665523,-79.484892,Bloor St W - High Park
+7565,St. Clair Ave W / Gunns Rd,43.672079,-79.470171,St Clair Ave W
+7566,Weston Rd / St. Clair Ave W,43.673019,-79.467994,St Clair Ave W
+7567,Weston Lions Park,43.698841,-79.519472,Eglinton Ave W
+7568,Jameson Ave / Queen St W,43.639850,-79.437030,Liberty Village - Queen West
+7569,Toronto Inukshuk Park,43.632982,-79.409508,Waterfront
+7570,Carlaw Ave / Dundas St E,43.665076,-79.341509,Leslieville - Woodbine
+7571,Highfield Rd / Gerrard St E,43.671771,-79.324961,Leslieville - Woodbine
+7572,Cosburn Ave / Durant Ave,43.693548,-79.330166,Danforth
+7575,Bayview Ave / Lawren Harris Square,43.654852,-79.353977,Regent Park - Distillery
+7576,Front St E / Bayview Avenue,43.653500,-79.354068,Regent Park - Distillery
+7577,Oak St / Sumach St,43.661791,-79.361515,Regent Park - Distillery
+7579,Glebe Rd W / Yonge St,43.700598,-79.397345,Mid Town
+7580,Hillsdale Ave W / Yonge St,43.702967,-79.397907,Mid Town
+7581,High Park Ave / Dundas St W,43.665303,-79.470118,Bloor St W - High Park
+7582,Alameda Ave / Vaughan Rd - SMART,43.690903,-79.437503,Eglinton Ave W
+7583,Eglinton Ave W / Scarlett Rd,43.683470,-79.510894,Eglinton Ave W
+7584,The Pond Rd / Sentinel Rd,43.769626,-79.502594,North York - York U
+7587,Dufferin St / Finch Corridor Trail,43.772994,-79.467630,North York - York U
+7588,G Ross Lord Park,43.778112,-79.467963,North York - York U
+7589,Torresdale Ave / Antibes Dr,43.779530,-79.452330,North York - York U
+7590,Esther Shiner Stadium,43.777437,-79.444710,North York - York U
+7591,Elwood Blvd / Avenue Rd,43.707049,-79.409660,Mid Town
+7593,Roehampton Ave / Bayview Ave,43.711751,-79.378615,Thorncliffe Park - Sunnybrook
+7594,Fleming Cres / Bayview Ave,43.707045,-79.375437,Thorncliffe Park - Sunnybrook
+7595,Moore Park,43.693256,-79.383238,Mid Town
+7596,Langford Ave / Danforth Ave - SMART,43.680022,-79.340568,Danforth
+7597,Yonge St / Golfdale Rd,43.732016,-79.403637,Thorncliffe Park - Sunnybrook
+7598,Teddington Park Ave,43.732975,-79.404010,Thorncliffe Park - Sunnybrook
+7599,Richmond St W / York St,43.650745,-79.383633,Financial District
+7600,Ursula Franklin St / Huron St - SMART,43.660274,-79.398049,U of T - Hospital Row
+7601,Brick Works,43.683884,-79.366470,Davenport - Dupont
+7602,Woodbine Ave / O'Connor Dr,43.699281,-79.318802,Danforth
+7603,O'Connor Dr / Curity Ave,43.707582,-79.311439,Scarborough - St. Clair
+7604,St. Columba Pl / St. Clair Ave E,43.705670,-79.310554,Scarborough - St. Clair
+7605,Lumsden Ave / Eastdale Ave,43.694135,-79.300587,Danforth
+7606,Dawes Rd / Taylor Creek Trl,43.696631,-79.297436,Danforth
+7607,Fairmount Park,43.676590,-79.316302,Leslieville - Woodbine
+7608,Wilket Creek Park,43.720645,-79.355474,Thorncliffe Park - Sunnybrook
+7609,Sunnybrook Park,43.720233,-79.362092,Thorncliffe Park - Sunnybrook
+7610,Kingston Rd / Beech Ave,43.680095,-79.291714,Leslieville - Woodbine
+7611,Victoria Park Ave / Danforth Ave,43.691468,-79.288619,Danforth
+7612,Livingston Rd / Guildwood Pkwy,43.747854,-79.199327,Scarborough - Rouge Hill
+7613,Livingston Rd (Highland Creek Trail),43.756168,-79.202669,Scarborough - Rouge Hill
+7614,Morningside Park (Highland Creek Trail),43.779353,-79.193023,Scarborough - Rouge Hill
+7615,Colonel Danforth Park,43.777711,-79.165971,Scarborough - Rouge Hill
+7616,Waterfront Trail (Rouge Hill),43.778015,-79.131911,Scarborough - Rouge Hill
+7617,Starspray Blvd / Lawrence Ave E,43.788525,-79.123184,Scarborough - Rouge Hill
+7618,Vaughan Rd / Oakwood Ave,43.692682,-79.441042,Eglinton Ave W
+7619,Braemar Ave / Eglinton Ave W,43.704196,-79.409447,Mid Town
+7620,Eglinton Ave E / Redpath Ave,43.707869,-79.392480,Mid Town
+7622,Marie Curtis Park,43.588077,-79.543207,Humber Bay Shores
+7623,Royal York Rd / Lake Shore Blvd W,43.603385,-79.493105,Humber Bay Shores
+7624,Guildwood GO Station (South),43.754978,-79.197129,Scarborough - Rouge Hill
+7625,Yonge St / Lawrence Ave E,43.725141,-79.401026,Thorncliffe Park - Sunnybrook
+7626,Rouge Hill GO Station,43.780550,-79.130120,Scarborough - Rouge Hill
+7627,Shaw St / Essex St - SMART,43.667076,-79.425116,Davenport - Dupont
+7629,Lundy Ave / Étienne Brûlé Park,43.662540,-79.503016,Bloor St W - High Park
+7630,Twelfth St / Thirteenth St,43.600290,-79.510869,Humber Bay Shores
+7631,Florence Gell Park,43.661966,-79.498511,Bloor St W - High Park
+7632,Chiltern Hill Rd / Eglinton Ave W,43.700402,-79.427531,Eglinton Ave W
+7633,Noble St / Queen St W,43.642269,-79.429210,Liberty Village - Queen West
+7635,Runnymede Rd / Annette St,43.659630,-79.479918,Bloor St W - High Park
+7636,Bloor St W / Riverside Dr,43.647663,-79.487583,Bloor St W - High Park
+7637,Judson St / Royal York Rd,43.616272,-79.499036,Humber Bay Shores
+7639,135 Queens Wharf Rd - SMART,43.639971,-79.399404,Fort York - Entertainment District
+7640,Spadina Rd / St. Clair Ave W,43.683979,-79.410657,St Clair Ave W
+7641,Annette St / Dundas St W,43.664117,-79.458852,Davenport - Dupont
+7642,Yonge St / St. Clair Ave,43.688505,-79.394161,Mid Town
+7643,Oriole Pkwy / Kilbarry Rd,43.695449,-79.402618,Mid Town
+7644,East Lynn Ave / Danforth Ave,43.685081,-79.314990,Danforth
+7645,University of Toronto Scarborough,43.784242,-79.184989,Scarborough - Rouge Hill
+7646,University Ave / Richmond St W,43.649819,-79.386413,Financial District
+7647,Elm St/ University Ave (East Side),43.656373,-79.387810,Valet Stations
+7650,St. Clair West Subway Station - Heath St. W,43.686352,-79.415894,St Clair Ave W
+7654,Bloor St W / Pacific Ave,43.654124,-79.463639,Bloor St W - High Park
+7655,Danforth Ave / Dewhurst Blvd,43.680207,-79.339243,Danforth
+7656,Bloor St W / Brock Ave,43.658988,-79.438715,Bloor St W / Annex
+7657,1 Market St,43.646993,-79.370666,Regent Park - Distillery
+7658,King's Mill Park,43.649204,-79.493363,Bloor St W - High Park
+7659,Amroth Ave / Danforth Ave,43.685613,-79.311683,Danforth
+7660,285 Victoria St,43.656633,-79.379625,Financial District
+7662,Beaty Ave / Queen St W,43.639311,-79.440814,Liberty Village - Queen West
+7663,Kilgour Rd / Rumsey Rd,43.718039,-79.371914,Thorncliffe Park - Sunnybrook
+7664,Sunnybrook Health Centre - L Wing,43.722680,-79.376440,Thorncliffe Park - Sunnybrook
+7665,Sunnybrook Health Centre - S Wing,43.720998,-79.377456,Thorncliffe Park - Sunnybrook
+7666,Dundas St W / St Helen's Ave - SMART,43.650422,-79.440765,College St - Harbord St
+7667,Spadina Ave / Sussex Ave ,43.664028,-79.402979,U of T - Hospital Row
+7668,Simcoe St / Dundas St W,43.655103,-79.389295,U of T - Hospital Row
+7671,Yonge St / Montgomery Ave - SMART,43.709609,-79.399151,Mid Town
+7675,1525 Dundas St W,43.649570,-79.432446,College St - Harbord St
+7676,York University (Glendon Campus) - SMART,43.727365,-79.381425,Thorncliffe Park - Sunnybrook
+7677,1303 Yonge St - SMART,43.684618,-79.392459,Davenport - Dupont
+7678,York University Station (South) - SMART,43.773450,-79.500200,North York - York U
+7679,York University Station (North),43.774100,-79.500500,North York - York U
+7680,Princes' Blvd / Nunavut Rd,43.633352,-79.414363,Waterfront
+7681,25 Booth Ave,43.654484,-79.341057,Leslieville - Woodbine
+7682,Bathurst St / Front St W,43.641348,-79.401388,Fort York - Entertainment District
+7684,Bay St / Harbour St ,43.642150,-79.377000,Waterfront
+7685,King St W / Brant St,43.645102,-79.397450,Fort York - Entertainment District
+7686,Lower Jarvis St / The Esplanade,43.647821,-79.370472,Regent Park - Distillery
+7687,Bloor St W / Gladstone Ave - SMART,43.660202,-79.434273,Bloor St W / Annex
+7688,High Park Blvd / Parkside Dr,43.644564,-79.457371,Bloor St W - High Park
+7691,Christie St / Dupont St,43.671680,-79.421192,Davenport - Dupont
+7692,85 Lee Ave,43.670069,-79.297133,Leslieville - Woodbine
+7693,Mutual St / Shuter St,43.654920,-79.374961,Financial District
+7694,Victoria Park Ave / Dawes Rd,43.706466,-79.295110,Scarborough - St. Clair
+7695,Queen St E / Joseph Duggan Rd,43.667763,-79.308117,Leslieville - Woodbine
+7696,Heyworth Cres / Kingston Rd,43.675081,-79.306870,Leslieville - Woodbine
+7698,St. Clair Ave W / Caledonia Rd,43.675666,-79.453931,St Clair Ave W
+7699,St Clair Ave W / Oakwood Ave,43.678177,-79.435364,St Clair Ave W
+7700,St. Clair Ave W / Robina Ave,43.680050,-79.434690,St Clair Ave W
+7701,Roncesvalles Ave / Fermanagh Ave,43.646314,-79.448794,College St - Harbord St
+7702,111 Broadview Ave,43.659348,-79.349937,Leslieville - Woodbine
+7703,Oak St / Sackville St,43.661364,-79.364117,Regent Park - Distillery
+7704,24 Mountjoy Ave,43.680494,-79.330446,Danforth
+7705,Colgate Ave / Carlaw Ave,43.662366,-79.341334,Leslieville - Woodbine
+7706,Felstead Ave/Gillard Ave (Monarch Park),43.679135,-79.326316,Danforth
+7707,Coronation Park (Martin Goodman Trail),43.635007,-79.403341,Waterfront
+7708,101 Cedarvale Ave,43.686868,-79.311094,Danforth
+7709,Beltline Trail / Yonge St,43.696230,-79.395043,Mid Town
+7710,11 Spadina Rd,43.667725,-79.404137,Bloor St W / Annex
+7711,Havelock St / Dewson St,43.655479,-79.430246,College St - Harbord St
+7712,Queen St W / Shaw St,43.644246,-79.416104,Liberty Village - Queen West
+7713,Temperance St / Bay St,43.650600,-79.381285,Financial District
+7715,Lumsden Ave / Cedarvale Ave,43.693187,-79.314283,Danforth
+7716,Church St / The Esplanade,43.646925,-79.373319,Financial District
+7717,Niagara St / Portland St,43.642453,-79.399590,Fort York - Entertainment District
+7718,St. Andrew's Playground Park,43.646552,-79.399586,Fort York - Entertainment District
+7719,Wolseley St / Augusta Ave,43.648420,-79.400519,Fort York - Entertainment District
+7720,King St W / Portland St - SMART,43.644395,-79.400654,Fort York - Entertainment District
+7721,Widmer St / King St W,43.646357,-79.391206,Fort York - Entertainment District
+7724,Wellesley St E / Parliament St,43.668234,-79.370264,Church Wellesley / Yorkville
+7728,Randolph Ave / Perth Ave,43.658550,-79.449766,Bloor St W / Annex
+7729,265 Armadale Ave,43.650164,-79.482969,Bloor St W - High Park
+7730,800 Fleet St (South),43.636710,-79.408805,Fort York - Entertainment District
+7731,Victoria Park Ave / Kingston Rd,43.680350,-79.283570,Leslieville - Woodbine
+7732,Kingston Rd / Warden Ave,43.688241,-79.270466,Scarborough - St. Clair
+7733,Pharmacy Ave / Danforth Ave,43.692948,-79.283400,Scarborough - St. Clair
+7734,Danforth Ave / Warden Ave,43.695019,-79.271807,Scarborough - St. Clair
+7735,Birchcliff Ave / Kingston Rd,43.691688,-79.265027,Scarborough - St. Clair
+7736,Birchmount Rd / Kingston Rd,43.694013,-79.262572,Scarborough - St. Clair
+7737,Kingston Rd / Glen Everest Rd,43.697490,-79.256551,Scarborough - St. Clair
+7738,Highview Ave / Kennedy Rd,43.702419,-79.256317,Scarborough - St. Clair
+7739,Kingston Rd / Ridgemoor Ave,43.706436,-79.251044,Scarborough - St. Clair
+7740,Sharpe St / Park St (Sandown Park),43.710597,-79.254118,Scarborough - St. Clair
+7741,Howard Park Ave / Parkside Dr,43.648657,-79.458111,Bloor St W - High Park
+7742,Eglinton Ave W / Prospect Cemetery,43.694150,-79.457826,Eglinton Ave W
+7743,Eglinton Ave W / Gilbert Ave,43.692547,-79.463328,Eglinton Ave W
+7744,Rogers Rd / Prospect Cemetery,43.683230,-79.455765,Eglinton Ave W
+7745,Bert Robinson Park,43.688028,-79.460265,Eglinton Ave W
+7746,Marlee Ave / York Beltline Trail,43.701630,-79.440990,Eglinton Ave W
+7747,Eglinton Ave W / Ennerdale Rd,43.695032,-79.453030,Eglinton Ave W
+7748,Bloor St W / Old Mill Trl,43.650169,-79.496335,Bloor St W - High Park
+7749,Wendover Rd / Bloor St W (Green P),43.649200,-79.506020,Bloor St W - High Park
+7750,Luttrell Ave / Danforth Ave,43.689766,-79.293953,Danforth
+7751,Willingdon Blvd / Bloor St W (Green P),43.648170,-79.510392,Bloor St W - High Park
+7752,1926 Lake Shore Blvd W,43.635764,-79.467492,Humber Bay Shores
+7753,36 Park Lawn Rd,43.623692,-79.483813,Humber Bay Shores
+7754,Walter Saunders Park,43.699327,-79.449363,Eglinton Ave W
+7755,Park Lawn Rd / Berry Rd,43.636052,-79.493252,Bloor St W - High Park
+7756,Tobermory Dr / Finch Corridor Trail,43.761817,-79.510705,North York - York U
+7757,The Well,43.643025,-79.394301,Fort York - Entertainment District
+7758,Driftwood Ave / Finch Corridor Trail,43.760362,-79.516278,North York - York U
+7759,The Pond Rd / Shoreham Dr,43.772445,-79.511912,North York - York U
+7760,Grand Avenue Park,43.623708,-79.490054,Humber Bay Shores
+7761,Moss Park,43.655972,-79.370638,Regent Park - Distillery
+7762,College St / Henry St ,43.659153,-79.394795,U of T - Hospital Row
+7765,St. John's Rd / Dundas St W,43.665268,-79.475021,Bloor St W - High Park
+7766,Albany Ave / Bloor St W,43.665541,-79.410103,Annex Efit drop off
+7767,Pioneer Village Subway Station,43.776490,-79.508536,North York - York U
+7768,Armoury St / Chestnut St,43.653518,-79.385911,Financial District
+7769,Lake Shore Blvd W / Brow Dr,43.591410,-79.544182,Humber Bay Shores
+7770,Spadina Ave / Sullivan St,43.650828,-79.396981,Fort York - Entertainment District
+7771,St. Clair Ave W / Osler St,43.673927,-79.460685,St Clair Ave W
+7772,Simcoe St / King St W,43.647508,-79.386044,Financial District
+7773,Grenoble Dr / Gateway Blvd,43.715132,-79.334136,Thorncliffe Park - Sunnybrook
+7774,Grenoble Dr / Deauville Ln,43.716497,-79.330894,Thorncliffe Park - Sunnybrook
+7775,Grenoble Dr / Vendome Pl,43.715538,-79.328114,Thorncliffe Park - Sunnybrook
+7776,Ferrand Dr / Rochefort Dr,43.719633,-79.332000,Thorncliffe Park - Sunnybrook
+7777,Thorncliffe Park Dr / Leaside Park Trail,43.704004,-79.348070,Thorncliffe Park - Sunnybrook
+7778,75 Thorncliffe Park Dr,43.705183,-79.342247,Thorncliffe Park - Sunnybrook
+7779,165 McRae Dr,43.705875,-79.368006,Thorncliffe Park - Sunnybrook
+7780,Mount Pleasant Rd / Davisville Ave - SMART,43.700882,-79.387360,Mid Town
+7781,St. Clair Ave W / Avenue Rd ,43.686889,-79.400995,Mid Town
+7782,Downsview Park Subway Station - SMART,43.753107,-79.479626,North York - York U
+7783,60 Carl Hall Rd - SMART,43.747964,-79.475212,North York - York U
+7784,Downsview Park Blvd / Keele St  - SMART,43.736738,-79.482272,North York - York U
+7785,Keele St / Dovehouse Ave - SMART,43.749450,-79.486966,North York - York U
+7787,HTO Park West,43.637371,-79.389770,Waterfront
+7788,Queens Quay E / Lower Jarvis St ,43.643928,-79.368730,Waterfront
+7790,Lynn Williams St / Pirandello St ,43.639125,-79.414232,Liberty Village - Queen West
+7791,Ossington Ave / Bruce St,43.645702,-79.419332,Liberty Village - Queen West
+7792,Gladstone Ave / Queen St W,43.643141,-79.427280,West
+7794,York St / Harbour St (Love Park),43.641017,-79.380359,Waterfront
+7796,Dundas St E / River St,43.661152,-79.358505,Regent Park - Distillery
+7798,Shuter St/River St,43.659296,-79.358035,Regent Park - Distillery
+7799,Danforth Ave / Danforth Rd,43.693622,-79.277105,Scarborough - St. Clair
+7800,Brimley Rd / McCowan District Park,43.727041,-79.243914,Scarborough - Rouge Hill
+7801,Parkcrest Dr / Kingston Rd,43.735967,-79.219952,Scarborough - Rouge Hill
+7802,King St W / Jameson Ave - SMART,43.637358,-79.436180,Liberty Village - Queen West
+7803,Scarborough Soccer Centre,43.715466,-79.287660,Scarborough - St. Clair
+7804,Lansdowne Ave / Seaforth Ave ,43.642904,-79.437461,West
+7805,Pharmacy Ave / Teesdale Pl,43.697356,-79.285287,Scarborough - St. Clair
+7806,Danforth Rd / Birchmount Rd ,43.706880,-79.268510,Scarborough - St. Clair
+7807,552 Birchmount Rd,43.711763,-79.270282,Scarborough - St. Clair
+7808,Eastgate Cres / Pharmacy Ave ,43.711044,-79.291273,Scarborough - St. Clair
+7809,Firvalley Ct / Warden Ave,43.703211,-79.278715,Scarborough - St. Clair
+7810,Avenue Rd / Cumberland St ,43.669822,-79.394446,Church Wellesley / Yorkville
+7811,Midland Ave / Kingston Rd,43.712858,-79.248709,Scarborough - St. Clair
+7812,Bellamy Rd S / Kingston Rd,43.732328,-79.224966,Scarborough - Rouge Hill
+7813,Yonge St / Merton St ,43.696275,-79.396294,Mid Town
+7814,Fenwood Ht / Kingston Rd,43.726902,-79.229204,Scarborough - Rouge Hill
+7815,Avenue Rd / Macpherson Ave ,43.677944,-79.398363,Davenport - Dupont
+7816,Bay St / Dundas St W,43.655351,-79.383460,Financial District
+7817,Shaw St / King St W,43.641256,-79.415030,Liberty Village - Queen West
+7818,Soudan Ave / Yonge St ,43.704310,-79.397282,Mid Town
+7819,Avenue Rd / Oxton Ave ,43.697112,-79.405373,Mid Town
+7820,1612 Danforth Ave ,43.683708,-79.322625,Danforth
+7821,Lisgar St / Queen St W - SMART,43.642992,-79.423559,Liberty Village - Queen West
+7822,Leslie St / Commissioners St  ,43.657275,-79.326615,Leslieville - Woodbine
+7824,Warden Subway Station,43.711611,-79.280556,Scarborough - St. Clair
+7825,Kingston Rd / Scarborough Golf Club Rd,43.745311,-79.209707,Scarborough - Rouge Hill
+7826,Greenwood Ave / Gerrard St E,43.670369,-79.327827,Leslieville - Woodbine
+7827,Chatham Ave / Byron Ave,43.679868,-79.334246,Danforth
+7828,Wakunda Pl / O'Connor Dr,43.716020,-79.304709,Scarborough - St. Clair
+7830,Plaxton Dr / St. Clair Ave E,43.707518,-79.302521,Scarborough - St. Clair
+7831,Victoria Park Ave / Edge Park Ave,43.717679,-79.299616,Scarborough - St. Clair
+7832,Finch Subway Station ,43.781877,-79.415285,North York - Willowdale
+7833,Glencairn Subway Station,43.709258,-79.441691,Eglinton Ave W
+7834,Glen Long Community Centre,43.708210,-79.456278,Eglinton Ave W
+7835,Caledonia Rd / Lotherton Pathway,43.707564,-79.465715,Eglinton Ave W
+7836,Harvie Ave / Rogers Rd,43.684020,-79.452979,Eglinton Ave W
+7837,Ling Rd / Morningside Ave,43.766664,-79.185218,Scarborough - Rouge Hill
+7838,Lake Shore Blvd W / Legion Rd,43.620526,-79.483202,Humber Bay Shores
+7839,Lake Shore Blvd W / Seventeenth St,43.598419,-79.515611,Humber Bay Shores
+7840,Mabelle Park,43.645389,-79.527682,Bloor St W - High Park
+7841,Islington Subway Station (Aberfoyle Cres),43.645659,-79.523399,Bloor St W - High Park
+7842,Lake Shore Blvd W / Long Branch Ave,43.594458,-79.533874,Humber Bay Shores
+7843,Uno Dr / The Queensway,43.626493,-79.503582,Humber Bay Shores
+7844,Second St / Lake Shore Blvd W,43.601915,-79.499419,Humber Bay Shores
+7845,Sixth St / Lake Shore Blvd W,43.601162,-79.504160,Humber Bay Shores
+7846,Bloor St W / Dundas St W (2),43.642852,-79.531995,Bloor St W - High Park
+7848,Gerrard St E / Nasmith Ave ,43.662736,-79.362531,Regent Park - Distillery
+7849,Viewmount Park,43.707356,-79.437231,Eglinton Ave W
+7850,Maud St / Adelaide St W - SMART,43.646015,-79.399605,Fort York - Entertainment District
+7851,Keele St / Ingram Dr,43.698707,-79.475659,Eglinton Ave W
+7852,York Recreation Centre,43.688153,-79.482198,Eglinton Ave W
+7853,Trethewey Dr / Black Creek Dr,43.695498,-79.488094,Eglinton Ave W
+7854,Jane St / Haney Ave,43.674346,-79.494844,Eglinton Ave W
+7855,Scarlett Rd / Eileen Ave,43.668511,-79.500765,West
+7856,Scarlett Rd / Old Scarlett Rd ,43.678276,-79.506673,Eglinton Ave W
+7857,Eglinton Ave W / Venn Cres,43.691439,-79.469086,Eglinton Ave W
+7858,Rogers Rd / Bicknell Ave,43.681895,-79.473638,Eglinton Ave W
+7859,Mallaby Park ,43.706191,-79.532628,Eglinton Ave W
+7860,Cruickshank Park,43.702386,-79.525948,Eglinton Ave W
+7861,Emmett Ave,43.687355,-79.506233,Eglinton Ave W
+7862,Jane St / Weston Rd,43.691445,-79.501546,Eglinton Ave W
+7863,Jane St / Queens Dr,43.706738,-79.504775,Eglinton Ave W
+7864,Sussex Ave / St George St,43.665304,-79.399383,U of T - Hospital Row
+7865,2700 Eglinton Ave W,43.690746,-79.478201,Eglinton Ave W
+7866,697 Lansdowne Ave ,43.659222,-79.442774,Bloor St W / Annex
+7867,15 Price St ,43.679948,-79.389948,Davenport - Dupont
+7868,Sheppard Ave W / Chesswood Dr,43.755584,-79.474460,North York - York U
+7869,Sentinel Rd / Sheppard Ave W,43.743866,-79.491817,North York - York U
+7870,Humber River Hospital ,43.725379,-79.487197,North York - York U
+7871,Jane St / Lawrence Ave W,43.702340,-79.503474,Eglinton Ave W
+7872,Keele St / Catford Rd,43.759193,-79.490010,North York - York U
+7874,The Pond Rd / Ian Macdonald Blvd,43.770867,-79.498130,North York - York U
+7875,Oakdale Community Centre,43.747515,-79.513257,North York - York U
+7877,Jane St / Yorkwoods Gt,43.750302,-79.515776,North York - York U
+7878,Weston Rd / Sheppard Ave W,43.732628,-79.538199,North York - York U
+7880,Lindylou Rd / Lanyard Rd,43.748454,-79.550404,North York - York U
+7881,Queens Quay E / Merchants' Wharf,43.646430,-79.361816,Waterfront
+7883,Wynford Heights Cres / Concorde Pl,43.727498,-79.327142,Thorncliffe Park - Sunnybrook
+7884,Bartley Park ,43.722112,-79.308648,Scarborough - St. Clair
+7885,Brooklawn Ave / Kingston Rd,43.721761,-79.235914,Scarborough - Rouge Hill
+7887,800 Fleet St (North),43.636829,-79.408842,Fort York - Entertainment District
+7888,The Kingsway / Ashley Rd,43.662796,-79.519598,Bloor St W - High Park
+7889,Dundas St W / Prince Edward Dr N,43.660324,-79.511544,Bloor St W - High Park
+7890,60 Broadway Ave,43.710244,-79.395787,Mid Town
+7891,Opposite 1103 Leslie St,43.720932,-79.349894,Thorncliffe Park - Sunnybrook
+7892,Erskine Ave / Redpath Ave,43.712155,-79.394259,Mid Town
+7893,Overlea Blvd / Thorncliffe Park Dr,43.707556,-79.342720,Thorncliffe Park - Sunnybrook
+7894,Millwood Rd / Southvale Dr,43.702417,-79.361759,Thorncliffe Park - Sunnybrook
+7895,Keele St / Lloyd Ave,43.671155,-79.467016,St Clair Ave W
+7896,Arlington Parkette,43.691050,-79.432817,Eglinton Ave W
+7897,50 Overlea Blvd,43.707225,-79.345324,Thorncliffe Park - Sunnybrook
+7898,University Ave / Gerrard St W - SMART(South),43.657482,-79.389214,U of T - Hospital Row
+7899,Queens Park Cres / College St ,43.660181,-79.390833,U of T - Hospital Row
+7900,Simcoe St / Elm St,43.656039,-79.389704,U of T - Hospital Row
+7901,Bloor St W / Kingsmill Rd,43.649279,-79.503130,Bloor St W - High Park
+7902,Gunns Rd / Lavender Creek Trail,43.675532,-79.471997,Eglinton Ave W
+7903,St. Clair Ave W / Symes Rd,43.670042,-79.478942,St Clair Ave W
+7904,Palmerston Blvd / Lennox St,43.663351,-79.413128,Bloor St W / Annex
+7906,Princess St / Front St E,43.650298,-79.366485,Regent Park - Distillery
+7907,365 Lippincott St,43.664948,-79.409470,Bloor St W / Annex
+7909,E.T Seton Park - South ,43.705035,-79.335473,Thorncliffe Park - Sunnybrook
+7910,Eglinton Ave E / Brentcliffe Rd,43.714306,-79.360890,Thorncliffe Park - Sunnybrook
+7911,King St W / York St (2),43.647969,-79.383170,Financial District
+7912,Joe Shuster Way / King St W ,43.640397,-79.423742,Liberty Village - Queen West
+7913,St. George St / Willcocks St,43.662453,-79.397838,U of T - Hospital Row
+7914,York St / Wellington St W (2),43.647043,-79.383141,Financial District
+7915,Rogers Rd / Watt Ave,43.682337,-79.468059,Eglinton Ave W
+7916,University Ave / Pearl St ,43.648368,-79.385351,Financial District
+7917,King St W / University Ave,43.647818,-79.384280,Financial District
+7918,Albion Rd/ Arcot Blvd,43.727622,-79.552549,North York - York U
+7919,Armel Ct / Albion Rd,43.721533,-79.545583,North York - York U
+7920,75 Tandridge Cres,43.729578,-79.546998,North York - York U
+7922,35 Erindale Ave,43.677290,-79.357410,Danforth
+7923,Trethewey Dr / Jane St,43.697417,-79.500798,Eglinton Ave W
+7924,Duncan St / Adelaide St W - SMART,43.648131,-79.388581,Fort York - Entertainment District
+7925,Niagara St / King St W - SMART,43.642813,-79.407514,Fort York - Entertainment District
+7926,McRae Dr / Laird Dr - SMART,43.709793,-79.363892,Thorncliffe Park - Sunnybrook
+7927,Strachan Ave / East Liberty St - SMART,43.639065,-79.410810,Liberty Village - Queen West
+7928,Simcoe St / Pullan Pl,43.651053,-79.387649,Financial District
+7929,Spadina Ave / Bulwer St- SMART ,43.649354,-79.396757,Fort York - Entertainment District
+7930,Dunn Ave / Queen St W,43.639523,-79.433960,Liberty Village - Queen West
+7931,Symes Rd / Glen Scarlett Rd - SMART,43.673392,-79.477984,Eglinton Ave W
+7932,Boston Ave / Queen St E- SMART,43.661602,-79.338946,Leslieville - Woodbine
+7933,Elizabeth St / Elm St,43.657091,-79.385937,Valet Stations
+7934,19 Glendora Ave,43.759211,-79.409604,North York - Willowdale
+7935,Ramsden Park,43.676185,-79.389625,Davenport - Dupont
+7936,Adelaide St W / Bay St (South),43.650116,-79.379531,Financial District
+7937,Adelaide St W / Yonge St,43.650380,-79.378728,Financial District
+7938,Portland St / Wellington St W,43.642902,-79.399370,Fort York - Entertainment District
+7939,Princes' Gates,43.634673,-79.408973,Waterfront
+7940,Lillian St / Soudan Ave - SMART,43.706073,-79.393562,Mid Town
+7941,Hanna Ave / Snooker St,43.639547,-79.420022,Liberty Village - Queen West
+7942,Hillsdale Ave E / Mount Pleasant Rd,43.705121,-79.389027,Mid Town
+7943,OCAD University,43.652316,-79.390912,Fort York - Entertainment District
+7944,Harbord St / Grace St (Bickford Park),43.659954,-79.417874,College St - Harbord St
+7945,Front St W / Spadina Ave,43.642355,-79.395198,Fort York - Entertainment District
+7946,Richmond St W / Bathurst St,43.646667,-79.402996,Fort York - Entertainment District
+7947,Niagara St / Queen St W ,43.645729,-79.409907,Liberty Village - Queen West
+7948,Bathurst St / Housey St,43.637819,-79.400132,Fort York - Entertainment District
+7949,Thompson St / Carroll St,43.659071,-79.352401,Leslieville - Woodbine
+7950,Crawford St / Lobb Ave,43.646549,-79.415589,Liberty Village - Queen West
+7951,Fort York Blvd / Grand Magazine St,43.637588,-79.403142,Fort York - Entertainment District
+7952,Adelaide St W / York St ,43.649192,-79.383632,Financial District
+7953,Church St / Shuter St,43.655057,-79.376510,Financial District
+7954,Adelaide St E / Parliament St,43.653783,-79.363360,Regent Park - Distillery
+7955,Wellesley St E / Jarvis St,43.666205,-79.379012,Church Wellesley / Yorkville
+7956,Benshire Dr / The Meadoway,43.761741,-79.244740,Scarborough - Rouge Hill
+7957,Brimley Rd / Lawrence Ave E ,43.754049,-79.255317,Scarborough - Rouge Hill
+7958,Centennial College (Ashtonbee Campus),43.730036,-79.292004,Scarborough - St. Clair
+7959,Bellamy Rd N / The Meadoway,43.765073,-79.238354,Scarborough - Rouge Hill
+7960,Markham Rd / The Meadoway ,43.771219,-79.229565,Scarborough - Rouge Hill
+7961,Ellesmere Rd / Markham Rd,43.776829,-79.230500,Scarborough - Rouge Hill
+7962,Slan Ave / Scarborough Golf Club Rd,43.773273,-79.219715,Scarborough - Rouge Hill
+7963,Cedar Dr / Eglinton Ave E,43.744208,-79.215646,Scarborough - Rouge Hill
+7964,Kennedy Rd/Ranstone Gdns (Jack Goodlad Park),43.741906,-79.271819,East
+7965,Eglinton Ave E / Brimley Rd,43.736953,-79.247984,Scarborough - Rouge Hill
+7966,Albany Ave / Dupont St,43.673489,-79.413395,Davenport - Dupont
+7967,Gordonridge Pl / Danforth Rd,43.727291,-79.252379,Scarborough - Rouge Hill
+7968,McCowan Rd / Trudelle St,43.740339,-79.239353,Scarborough - Rouge Hill
+7969,Bayview Ave / Finch Recreational Trail,43.789069,-79.393151,North York - Willowdale
+7970,Willowdale Ave / Bishop Ave ,43.783873,-79.407868,North York - Willowdale
+7971,Talbot Rd / Finch Hydro Corridor,43.782253,-79.423671,North York - Willowdale
+7972,Eglinton Ave E / Mason Rd ,43.742037,-79.224887,Scarborough - Rouge Hill
+7973,Lawrence Ave E / Don Mills Trail,43.734582,-79.354854,Thorncliffe Park - Sunnybrook
+7974,Kempford Blvd / Yonge St,43.776857,-79.415116,North York - Willowdale
+7975,Empress Ave / Yonge St,43.769395,-79.412665,North York - Willowdale
+7976,Yonge St / Sheppard Ave E,43.761286,-79.410716,North York - Willowdale
+7977,Leslie Subway Station,43.770379,-79.367027,North York - Willowdale
+7978,Yonge St / North York Blvd,43.767266,-79.412635,North York - Willowdale
+7979,Bond Ave / Don Mills Trail,43.744758,-79.353481,Thorncliffe Park - Sunnybrook
+7981,Duncan Mill Rd / Valleybrook Dr,43.761671,-79.352583,Thorncliffe Park - Sunnybrook
+7982,Finch Ave W / Wilmington Ave,43.770602,-79.459976,North York - York U
+7983,York Mills Rd / Lesmill Rd,43.754922,-79.351748,Thorncliffe Park - Sunnybrook
+7984,Lake Shore Blvd W / Bathurst St,43.636756,-79.399205,Fort York - Entertainment District
+7985,Hawksbury Dr / Sheppard Ave E ,43.768162,-79.383121,North York - Willowdale
+7986,Sheppard Ave E / Leslie St,43.771148,-79.363812,North York - Willowdale
+7987,Shaughnessy Blvd / Sheppard Ave E,43.773515,-79.353062,North York - Willowdale
+7988,Brahms Ave / Finch Ave E,43.792363,-79.358363,North York - Willowdale
+7989,Don Mills Rd / Fairview Mall Dr,43.778886,-79.348372,North York - Willowdale
+7990,Don Mills Rd / Goodview Rd,43.783944,-79.353250,North York - Willowdale
+7991,Kingston Rd / Markham Rd,43.738784,-79.217465,Scarborough - Rouge Hill
+7992,Fairglen Cres / Weston Rd,43.708767,-79.534452,Eglinton Ave W
+7993,Wells St / Brunswick Ave,43.671052,-79.409048,Bloor St W / Annex
+7994,Eglinton Ave E / Victoria Park Ave,43.724861,-79.303513,Scarborough - St. Clair
+7995,Eglinton Ave W / Oakwood Ave,43.697050,-79.443760,Eglinton Ave W
+7996,Scarborough GO Station,43.717047,-79.254610,Scarborough - St. Clair
+7997,3220 Bloor St W,43.646187,-79.517625,West
+7998,Eglinton West Subway Station,43.698671,-79.436807,Eglinton Ave W
+7999,Lawrence Ave W / Marlee Ave,43.715553,-79.446154,Eglinton Ave W
+8000,16 Riverview Gardens ,43.648837,-79.486753,Bloor St W - High Park
+8001,Union Station (North),43.645650,-79.381163,Union
+8002,Grantbrook St / Finch Hydro Corridor Trail,43.780468,-79.432804,North York - Willowdale
+8003,Tecumseth St / Tecumseth Pl,43.642698,-79.404999,Fort York - Entertainment District
+8004,21 Pleasant Blvd (1),43.687212,-79.392696,Mid Town
+8005,21 Pleasant Blvd (2),43.687204,-79.392697,Mid Town
+8006,803 Richmond St W,43.644382,-79.410853,Liberty Village - Queen West
+8007,385 Pacific Ave,43.665109,-79.468336,Bloor St W - High Park
+8008,Brookdale Ave / Yonge St,43.729920,-79.403727,Thorncliffe Park - Sunnybrook
+8009,1 Shortt St,43.695930,-79.451901,Eglinton Ave W
+8010,Finch Ave W / Bathurst St,43.773561,-79.444048,North York - York U
+8011,33 Queen St E,43.652320,-79.376849,Financial District
+8012,Cherry St / Polson St,43.643321,-79.351209,Waterfront
+8013,Logan Ave / Eastern Ave - SMART,43.657926,-79.341435,Leslieville - Woodbine
+8014,Wellington St W / Blue Jays Way,43.644734,-79.391690,Fort York - Entertainment District
+8015,Spadina Ave / Dundas St W - SMART,43.652352,-79.398016,Fort York - Entertainment District
+8016,Queens Quay E / Freeland St,43.642499,-79.372858,Waterfront
+8017,Pharmacy Ave / Eglinton Ave E ,43.725345,-79.297687,Scarborough - St. Clair
+8018,Saulter St / Queen St E - SMART,43.658977,-79.347153,Leslieville - Woodbine
+8020,Euclid Ave / Queen St W - SMART,43.646568,-79.407687,Fort York - Entertainment District
+8021,Torresdale Ave / Finch Ave W,43.772456,-79.451021,North York - York U
+8022,Sunrise Ave / Victoria Park Ave,43.719409,-79.302261,Scarborough - St. Clair
+8023,Shaw St / College St,43.655119,-79.420145,College St - Harbord St
+8025,Front St E / Scott St (2),43.647624,-79.375525,Financial District
+8026,Jack Layton Ferry Terminal,43.641032,-79.376704,Waterfront
+8031,Ancaster Rd / Spalding Rd,43.733595,-79.466515,North York - York U
+8032,Roding St / Nash Dr,43.728860,-79.492030,North York - York U
+8033,Ridge Rd / Wilson Ave ,43.723787,-79.494163,North York - York U
+8034,Exbury Rd / Jane St,43.729522,-79.510143,North York - York U
+8035,Dubray Ave / Wilson Ave,43.728618,-79.478001,North York - York U
+8036,Jane St / Sheppard Ave W,43.739013,-79.512863,North York - York U
+8037,Bathurst St / Sheppard Ave W,43.755176,-79.438122,North York - York U
+8038,Finch Ave E / Upper Don Recreational Trail ,43.788938,-79.374889,North York - Willowdale
+8039,Ruddington Dr / Finch Recreational Trail,43.789782,-79.389886,North York - Willowdale
+8040,Old Cummer GO Station,43.794423,-79.369259,North York - Willowdale
+8041,Wilmington Ave / Kennard Ave,43.761158,-79.456000,North York - York U
+8042,Fairview Mall Dr / Fairview Mall Dr E,43.779672,-79.342950,North York - Willowdale
+8043,Birchmount Rd / The Meadoway,43.738932,-79.281180,Scarborough - St. Clair
+8044,Scarborough Village Park,43.747151,-79.214502,Scarborough - Rouge Hill
+8045,Prudential Dr / Midland Ave,43.749566,-79.265722,Scarborough - Rouge Hill
+8046,Markham Rd / Cougar Crt,43.744989,-79.219444,Scarborough - Rouge Hill
+8047,Lawrence Ave E / Overture Rd,43.765641,-79.199615,Scarborough - Rouge Hill
+8048,Morningside Ave / Kingston Rd,43.769079,-79.187114,Scarborough - Rouge Hill
+8049,YZD,43.736801,-79.468788,North York - York U
+8050,Wilson Ave / Transit Rd (TTC Subway Station),43.733459,-79.453388,North York - York U
+8051,Homewood Ave / Wellesley St E - SMART,43.666978,-79.375945,Church Wellesley / Yorkville
+8052,Warden Ave / The Meadoway,43.735548,-79.290519,Scarborough - St. Clair
+8053,Galloway Rd / Kingston Rd ,43.762472,-79.194693,Scarborough - Rouge Hill
+8054,Sheppard Ave E / Brian Dr,43.775183,-79.330443,Scarborough North
+8055,Sheppard Ave E / Willowdale Ave ,43.764112,-79.398337,North York - Willowdale
+8056,Parkway Forest Dr / Forest Manor Rd (North),43.774706,-79.342753,North York - Willowdale
+8057,Parkway Forest Dr / Forest Manor Rd (South),43.769530,-79.343382,North York - Willowdale
+8058,Maxome Ave / Finch Hydro Corridor,43.786116,-79.400391,North York - Willowdale
+8059,Ionview Rd / Eglinton Ave E,43.731703,-79.271492,Scarborough - St. Clair
+8060,Gilder Dr / Midland Ave,43.736599,-79.257845,Scarborough - Rouge Hill
+8061,Stansbury Cr / Midland Ave,43.742514,-79.261243,Scarborough - Rouge Hill
+8062,Bay St / King St W,43.648375,-79.379983,Financial District
+8063,Maida Vale Park,43.733104,-79.277028,Scarborough - St. Clair
+8064,Kennedy Rd / Bertrand Ave,43.737462,-79.269959,Scarborough - Rouge Hill
+8065,Brockley Dr / Lawrence Ave E,43.752355,-79.262797,Scarborough - Rouge Hill
+8066,Danforth Rd / Savarin St,43.743072,-79.245318,Scarborough - Rouge Hill
+8073,Finch Ave E / Midland Ave,43.803566,-79.286696,Scarborough North
+8074,Huntingwood Dr / Midland Ave,43.796903,-79.283763,Scarborough North
+8075,Marine Parade Dr / Humber Bay Shores Park Trl,43.626462,-79.476751,Humber Bay Shores
+8076,Warden Ave / Huntingwood Dr,43.785717,-79.310810,Scarborough North
+8077,Silver Springs Blvd / Birchmount Rd,43.800737,-79.306712,Scarborough North
+8078,Victoria Park Ave / Patrick Blvd ,43.777759,-79.323909,Scarborough North
+8079,Aurora Ct / Bridletowne Cir,43.792840,-79.316852,Scarborough North
+8080,Bay Mills Blvd / Birchmount Ave,43.783430,-79.299559,Scarborough North
+8081,Bridlewood Park,43.784030,-79.316298,Scarborough North
+8082,Village Green Square,43.778263,-79.281750,Scarborough - Rouge Hill
+8083,Eastview Park,43.759071,-79.189453,Scarborough - Rouge Hill
+8084,Grenville St / Yonge St ,43.662029,-79.383610,Church Wellesley / Yorkville
+8085,Lawrence Ave W / Bathurst St,43.719010,-79.430091,Eglinton Ave W
+8086,Lawrence Ave W / Dufferin St,43.714318,-79.454145,Eglinton Ave W
+8087,Front St E / Cooperage St,43.652964,-79.357110,Regent Park - Distillery
+8088,Lawrence Ave W / Renfield St,43.704030,-79.498834,Eglinton Ave W
+8089,Lawrence Ave W / Pine St,43.701775,-79.508505,Eglinton Ave W
+8090,Church St / Cypress St,43.706386,-79.516717,Eglinton Ave W
+8091,Rockcliffe Blvd / Alliance Ave,43.676519,-79.489420,Eglinton Ave W
+8092,Jane St / Woolner Ave (Woolner Park),43.671196,-79.493372,Eglinton Ave W
+8093,Jane St / Spenvalley Dr,43.740937,-79.513389,North York - York U
+8094,Baycrest Ave / Bathurst St,43.729665,-79.432473,Eglinton Ave W
+8095,Weston Rd / Gaydon Ave,43.720582,-79.537291,North York - York U
+8096,Commissioners St / Bouchette St,43.650269,-79.340726,Waterfront
+8099,Jane St / Milo Park Gt,43.766105,-79.519876,North York - York U
+8101,Pape Ave / Hopedale Ave,43.696514,-79.350019,Danforth
+8102,Sheppard Ave W / Magellan Dr,43.739738,-79.509868,North York - York U
+8104,Toronto Public Library - Agincourt,43.785521,-79.293534,Scarborough North
+8105,Kennedy Rd / Finch Recreational Trail,43.810482,-79.301308,Scarborough North
+8106,Memorial Park Ave / Kimbourne Ave ,43.690895,-79.334520,Danforth
+8107,Pitfield Rd / McCowan Rd,43.787452,-79.257684,Scarborough North
+8108,Agincourt Recreation Centre,43.788094,-79.276307,Scarborough North
+8109,Brimley Rd / E Highland Creek Trail,43.796928,-79.272871,Scarborough North
+8110,Midland Ave / Finch Recreational Trail,43.812642,-79.291196,Scarborough North
+8111,Brimwood Blvd / North Scarborough Green Loop,43.811735,-79.278288,Scarborough North
+8112,Bernadine St / Brimley Rd,43.768527,-79.260501,Scarborough - Rouge Hill
+8113,Leslie Lookout Park,43.653924,-79.324359,Waterfront
+8114,Dulverton Rd / Birchmount Rd,43.748507,-79.284657,Scarborough - Rouge Hill
+8115,Lawrence Ave E / Burnview Cres,43.756495,-79.240436,Scarborough - Rouge Hill
+8117,Valparaiso Ave / Lawrence Ave E,43.754968,-79.246741,Scarborough - Rouge Hill
+8118,Clover Hill Park - SMART,43.665680,-79.388030,Church Wellesley / Yorkville
+8119,Thistletown Community Centre,43.735330,-79.561765,North York - York U
+8120,Albion Rd / Kipling Ave (Albion Arena),43.739889,-79.582640,North York - York U
+8122, Silverstone Dr / Stevenson Rd ,43.744717,-79.588166,North York - York U
+8123,Martin Grove Rd / Lexington Ave,43.744482,-79.595656,North York - York U
+8125,John Garland Blvd / Jamestown Cres,43.732361,-79.586611,North York - York U
+8128,Queen’s Plate Dr / Rexdale Blvd,43.719562,-79.603464,North York - York U
+8129,Don Mills Rd / Barber Greene Rd,43.727282,-79.340985,North York - Willowdale
+8130,Gateway Blvd (South) / Don Mills Rd,43.709985,-79.333899,North York - Willowdale
+8131,Rochefort Dr / Don Mills Rd,43.718005,-79.337404,North York - Willowdale
+8133,Aga Khan Museum and Park (Wynford Dr),43.725717,-79.332965,Thorncliffe Park - Sunnybrook
+8134,Eglinton Ave E / Sloane Ave,43.726171,-79.313090,Scarborough - St. Clair
+8137,95 Beecroft Rd,43.763849,-79.413936,North York - Willowdale
+8138,Scarborough Town Centre,43.773746,-79.255216,Scarborough - Rouge Hill
+8139,Knob Hill Park,43.743906,-79.251198,Scarborough - Rouge Hill
+8141,Brimley Rd / Brimorton Dr,43.765523,-79.259485,Scarborough - Rouge Hill
+8142,Kitchener Rd / Kingston Rd,43.766753,-79.189701,Scarborough - Rouge Hill
+8144,James Gardens,43.670884,-79.513812,Eglinton Ave W
+8146, George St S / The Esplanade,43.648347,-79.369797,Regent Park - Distillery
+8147,Widmer St / Adelaide St W (South),43.647300,-79.391313,Fort York - Entertainment District
+8148,Simcoe St / Wellington St W (North) 2,43.646246,-79.385489,Financial District
+8149,Danforth Rd / St Clair Ave E,43.717162,-79.259567,Scarborough - St. Clair
+8150,Birchmount Rd / Eglinton Ave E,43.729323,-79.277988,Scarborough - St. Clair
+8151,Corvette Ave / Kennedy Rd,43.725446,-79.264769,Scarborough - St. Clair
+8152,Surrey Pl / Dr. Emily Stowe Way - SMART,43.661043,-79.387966,U of T - Hospital Row
+8153,Neilson Rd / Ellesmere Rd,43.782349,-79.204734,Scarborough - Rouge Hill
+8154,Mornelle Ct / Ellesmere Rd,43.785280,-79.195423,Scarborough - Rouge Hill
+8155,Ellesmere Rd / Scarborough Golf Club Rd ,43.778815,-79.221741,Scarborough - Rouge Hill
+8156,Scarborough Golf Club Rd / Lawrence Ave E ,43.761181,-79.216038,Scarborough - Rouge Hill
+8157,Confederation Dr / Greencrest Cr,43.757796,-79.222943,Scarborough - Rouge Hill
+8158,Livonia Pl / Neilson Rd,43.785550,-79.205917,Scarborough - Rouge Hill
+8159,Lawrence Ave E / Orton Park Rd,43.763839,-79.205599,Scarborough - Rouge Hill
+8160,Lawrence Ave E / Mossbank Dr,43.762706,-79.210997,Scarborough - Rouge Hill
+8161,Victoria Park Ave / The Meadoway,43.729022,-79.304243,Scarborough - St. Clair
+8162,Dan Leckie Way / Fort York Blvd,43.639202,-79.397769,Fort York - Entertainment District
+8163,Strachan Ave / Ordnance St,43.639173,-79.410568,Liberty Village - Queen West
+8164,Keelegate Dr / Keele St,43.733104,-79.483305,North York - York U
+8165,Ranee Ave / Flemington Rd (North),43.723492,-79.448242,North York - York U
+8166,Lawrence East Station,43.749662,-79.271922,Scarborough - Rouge Hill
+8167,Woburn Ave / Avenue Rd,43.725453,-79.416488,Thorncliffe Park - Sunnybrook
+8168,Portland St / Front St W,43.641634,-79.398789,Fort York - Entertainment District
+8169,William Cragg Dr / Jane St,43.722546,-79.508614,North York - York U
+8170,Munition St / Commissioners St,43.646529,-79.350330,Waterfront
+8171, Grafton Ave / Roncesvalles Ave,43.639599,-79.446213,Liberty Village - Queen West
+8172,Silverthorn Ave / Pryor Ave,43.674857,-79.460192,St Clair Ave W
+8173,St. Clair Ave W / Poplar Plains Rd,43.686002,-79.403953,St Clair Ave W
+8174,Wellington St E / Church St,43.648645,-79.374194,Financial District
+8175,Simcoe St / Wellington St W (North) 3,43.646227,-79.385535,Financial District
+8176,9 Willingdon Blvd,43.648347,-79.510038,Bloor St W / Annex
+8177,Linkwood Ln / Spanbridge Rd,43.712573,-79.324495,Thorncliffe Park - Sunnybrook
+8178,Agincourt GO Station,43.786057,-79.285031,Scarborough North
+8179,McCowan Rd / Brimorton Dr,43.765738,-79.249229,Scarborough - Rouge Hill
+8180,Osler Playground (Argyle St),43.646420,-79.421828,Liberty Village - Queen West
+8181,Cherry St / Commissioners St,43.644839,-79.353304,Waterfront
+8182,Biidaasige Park (11 Munition St),43.646219,-79.350049,Waterfront
+8183,Dufferin St / King St W ,43.639171,-79.427268,Liberty Village - Queen West
+8184,Antibes Dr / Bathurst St,43.781334,-79.445925,North York - York U
+8185,Laird Crosstown Station,43.713626,-79.363733,Thorncliffe Park - Sunnybrook
+8188,16 John St,43.701336,-79.517484,Eglinton Ave W
+8189,25 St. Mary St ,43.667569,-79.387494,Church Wellesley / Yorkville
+8190,1651 Queen St E,43.666692,-79.314374,Leslieville - Woodbine
+8202,Corporate Dr / Lee Centre Dr,43.781009,-79.245315,Scarborough - Rouge Hill
+8203,Greenbrae Parkette,43.760466,-79.229810,Scarborough - Rouge Hill
+8205,Markham Rd / Blakemanor Blvd,43.750777,-79.221929,Scarborough - Rouge Hill
+8207,45 Trudelle St,43.739541,-79.242943,Scarborough - Rouge Hill
+8210,Brimorton Dr / Orton Park Rd,43.771483,-79.209087,Scarborough - Rouge Hill
+8215,Dundas St W / McCaul St,43.654501,-79.390868,U of T - Hospital Row
+8216,Davenport Rd / Dovercourt Rd,43.674139,-79.435611,Davenport - Dupont
