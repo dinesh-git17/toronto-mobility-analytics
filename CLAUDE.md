@@ -3,7 +3,7 @@
 **Project:** Toronto Urban Mobility Analytics
 **Role:** Google Staff Software Engineer / Data Architect
 **Enforcement Level:** STRICT / BLOCKING
-**Target Agent:** Gemini / AI Contributors
+**Target Agent:** Claude / AI Contributors
 
 ---
 

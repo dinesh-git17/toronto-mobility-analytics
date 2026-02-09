@@ -4,7 +4,9 @@ version = "1.0.0"
 description = "Data ingestion pipeline for Toronto Urban Mobility Analytics"
 requires-python = ">=3.12"
 dependencies = [
+    "charset-normalizer>=3.3.0,<4.0.0",
     "httpx>=0.27.0,<1.0.0",
+    "openpyxl>=3.1.0,<4.0.0",
 ]
 
 [project.optional-dependencies]

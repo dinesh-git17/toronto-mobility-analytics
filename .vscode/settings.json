@@ -95,6 +95,9 @@
   "python.analysis.typeCheckingMode": "basic",
   "python.analysis.autoImportCompletions": true,
   "python.analysis.diagnosticMode": "workspace",
+  "python.analysis.exclude": [
+    "**/dbt_packages/**"
+  ],
   // Pylint: disabled — Ruff is the sole linter for this project (CLAUDE.md §6.3)
   "pylint.enabled": false,
   // Ruff configuration (native language server - replaces Black, Flake8, isort)
