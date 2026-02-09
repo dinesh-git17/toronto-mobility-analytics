@@ -1,0 +1,243 @@
+version: 2
+
+models:
+  - name: stg_ttc_subway_delays
+    description: >
+      Staged TTC subway delay incidents from RAW.TTC_SUBWAY_DELAYS.
+      Type-casts VARCHAR columns to native types, generates a surrogate key
+      from the natural key (date, time, station, line, code, min_delay),
+      and excludes zero-delay records. One row per non-zero delay incident.
+    columns:
+      - name: delay_sk
+        description: >
+          Surrogate key derived from the natural key components
+          (date, time, station, line, code, min_delay) via
+          dbt_utils.generate_surrogate_key.
+        tests:
+          - unique
+          - not_null
+
+      - name: delay_date
+        description: >
+          Date of the delay incident, cast from VARCHAR to DATE.
+        tests:
+          - not_null
+
+      - name: delay_time
+        description: >
+          Time of the delay incident, cast from VARCHAR to TIME.
+
+      - name: incident_timestamp
+        description: >
+          Combined date and time as a TIMESTAMP_NTZ value,
+          produced via timestamp_from_parts.
+
+      - name: day_of_week
+        description: >
+          Day of the week when the delay occurred (e.g., Monday).
+          Sourced from the DAY column without transformation.
+
+      - name: raw_station_name
+        description: >
+          Verbatim station name from the TTC delay record.
+          Mapped to canonical station names in the intermediate layer
+          via the ttc_station_mapping seed.
+
+      - name: delay_code
+        description: >
+          TTC incident code identifying the delay cause.
+          Enriched with descriptions and categories in the intermediate
+          layer via the ttc_delay_codes seed.
+
+      - name: delay_minutes
+        description: >
+          Duration of the delay in minutes, cast from VARCHAR to INTEGER.
+          Records with zero delay are excluded at the staging boundary.
+        tests:
+          - not_null
+
+      - name: gap_minutes
+        description: >
+          Service gap resulting from the delay in minutes,
+          cast from VARCHAR to INTEGER. NULL when not recorded.
+
+      - name: direction
+        description: >
+          Compass direction of travel at the time of delay (N, S, E, W).
+          NULL when not recorded.
+        tests:
+          - accepted_values:
+              values: ['N', 'S', 'E', 'W']
+              config:
+                severity: warn
+
+      - name: line_code
+        description: >
+          TTC subway line identifier: YU (Yonge-University),
+          BD (Bloor-Danforth), SHP (Sheppard), SRT (Scarborough RT).
+        tests:
+          - accepted_values:
+              values: ['YU', 'BD', 'SHP', 'SRT']
+              config:
+                severity: warn
+
+      - name: transit_mode
+        description: >
+          Transit mode literal, always 'subway' for this model.
+          Used for filtering and union operations in downstream layers.
+        tests:
+          - accepted_values:
+              values: ['subway']
+
+  - name: stg_ttc_bus_delays
+    description: >
+      Staged TTC bus delay incidents from RAW.TTC_BUS_DELAYS.
+      Type-casts VARCHAR columns to native types, generates a surrogate key
+      from the natural key (date, time, route, direction, delay_code, min_delay),
+      and excludes zero-delay records. One row per non-zero delay incident.
+    columns:
+      - name: delay_sk
+        description: >
+          Surrogate key derived from the natural key components
+          (date, time, route, direction, delay_code, min_delay) via
+          dbt_utils.generate_surrogate_key.
+        tests:
+          - unique
+          - not_null
+
+      - name: delay_date
+        description: >
+          Date of the delay incident, cast from VARCHAR to DATE.
+        tests:
+          - not_null
+
+      - name: delay_time
+        description: >
+          Time of the delay incident, cast from VARCHAR to TIME.
+
+      - name: incident_timestamp
+        description: >
+          Combined date and time as a TIMESTAMP_NTZ value,
+          produced via timestamp_from_parts.
+
+      - name: day_of_week
+        description: >
+          Day of the week when the delay occurred (e.g., Monday).
+          Sourced from the DAY column without transformation.
+
+      - name: route
+        description: >
+          TTC bus route number or identifier where the delay occurred.
+
+      - name: location
+        description: >
+          Intersection or landmark description of the delay location.
+          Free-text field from the source data.
+
+      - name: delay_code
+        description: >
+          TTC incident code identifying the delay cause.
+          Enriched with descriptions and categories in the intermediate
+          layer via the ttc_delay_codes seed.
+
+      - name: delay_minutes
+        description: >
+          Duration of the delay in minutes, cast from VARCHAR to INTEGER.
+          Records with zero delay are excluded at the staging boundary.
+        tests:
+          - not_null
+
+      - name: gap_minutes
+        description: >
+          Service gap resulting from the delay in minutes,
+          cast from VARCHAR to INTEGER. NULL when not recorded.
+
+      - name: direction
+        description: >
+          Direction of travel at the time of delay.
+          Free-text compass or route direction from the source data.
+
+      - name: transit_mode
+        description: >
+          Transit mode literal, always 'bus' for this model.
+          Used for filtering and union operations in downstream layers.
+        tests:
+          - accepted_values:
+              values: ['bus']
+
+  - name: stg_ttc_streetcar_delays
+    description: >
+      Staged TTC streetcar delay incidents from RAW.TTC_STREETCAR_DELAYS.
+      Type-casts VARCHAR columns to native types, generates a surrogate key
+      from the natural key (date, time, route, direction, delay_code, min_delay),
+      and excludes zero-delay records. Structurally identical to
+      stg_ttc_bus_delays with transit_mode set to 'streetcar'.
+    columns:
+      - name: delay_sk
+        description: >
+          Surrogate key derived from the natural key components
+          (date, time, route, direction, delay_code, min_delay) via
+          dbt_utils.generate_surrogate_key.
+        tests:
+          - unique
+          - not_null
+
+      - name: delay_date
+        description: >
+          Date of the delay incident, cast from VARCHAR to DATE.
+        tests:
+          - not_null
+
+      - name: delay_time
+        description: >
+          Time of the delay incident, cast from VARCHAR to TIME.
+
+      - name: incident_timestamp
+        description: >
+          Combined date and time as a TIMESTAMP_NTZ value,
+          produced via timestamp_from_parts.
+
+      - name: day_of_week
+        description: >
+          Day of the week when the delay occurred (e.g., Monday).
+          Sourced from the DAY column without transformation.
+
+      - name: route
+        description: >
+          TTC streetcar route number or identifier where the delay occurred.
+
+      - name: location
+        description: >
+          Intersection or landmark description of the delay location.
+          Free-text field from the source data.
+
+      - name: delay_code
+        description: >
+          TTC incident code identifying the delay cause.
+          Enriched with descriptions and categories in the intermediate
+          layer via the ttc_delay_codes seed.
+
+      - name: delay_minutes
+        description: >
+          Duration of the delay in minutes, cast from VARCHAR to INTEGER.
+          Records with zero delay are excluded at the staging boundary.
+        tests:
+          - not_null
+
+      - name: gap_minutes
+        description: >
+          Service gap resulting from the delay in minutes,
+          cast from VARCHAR to INTEGER. NULL when not recorded.
+
+      - name: direction
+        description: >
+          Direction of travel at the time of delay.
+          Free-text compass or route direction from the source data.
+
+      - name: transit_mode
+        description: >
+          Transit mode literal, always 'streetcar' for this model.
+          Used for filtering and union operations in downstream layers.
+        tests:
+          - accepted_values:
+              values: ['streetcar']

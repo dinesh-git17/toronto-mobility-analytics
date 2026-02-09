@@ -1,0 +1,32 @@
+version: 2
+
+sources:
+  - name: raw
+    database: TORONTO_MOBILITY
+    schema: RAW
+    freshness:
+      warn_after:
+        count: 45
+        period: day
+      error_after:
+        count: 90
+        period: day
+
+    tables:
+      - name: bike_share_trips
+        loaded_at_field: "try_cast(start_time as timestamp)"
+        description: >
+          Bike Share Toronto trip records at one row per completed trip.
+          Sourced from Toronto Open Data Portal, 2019-present.
+          Grain: one row per trip (trip_id).
+        columns:
+          - name: TRIP_ID
+          - name: TRIP_DURATION
+          - name: START_STATION_ID
+          - name: START_TIME
+          - name: START_STATION_NAME
+          - name: END_STATION_ID
+          - name: END_TIME
+          - name: END_STATION_NAME
+          - name: BIKE_ID
+          - name: USER_TYPE
