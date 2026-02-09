@@ -1,0 +1,53 @@
+version: 2
+
+sources:
+  - name: raw
+    database: TORONTO_MOBILITY
+    schema: RAW
+    freshness:
+      warn_after:
+        count: 45
+        period: day
+      error_after:
+        count: 90
+        period: day
+
+    tables:
+      - name: weather_daily
+        loaded_at_field: "try_cast(date_time as timestamp)"
+        description: >
+          Environment Canada daily weather observations for Toronto Pearson
+          (Station ID 51459). One row per calendar date, 2019-present.
+          Grain: one row per observation date (date_time).
+        columns:
+          - name: LONGITUDE
+          - name: LATITUDE
+          - name: STATION_NAME
+          - name: CLIMATE_ID
+          - name: DATE_TIME
+          - name: YEAR
+          - name: MONTH
+          - name: DAY
+          - name: DATA_QUALITY
+          - name: MAX_TEMP_C
+          - name: MAX_TEMP_FLAG
+          - name: MIN_TEMP_C
+          - name: MIN_TEMP_FLAG
+          - name: MEAN_TEMP_C
+          - name: MEAN_TEMP_FLAG
+          - name: HEAT_DEG_DAYS_C
+          - name: HEAT_DEG_DAYS_FLAG
+          - name: COOL_DEG_DAYS_C
+          - name: COOL_DEG_DAYS_FLAG
+          - name: TOTAL_RAIN_MM
+          - name: TOTAL_RAIN_FLAG
+          - name: TOTAL_SNOW_CM
+          - name: TOTAL_SNOW_FLAG
+          - name: TOTAL_PRECIP_MM
+          - name: TOTAL_PRECIP_FLAG
+          - name: SNOW_ON_GRND_CM
+          - name: SNOW_ON_GRND_FLAG
+          - name: DIR_OF_MAX_GUST_10S_DEG
+          - name: DIR_OF_MAX_GUST_FLAG
+          - name: SPD_OF_MAX_GUST_KMH
+          - name: SPD_OF_MAX_GUST_FLAG

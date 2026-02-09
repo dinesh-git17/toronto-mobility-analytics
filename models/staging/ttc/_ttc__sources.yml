@@ -1,0 +1,65 @@
+version: 2
+
+sources:
+  - name: raw
+    database: TORONTO_MOBILITY
+    schema: RAW
+    freshness:
+      warn_after:
+        count: 45
+        period: day
+      error_after:
+        count: 90
+        period: day
+
+    tables:
+      - name: ttc_subway_delays
+        loaded_at_field: "try_cast(date as timestamp)"
+        description: >
+          TTC subway delay incidents at one row per recorded event.
+          Sourced from Toronto Open Data Portal, 2019-present.
+          Grain: one row per delay incident (date, time, station, line, code).
+        columns:
+          - name: DATE
+          - name: TIME
+          - name: DAY
+          - name: STATION
+          - name: CODE
+          - name: MIN_DELAY
+          - name: MIN_GAP
+          - name: BOUND
+          - name: LINE
+
+      - name: ttc_bus_delays
+        loaded_at_field: "try_cast(date as timestamp)"
+        description: >
+          TTC bus delay incidents at one row per recorded event.
+          Sourced from Toronto Open Data Portal, 2020-present.
+          Grain: one row per delay incident (date, time, route, direction, delay code).
+        columns:
+          - name: DATE
+          - name: ROUTE
+          - name: TIME
+          - name: DAY
+          - name: LOCATION
+          - name: DELAY_CODE
+          - name: MIN_DELAY
+          - name: MIN_GAP
+          - name: DIRECTION
+
+      - name: ttc_streetcar_delays
+        loaded_at_field: "try_cast(date as timestamp)"
+        description: >
+          TTC streetcar delay incidents at one row per recorded event.
+          Sourced from Toronto Open Data Portal, 2020-present.
+          Grain: one row per delay incident (date, time, route, direction, delay code).
+        columns:
+          - name: DATE
+          - name: ROUTE
+          - name: TIME
+          - name: DAY
+          - name: LOCATION
+          - name: DELAY_CODE
+          - name: MIN_DELAY
+          - name: MIN_GAP
+          - name: DIRECTION

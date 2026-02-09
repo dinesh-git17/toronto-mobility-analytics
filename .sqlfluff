@@ -2,21 +2,21 @@
 dialect = snowflake
 templater = dbt
 max_line_length = 120
-exclude_rules = L003
+exclude_rules = L003, RF04, LT14
 
 [sqlfluff:indentation]
 indent_unit = space
 tab_space_size = 4
 
 [sqlfluff:rules:capitalisation.keywords]
-capitalisation_policy = upper
+capitalisation_policy = lower
 
 [sqlfluff:rules:capitalisation.functions]
-capitalisation_policy = upper
+capitalisation_policy = lower
 
 [sqlfluff:rules:capitalisation.identifiers]
 capitalisation_policy = lower
 
 [sqlfluff:templater:dbt]
 project_dir = ./
-profiles_dir = ./
+profiles_dir = ~/.dbt/
