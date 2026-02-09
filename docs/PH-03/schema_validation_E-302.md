@@ -5,13 +5,13 @@
 | Epic ID      | E-302         |
 | Phase        | PH-03         |
 | Owner        | @dinesh-git17 |
-| Status       | Draft         |
+| Status       | Complete      |
 | Dependencies | [E-301]       |
 | Created      | 2026-02-03    |
 
 ## Context
 
-Raw source files acquired by E-301 arrive in heterogeneous formats (XLSX for TTC delays, CSV for Bike Share and weather) with no guarantee of schema stability across years. The Toronto Open Data Portal has historically changed column names, added columns, and altered data types between annual releases. DESIGN-DOC.md Section 4.3 mandates fail-fast schema enforcement: if the actual schema of a downloaded file deviates from the expected contract, the entire ingestion run must abort with zero partial loads. This epic builds the validation and transformation layer that sits between raw file acquisition (E-301) and Snowflake loading (E-303), ensuring only contract-compliant CSV data reaches the loading stage.
+Raw source files acquired by E-301 arrive in heterogeneous formats (XLSX for TTC delays, ZIP archives containing monthly CSVs for Bike Share, and CSV for weather) with no guarantee of schema stability across years. The Toronto Open Data Portal has historically changed column names, added columns, and altered data types between annual releases. DESIGN-DOC.md Section 4.3 mandates fail-fast schema enforcement: if the actual schema of a downloaded file deviates from the expected contract, the entire ingestion run must abort with zero partial loads. This epic builds the validation and transformation layer that sits between raw file acquisition (E-301) and Snowflake loading (E-303), ensuring only contract-compliant CSV data reaches the loading stage.
 
 ## Scope
 
@@ -20,7 +20,7 @@ Raw source files acquired by E-301 arrive in heterogeneous formats (XLSX for TTC
 - Python 3.12 `scripts/validate.py` module implementing fail-fast schema contract enforcement per DESIGN-DOC.md Section 4.3
 - Schema contract definitions for all five source datasets as typed Python datastructures matching Section 4.3.1 (TTC Subway), 4.3.2 (Bike Share), and 4.3.3 (Weather) contracts
 - `SchemaValidationError` custom exception with structured error reporting (expected vs. actual columns, type mismatches, file path)
-- Python 3.12 `scripts/transform.py` module for XLSX-to-CSV conversion using `openpyxl`
+- Python 3.12 `scripts/transform.py` module for XLSX-to-CSV conversion using `openpyxl` and ZIP archive extraction for Bike Share ridership files using `zipfile`
 - Encoding normalization (detect and convert to UTF-8) for source CSVs with inconsistent encodings
 - Unit and integration tests for both modules via `pytest`
 - Type-annotated modules passing `mypy --strict`
@@ -42,6 +42,7 @@ Raw source files acquired by E-301 arrive in heterogeneous formats (XLSX for TTC
 - **Schema contracts as frozen dataclasses**: Define each dataset's expected schema as a `SchemaContract` dataclass containing: `required_columns` (ordered list of `ColumnContract` with name and dtype), `nullable_columns` (set of column names), and `row_validators` (optional per-row callables). This makes contracts version-controlled, diffable, and testable.
 - **`openpyxl` for XLSX conversion**: Use `openpyxl` in read-only mode for memory-efficient processing of large XLSX files (TTC bus delays can exceed 100K rows per file). Write output as UTF-8 CSV with `csv.writer`. Avoid `pandas` for conversion to minimize dependency footprint and control encoding explicitly.
 - **Two-phase validation**: Phase 1 validates column presence and ordering (structural). Phase 2 validates column data types by sampling the first 1,000 rows (type inference). Both phases must pass before a file is marked valid.
+- **ZIP extraction for Bike Share**: Bike Share ridership files arrive as ZIP archives containing 12 monthly CSVs per year (e.g., `Bike share ridership 2023-01.csv` through `2023-12.csv`, each 23–96 MB). Use Python's `zipfile` module to extract CSVs to `data/raw/bike_share/<year>/` before validation. The extraction step is idempotent: skip extraction if target CSVs already exist with matching file sizes.
 - **Encoding detection via `charset-normalizer`**: Some older TTC XLSX exports produce CSVs with Windows-1252 encoding. Use `charset-normalizer` to detect encoding and transcode to UTF-8 before validation.
 
 ### Integration Points
@@ -53,7 +54,7 @@ Raw source files acquired by E-301 arrive in heterogeneous formats (XLSX for TTC
 ### Repository Areas
 
 - `scripts/validate.py` — schema validation module
-- `scripts/transform.py` — XLSX-to-CSV conversion module
+- `scripts/transform.py` — XLSX-to-CSV conversion and ZIP extraction module
 - `scripts/contracts.py` — schema contract definitions
 - `tests/test_validate.py` — validation test suite
 - `tests/test_transform.py` — transformation test suite
@@ -69,17 +70,19 @@ Raw source files acquired by E-301 arrive in heterogeneous formats (XLSX for TTC
 | Bike Share CSV files contain BOM (Byte Order Mark) characters                    | Medium     | Low    | Strip BOM bytes during encoding normalization before validation                                                                |
 | XLSX files contain multiple worksheets with data split across sheets             | Low        | High   | Document expected worksheet name per dataset in `SchemaContract`; raise `SchemaValidationError` if target worksheet is missing |
 | Large XLSX files (>200K rows) cause memory pressure during conversion            | Low        | Medium | Use `openpyxl` read-only mode with row-by-row streaming; never load entire workbook into memory                                |
+| Bike Share ZIP internal directory structure changes between years                | Medium     | Medium | Discover CSV paths dynamically via `zipfile.ZipFile.infolist()` rather than hardcoding; filter by `.csv` extension             |
 
 ## Stories
 
-| ID   | Story                                                          | Points | Dependencies           | Status |
-| ---- | -------------------------------------------------------------- | ------ | ---------------------- | ------ |
-| S001 | Define schema contracts for all five source datasets           | 5      | None                   | Draft  |
-| S002 | Implement XLSX-to-CSV conversion module                        | 5      | None                   | Draft  |
-| S003 | Implement schema validation engine with fail-fast behavior     | 5      | S001                   | Draft  |
-| S004 | Implement encoding detection and normalization                 | 3      | None                   | Draft  |
-| S005 | Add comprehensive test suite for validation and transformation | 5      | S001, S002, S003, S004 | Draft  |
-| S006 | Validate all downloaded source files against contracts         | 3      | S005, E-301.S006       | Draft  |
+| ID   | Story                                                          | Points | Dependencies                 | Status |
+| ---- | -------------------------------------------------------------- | ------ | ---------------------------- | ------ |
+| S001 | Define schema contracts for all five source datasets           | 5      | None                         | Draft  |
+| S002 | Implement XLSX-to-CSV conversion module                        | 5      | None                         | Draft  |
+| S003 | Implement schema validation engine with fail-fast behavior     | 5      | S001                         | Draft  |
+| S004 | Implement encoding detection and normalization                 | 3      | None                         | Draft  |
+| S007 | Implement ZIP archive extraction for Bike Share datasets       | 3      | None                         | Draft  |
+| S005 | Add comprehensive test suite for validation and transformation | 5      | S001, S002, S003, S004, S007 | Draft  |
+| S006 | Validate all downloaded source files against contracts         | 3      | S005, E-301.S006             | Draft  |
 
 ---
 
@@ -192,6 +195,33 @@ Raw source files acquired by E-301 arrive in heterogeneous formats (XLSX for TTC
 
 ---
 
+### S007: Implement ZIP archive extraction for Bike Share datasets
+
+**Description**: Build a ZIP extraction function that unpacks Bike Share ridership archives into individual monthly CSV files, bridging the gap between E-301's raw ZIP downloads and the schema validation pipeline.
+
+**Acceptance Criteria**:
+
+- [ ] File `scripts/transform.py` defines function `extract_zip(zip_path: Path, output_dir: Path) -> list[ExtractResult]`
+- [ ] `ExtractResult` dataclass contains: `zip_path` (source archive), `extracted_path` (output CSV path), `original_name` (name inside archive), `byte_size` (extracted file size), `skipped` (bool, True if file already existed with matching size)
+- [ ] Function discovers CSV members dynamically via `zipfile.ZipFile.infolist()` and filters to `.csv` entries only, ignoring `__MACOSX/` metadata directories and non-CSV files
+- [ ] Function extracts CSVs to `output_dir/<filename>` with flattened paths (strips internal subdirectory prefixes such as `bikeshare-ridership-2023/`)
+- [ ] Extraction is idempotent: if a target CSV already exists and matches the archive member's uncompressed size, extraction is skipped and logged as `SKIPPED`
+- [ ] Function validates the ZIP archive integrity via `zipfile.ZipFile.testzip()` before extraction; raises `TransformError` if the archive is corrupt
+- [ ] Function `batch_extract_zips(source_dir: Path, output_dir: Path, file_pattern: str = "*.zip") -> list[ExtractResult]` processes all matching ZIP files in a directory tree, preserving the `<source>/<year>/` subdirectory structure in the output
+- [ ] `mypy --strict scripts/transform.py` passes with zero errors
+- [ ] `ruff check scripts/transform.py && ruff format --check scripts/transform.py` passes
+
+**Technical Notes**: Bike Share ZIP archives contain a subdirectory matching the archive name (e.g., `bikeshare-ridership-2023/Bike share ridership 2023-01.csv`). Strip this prefix during extraction to produce flat CSVs at the year level. Use `zipfile.Path` or `PurePosixPath` to handle cross-platform path separators inside archives. Each archive contains 12 monthly CSVs ranging from 23 MB to 96 MB uncompressed.
+
+**Definition of Done**:
+
+- [ ] Code committed to feature branch
+- [ ] Tests pass locally
+- [ ] PR opened with linked issue
+- [ ] CI checks green
+
+---
+
 ### S005: Add comprehensive test suite for validation and transformation
 
 **Description**: Build pytest test suites covering schema validation, XLSX conversion, and encoding normalization with fixture files and edge cases.
@@ -199,7 +229,7 @@ Raw source files acquired by E-301 arrive in heterogeneous formats (XLSX for TTC
 **Acceptance Criteria**:
 
 - [ ] File `tests/test_validate.py` exists with tests covering: valid CSV passes validation, missing required column raises `SchemaValidationError`, extra column logs warning but passes, type mismatch in sampled rows raises `SchemaValidationError`, nullable column with empty values passes, case-insensitive column matching works
-- [ ] File `tests/test_transform.py` exists with tests covering: XLSX-to-CSV produces correct row/column count, missing worksheet raises `TransformError`, encoding detection identifies UTF-8 correctly, Windows-1252 file is transcoded to UTF-8, BOM is stripped from output
+- [ ] File `tests/test_transform.py` exists with tests covering: XLSX-to-CSV produces correct row/column count, missing worksheet raises `TransformError`, encoding detection identifies UTF-8 correctly, Windows-1252 file is transcoded to UTF-8, BOM is stripped from output, ZIP extraction produces correct CSV files, ZIP extraction skips existing files (idempotency), corrupt ZIP raises `TransformError`, ZIP extraction strips internal subdirectory prefixes
 - [ ] Test fixtures exist at `tests/fixtures/`: `valid_subway_delays.csv` (10 rows matching TTC subway contract), `invalid_missing_column.csv` (subway data with "Station" column removed), `valid_delays.xlsx` (small XLSX with 10 rows), `windows_1252.csv` (file with Windows-1252 encoding)
 - [ ] All tests use `tmp_path` fixture for filesystem operations — no writes to project directories
 - [ ] `pytest tests/test_validate.py tests/test_transform.py -v` passes with zero failures
@@ -225,7 +255,8 @@ Raw source files acquired by E-301 arrive in heterogeneous formats (XLSX for TTC
 
 - [ ] Running `python scripts/validate.py --all --source-dir data/raw --output-dir data/validated` processes all downloaded files
 - [ ] All TTC XLSX files are converted to CSV via `transform.py` before validation
-- [ ] All converted CSVs and original CSVs (Bike Share, weather) pass schema validation against their respective contracts
+- [ ] All Bike Share ZIP archives are extracted to individual monthly CSVs via `transform.py` before validation
+- [ ] All converted CSVs, extracted Bike Share CSVs, and weather CSVs pass schema validation against their respective contracts
 - [ ] `data/validated/` directory contains only validated, UTF-8 encoded CSV files organized as `data/validated/<source>/<year>/<filename>.csv`
 - [ ] Validation summary logged to stdout reports: total files processed, files passed, files failed (must be zero), total rows across all files
 - [ ] If any file fails validation, the process exits with code 1 and logs the `SchemaValidationError` details including file path and specific mismatches
@@ -250,6 +281,7 @@ This epic is complete when:
 - [ ] Schema contracts for all five datasets match DESIGN-DOC.md Section 4.3 specifications
 - [ ] All downloaded source files pass schema validation with zero failures
 - [ ] XLSX files are converted to UTF-8 CSV format
+- [ ] ZIP archives are extracted to individual CSV files
 - [ ] `SchemaValidationError` is raised and ingestion aborts on any schema deviation (fail-fast verified by test)
 - [ ] `pytest tests/test_validate.py tests/test_transform.py` passes with zero failures
 - [ ] `ruff check` and `ruff format` pass on all Python files

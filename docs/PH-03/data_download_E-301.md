@@ -5,7 +5,7 @@
 | Epic ID      | E-301                      |
 | Phase        | PH-03                      |
 | Owner        | @dinesh-git17              |
-| Status       | Draft                      |
+| Status       | Complete                   |
 | Dependencies | [PH-02.E-201, PH-02.E-202] |
 | Created      | 2026-02-03                 |
 
@@ -72,12 +72,12 @@ PH-03 requires raw source data from the Toronto Open Data Portal and Environment
 
 | ID   | Story                                                 | Points | Dependencies | Status |
 | ---- | ----------------------------------------------------- | ------ | ------------ | ------ |
-| S001 | Create dataset configuration registry                 | 3      | None         | Draft  |
-| S002 | Implement Toronto Open Data CKAN download client      | 5      | S001         | Draft  |
-| S003 | Implement Environment Canada weather download client  | 3      | S001         | Draft  |
-| S004 | Implement download manifest and idempotency logic     | 3      | S002, S003   | Draft  |
-| S005 | Add comprehensive test suite for download module      | 5      | S002, S003   | Draft  |
-| S006 | Execute full source data acquisition for 2019-present | 3      | S004         | Draft  |
+| S001 | Create dataset configuration registry                 | 3      | None         | Done   |
+| S002 | Implement Toronto Open Data CKAN download client      | 5      | S001         | Done   |
+| S003 | Implement Environment Canada weather download client  | 3      | S001         | Done   |
+| S004 | Implement download manifest and idempotency logic     | 3      | S002, S003   | Done   |
+| S005 | Add comprehensive test suite for download module      | 5      | S002, S003   | Done   |
+| S006 | Execute full source data acquisition for 2019-present | 3      | S004         | Done   |
 
 ---
 
@@ -87,21 +87,21 @@ PH-03 requires raw source data from the Toronto Open Data Portal and Environment
 
 **Acceptance Criteria**:
 
-- [ ] File `scripts/config.py` exists and defines a `DatasetConfig` dataclass with fields: `name`, `source_type` (enum: `CKAN` | `ENVIRONMENT_CANADA`), `api_base_url`, `dataset_id` (for CKAN datasets), `station_id` (for weather), `year_range` (tuple of start/end year), `file_format` (enum: `XLSX` | `CSV`), `output_dir` (relative path under `data/raw/`)
-- [ ] Registry contains entries for all five datasets: `ttc_subway_delays`, `ttc_bus_delays`, `ttc_streetcar_delays`, `bike_share_ridership`, `weather_daily`
-- [ ] CKAN dataset IDs match Toronto Open Data Portal identifiers: subway (`996cfe8d-fb35-40ce-b569-698d51fc683b`), bus (`e271cdae-8788-4980-96ce-6a5c95bc6571`), streetcar (`b68cb71b-44a7-4394-97e2-5d2f41462a5d`), bike share (`7e876c24-177c-4605-9cef-e50dd74c617f`)
-- [ ] Environment Canada entry specifies Station ID `51459` and Climate ID `6158733`
-- [ ] `mypy --strict scripts/config.py` passes with zero errors
-- [ ] `ruff check scripts/config.py && ruff format --check scripts/config.py` passes
+- [x] File `scripts/config.py` exists and defines a `DatasetConfig` dataclass with fields: `name`, `source_type` (enum: `CKAN` | `ENVIRONMENT_CANADA`), `api_base_url`, `dataset_id` (for CKAN datasets), `station_id` (for weather), `year_range` (tuple of start/end year), `file_format` (enum: `XLSX` | `CSV`), `output_dir` (relative path under `data/raw/`)
+- [x] Registry contains entries for all five datasets: `ttc_subway_delays`, `ttc_bus_delays`, `ttc_streetcar_delays`, `bike_share_ridership`, `weather_daily`
+- [x] CKAN dataset IDs match Toronto Open Data Portal identifiers: subway (`996cfe8d-fb35-40ce-b569-698d51fc683b`), bus (`e271cdae-8788-4980-96ce-6a5c95bc6571`), streetcar (`b68cb71b-44a7-4394-97e2-5d2f41462a5d`), bike share (`7e876c24-177c-4605-9cef-e50dd74c617f`)
+- [x] Environment Canada entry specifies Station ID `51459` and Climate ID `6158733`
+- [x] `mypy --strict scripts/config.py` passes with zero errors
+- [x] `ruff check scripts/config.py && ruff format --check scripts/config.py` passes
 
 **Technical Notes**: Use `enum.Enum` for source type and file format. Use `dataclasses.dataclass` with `frozen=True` for immutability. Store the registry as a module-level `DATASETS: tuple[DatasetConfig, ...]` constant.
 
 **Definition of Done**:
 
-- [ ] Code committed to feature branch
-- [ ] Tests pass locally
-- [ ] PR opened with linked issue
-- [ ] CI checks green
+- [x] Code committed to feature branch
+- [x] Tests pass locally
+- [x] PR opened with linked issue
+- [x] CI checks green
 
 ---
 
@@ -111,24 +111,24 @@ PH-03 requires raw source data from the Toronto Open Data Portal and Environment
 
 **Acceptance Criteria**:
 
-- [ ] Function `download_ckan_dataset(config: DatasetConfig, output_base: Path) -> list[DownloadResult]` exists in `scripts/download.py`
-- [ ] Function calls CKAN `package_show` API endpoint (`/api/3/action/package_show?id=<dataset_id>`) to resolve current resource URLs
-- [ ] Function filters resources by year range defined in `DatasetConfig` using resource metadata (name or date fields)
-- [ ] Downloads write to `data/raw/<source_name>/<year>/<original_filename>` preserving the portal's original filename
-- [ ] HTTP client uses `httpx.Client` with `timeout=300`, `transport=httpx.HTTPTransport(retries=3)`
-- [ ] Function returns a list of `DownloadResult` dataclass instances containing: `file_path`, `url`, `http_status`, `byte_size`, `download_timestamp`
-- [ ] On HTTP 4xx/5xx response, function raises `DownloadError` with the URL, status code, and response body
-- [ ] `mypy --strict scripts/download.py` passes with zero errors
-- [ ] `ruff check scripts/download.py && ruff format --check scripts/download.py` passes
+- [x] Function `download_ckan_dataset(config: DatasetConfig, output_base: Path) -> list[DownloadResult]` exists in `scripts/download.py`
+- [x] Function calls CKAN `package_show` API endpoint (`/api/3/action/package_show?id=<dataset_id>`) to resolve current resource URLs
+- [x] Function filters resources by year range defined in `DatasetConfig` using resource metadata (name or date fields)
+- [x] Downloads write to `data/raw/<source_name>/<year>/<original_filename>` preserving the portal's original filename
+- [x] HTTP client uses `httpx.Client` with `timeout=300`, `transport=httpx.HTTPTransport(retries=3)`
+- [x] Function returns a list of `DownloadResult` dataclass instances containing: `file_path`, `url`, `http_status`, `byte_size`, `download_timestamp`
+- [x] On HTTP 4xx/5xx response, function raises `DownloadError` with the URL, status code, and response body
+- [x] `mypy --strict scripts/download.py` passes with zero errors
+- [x] `ruff check scripts/download.py && ruff format --check scripts/download.py` passes
 
 **Technical Notes**: The CKAN API returns a JSON response with `result.resources` array. Each resource has `url`, `name`, `last_modified`, and `format` fields. Filter resources by inspecting the `name` field for year indicators (e.g., "2023", "Jan 2023"). Create parent directories with `Path.mkdir(parents=True, exist_ok=True)` before writing.
 
 **Definition of Done**:
 
-- [ ] Code committed to feature branch
-- [ ] Tests pass locally
-- [ ] PR opened with linked issue
-- [ ] CI checks green
+- [x] Code committed to feature branch
+- [x] Tests pass locally
+- [x] PR opened with linked issue
+- [x] CI checks green
 
 ---
 
@@ -138,23 +138,23 @@ PH-03 requires raw source data from the Toronto Open Data Portal and Environment
 
 **Acceptance Criteria**:
 
-- [ ] Function `download_weather_data(config: DatasetConfig, output_base: Path) -> list[DownloadResult]` exists in `scripts/download.py`
-- [ ] Function constructs download URLs using the pattern: `https://climate.weather.gc.ca/climate_data/bulk_data_e.html?format=csv&stationID=51459&Year={year}&Month={month}&timeframe=2` for each year-month combination in the configured range
-- [ ] Downloads one CSV per year (timeframe=2 returns daily data for the full year) and writes to `data/raw/weather/<year>/weather_daily_{year}.csv`
-- [ ] HTTP client uses `httpx.Client` with `timeout=120`, `transport=httpx.HTTPTransport(retries=3)`
-- [ ] Function inserts a 2-second delay (`time.sleep(2)`) between consecutive requests to respect rate limits
-- [ ] Function returns `DownloadResult` instances consistent with S002
-- [ ] On HTTP error, function raises `DownloadError` with URL, status code, and response body
-- [ ] `mypy --strict scripts/download.py` passes with zero errors
+- [x] Function `download_weather_data(config: DatasetConfig, output_base: Path) -> list[DownloadResult]` exists in `scripts/download.py`
+- [x] Function constructs download URLs using the pattern: `https://climate.weather.gc.ca/climate_data/bulk_data_e.html?format=csv&stationID=51459&Year={year}&Month={month}&timeframe=2` for each year-month combination in the configured range
+- [x] Downloads one CSV per year (timeframe=2 returns daily data for the full year) and writes to `data/raw/weather/<year>/weather_daily_{year}.csv`
+- [x] HTTP client uses `httpx.Client` with `timeout=120`, `transport=httpx.HTTPTransport(retries=3)`
+- [x] Function inserts a 2-second delay (`time.sleep(2)`) between consecutive requests to respect rate limits
+- [x] Function returns `DownloadResult` instances consistent with S002
+- [x] On HTTP error, function raises `DownloadError` with URL, status code, and response body
+- [x] `mypy --strict scripts/download.py` passes with zero errors
 
 **Technical Notes**: Environment Canada's bulk download endpoint returns CSV directly. The `timeframe=2` parameter selects daily granularity. Request one file per year rather than per month to reduce request count (7 requests for 2019-2025 vs. 84).
 
 **Definition of Done**:
 
-- [ ] Code committed to feature branch
-- [ ] Tests pass locally
-- [ ] PR opened with linked issue
-- [ ] CI checks green
+- [x] Code committed to feature branch
+- [x] Tests pass locally
+- [x] PR opened with linked issue
+- [x] CI checks green
 
 ---
 
@@ -164,23 +164,23 @@ PH-03 requires raw source data from the Toronto Open Data Portal and Environment
 
 **Acceptance Criteria**:
 
-- [ ] File `scripts/download.py` contains a `DownloadManifest` class that reads/writes a JSON manifest at `data/raw/.manifest.json`
-- [ ] Manifest schema contains a list of entries, each with: `url`, `file_path`, `byte_size`, `sha256_hash`, `download_timestamp`, `http_status`
-- [ ] Before downloading a file, the download functions (S002, S003) consult the manifest: if an entry exists with matching `url` and the file at `file_path` exists with matching `byte_size`, the download is skipped and logged as `SKIPPED`
-- [ ] After a successful download, the manifest is updated atomically (write to temp file, then `os.replace` to target path)
-- [ ] `DownloadManifest.prune()` method removes entries whose `file_path` no longer exists on disk
-- [ ] SHA-256 hash is computed for each downloaded file and stored in the manifest for integrity verification
-- [ ] `mypy --strict` passes on all modified files
-- [ ] `ruff check && ruff format --check` passes on all modified files
+- [x] File `scripts/download.py` contains a `DownloadManifest` class that reads/writes a JSON manifest at `data/raw/.manifest.json`
+- [x] Manifest schema contains a list of entries, each with: `url`, `file_path`, `byte_size`, `sha256_hash`, `download_timestamp`, `http_status`
+- [x] Before downloading a file, the download functions (S002, S003) consult the manifest: if an entry exists with matching `url` and the file at `file_path` exists with matching `byte_size`, the download is skipped and logged as `SKIPPED`
+- [x] After a successful download, the manifest is updated atomically (write to temp file, then `os.replace` to target path)
+- [x] `DownloadManifest.prune()` method removes entries whose `file_path` no longer exists on disk
+- [x] SHA-256 hash is computed for each downloaded file and stored in the manifest for integrity verification
+- [x] `mypy --strict` passes on all modified files
+- [x] `ruff check && ruff format --check` passes on all modified files
 
 **Technical Notes**: Use `hashlib.sha256` with chunked reads (64KB buffer) for hash computation to avoid loading large files into memory. The manifest file itself lives inside `data/raw/` which is gitignored.
 
 **Definition of Done**:
 
-- [ ] Code committed to feature branch
-- [ ] Tests pass locally
-- [ ] PR opened with linked issue
-- [ ] CI checks green
+- [x] Code committed to feature branch
+- [x] Tests pass locally
+- [x] PR opened with linked issue
+- [x] CI checks green
 
 ---
 
@@ -190,25 +190,25 @@ PH-03 requires raw source data from the Toronto Open Data Portal and Environment
 
 **Acceptance Criteria**:
 
-- [ ] File `tests/test_download.py` exists with test functions covering: CKAN URL resolution, CKAN file download, weather URL construction, weather file download, manifest read/write, manifest idempotency skip, error handling on HTTP failures
-- [ ] Tests mock HTTP responses using `pytest-httpx` or `respx` — no real network calls during test execution
-- [ ] Tests use `tmp_path` fixture for all filesystem operations
-- [ ] Test for CKAN download verifies correct directory structure: `<output_base>/<source_name>/<year>/<filename>`
-- [ ] Test for manifest idempotency verifies that a second download call with existing manifest entry and file produces `SKIPPED` status
-- [ ] Test for HTTP 404 verifies `DownloadError` is raised with the correct URL and status code
-- [ ] Test for SHA-256 hash verifies computed hash matches known value for a test fixture file
-- [ ] `pytest tests/test_download.py -v` passes with zero failures
-- [ ] `mypy --strict tests/test_download.py` passes
-- [ ] `ruff check tests/test_download.py && ruff format --check tests/test_download.py` passes
+- [x] File `tests/test_download.py` exists with test functions covering: CKAN URL resolution, CKAN file download, weather URL construction, weather file download, manifest read/write, manifest idempotency skip, error handling on HTTP failures
+- [x] Tests mock HTTP responses using `pytest-httpx` or `respx` — no real network calls during test execution
+- [x] Tests use `tmp_path` fixture for all filesystem operations
+- [x] Test for CKAN download verifies correct directory structure: `<output_base>/<source_name>/<year>/<filename>`
+- [x] Test for manifest idempotency verifies that a second download call with existing manifest entry and file produces `SKIPPED` status
+- [x] Test for HTTP 404 verifies `DownloadError` is raised with the correct URL and status code
+- [x] Test for SHA-256 hash verifies computed hash matches known value for a test fixture file
+- [x] `pytest tests/test_download.py -v` passes with zero failures
+- [x] `mypy --strict tests/test_download.py` passes
+- [x] `ruff check tests/test_download.py && ruff format --check tests/test_download.py` passes
 
 **Technical Notes**: Create a minimal CKAN API JSON response fixture in `tests/fixtures/ckan_package_show_response.json` for realistic mock data. Use `pytest.raises` for error path assertions.
 
 **Definition of Done**:
 
-- [ ] Code committed to feature branch
-- [ ] Tests pass locally
-- [ ] PR opened with linked issue
-- [ ] CI checks green
+- [x] Code committed to feature branch
+- [x] Tests pass locally
+- [x] PR opened with linked issue
+- [x] CI checks green
 
 ---
 
@@ -218,22 +218,22 @@ PH-03 requires raw source data from the Toronto Open Data Portal and Environment
 
 **Acceptance Criteria**:
 
-- [ ] Running `python scripts/download.py --all` downloads all TTC delay files (subway, bus, streetcar) for years 2019-2025 from Toronto Open Data Portal
-- [ ] Running `python scripts/download.py --all` downloads all Bike Share ridership files for years 2019-2025
-- [ ] Running `python scripts/download.py --all` downloads all Environment Canada daily weather CSVs for years 2019-2025
-- [ ] `data/raw/.manifest.json` contains entries for every downloaded file with valid SHA-256 hashes
-- [ ] Re-running `python scripts/download.py --all` completes without re-downloading existing files (idempotency verified via log output showing `SKIPPED` status)
-- [ ] Total downloaded file count per source matches expected: TTC subway (~72 files), TTC bus (~72 files), TTC streetcar (~72 files), Bike Share (~24-28 files), weather (~7 files)
-- [ ] No download errors in the execution log
+- [x] Running `python scripts/download.py --all` downloads all TTC delay files (subway, bus, streetcar) for years 2019-2025 from Toronto Open Data Portal
+- [x] Running `python scripts/download.py --all` downloads all Bike Share ridership files for years 2019-2025
+- [x] Running `python scripts/download.py --all` downloads all Environment Canada daily weather CSVs for years 2019-2025
+- [x] `data/raw/.manifest.json` contains entries for every downloaded file with valid SHA-256 hashes
+- [x] Re-running `python scripts/download.py --all` completes without re-downloading existing files (idempotency verified via log output showing `SKIPPED` status)
+- [x] Total downloaded file count per source matches expected: TTC subway (~72 files), TTC bus (~72 files), TTC streetcar (~72 files), Bike Share (~24-28 files), weather (~7 files)
+- [x] No download errors in the execution log
 
 **Technical Notes**: Run this story on a machine with stable internet connectivity. Expected total download size is approximately 2-3 GB across all datasets. The CLI entry point uses `argparse` with `--all`, `--dataset <name>`, and `--year <YYYY>` flags for selective execution.
 
 **Definition of Done**:
 
-- [ ] Code committed to feature branch
-- [ ] Tests pass locally
-- [ ] PR opened with linked issue
-- [ ] CI checks green
+- [x] Code committed to feature branch
+- [x] Tests pass locally
+- [x] PR opened with linked issue
+- [x] CI checks green
 
 ---
 
@@ -241,10 +241,10 @@ PH-03 requires raw source data from the Toronto Open Data Portal and Environment
 
 This epic is complete when:
 
-- [ ] `scripts/download.py` and `scripts/config.py` exist, are type-annotated, and pass `mypy --strict`
-- [ ] All five datasets (TTC subway, TTC bus, TTC streetcar, Bike Share, weather) are downloaded to `data/raw/` with correct directory structure
-- [ ] Download manifest at `data/raw/.manifest.json` tracks all acquired files with SHA-256 hashes
-- [ ] Idempotent re-execution skips previously downloaded files
-- [ ] `pytest tests/test_download.py` passes with zero failures
-- [ ] `ruff check` and `ruff format` pass on all Python files in `scripts/` and `tests/`
-- [ ] Python code generated via `python-writing` skill
+- [x] `scripts/download.py` and `scripts/config.py` exist, are type-annotated, and pass `mypy --strict`
+- [x] All five datasets (TTC subway, TTC bus, TTC streetcar, Bike Share, weather) are downloaded to `data/raw/` with correct directory structure
+- [x] Download manifest at `data/raw/.manifest.json` tracks all acquired files with SHA-256 hashes
+- [x] Idempotent re-execution skips previously downloaded files
+- [x] `pytest tests/test_download.py` passes with zero failures
+- [x] `ruff check` and `ruff format` pass on all Python files in `scripts/` and `tests/`
+- [x] Python code generated via `python-writing` skill
