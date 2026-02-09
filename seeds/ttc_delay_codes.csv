@@ -1,0 +1,335 @@
+delay_code,delay_description,delay_category
+Cleaning,Cleaning,Operations
+Cleaning - Disinfection,Cleaning - Disinfection,Operations
+Cleaning - Unsanitary,Cleaning - Unsanitary,Operations
+Collision - TTC,Collision - TTC,Operations
+Collision - TTC Involved,Collision - TTC Involved,Operations
+Diversion,Diversion,Operations
+EFB,Equipment Breakdown - Fleet,Infrastructure
+EFCAN,Cancellation - Fleet,Infrastructure
+EFD,Door Equipment - Fleet,Infrastructure
+EFHVA,HVAC Equipment - Fleet,Infrastructure
+EFO,Equipment Other - Fleet,Infrastructure
+EFP,Platform Equipment - Fleet,Infrastructure
+EFRA,Route Assignment - Fleet,Infrastructure
+ERAC,Air Conditioning - SRT,Infrastructure
+ERBO,Breakdown - SRT,Infrastructure
+ERCD,Communication Delay - SRT,Infrastructure
+ERCO,Control Issue - SRT,Infrastructure
+ERDB,Door Brake - SRT,Infrastructure
+ERDO,Door Equipment - SRT,Infrastructure
+ERHV,HVAC - SRT,Infrastructure
+ERLV,Lost Vehicle - SRT,Infrastructure
+ERME,Mechanical Equipment - SRT,Infrastructure
+ERNEA,Not Expected Activity - SRT,Infrastructure
+ERNT,Not Tracked - SRT,Infrastructure
+ERO,Equipment Other - SRT,Infrastructure
+ERPR,Protocol Response - SRT,Infrastructure
+ERRA,Route Assignment - SRT,Infrastructure
+ERTB,Track Brake - SRT,Infrastructure
+ERTC,Track Circuit - SRT,Infrastructure
+ERTL,Track Light - SRT,Infrastructure
+ERTR,Track Related - SRT,Infrastructure
+ERWA,Weather Alert - SRT,Weather
+ERWS,Work Zone Safety - SRT,Infrastructure
+ETAC,Air Conditioning - Streetcar,Infrastructure
+ETAX,Alarm External - Streetcar,Infrastructure
+ETBO,Breakdown - Streetcar,Infrastructure
+ETCE,Car Equipment - Streetcar,Infrastructure
+ETCM,Communication - Streetcar,Infrastructure
+ETCO,Control Issue - Streetcar,Infrastructure
+ETDB,Door Brake - Streetcar,Infrastructure
+ETDO,Door Equipment - Streetcar,Infrastructure
+ETDS,Door Sensor - Streetcar,Infrastructure
+ETFA,Fire Alarm - Streetcar,Infrastructure
+ETHV,HVAC - Streetcar,Infrastructure
+ETLT,Light Failure - Streetcar,Infrastructure
+ETLV,Lost Vehicle - Streetcar,Infrastructure
+ETNEA,Not Expected Activity - Streetcar,Infrastructure
+ETNT,Not Tracked - Streetcar,Infrastructure
+ETO,Equipment Other - Streetcar,Infrastructure
+ETPI,Personnel Incident - Streetcar,Infrastructure
+ETRA,Route Assignment - Streetcar,Infrastructure
+ETSA,Safety Alert - Streetcar,Infrastructure
+ETSE,Safety Equipment - Streetcar,Infrastructure
+ETTB,Track Brake - Streetcar,Infrastructure
+ETTM,Timing Equipment - Streetcar,Infrastructure
+ETTR,Track Related - Streetcar,Infrastructure
+ETVC,Vehicle/Car Issue - Streetcar,Infrastructure
+ETVE,Vehicle Equipment - Streetcar,Infrastructure
+ETWA,Weather Alert - Streetcar,Weather
+ETWS,Work Zone Safety - Streetcar,Infrastructure
+EUAC,Air Conditioning Equipment,Infrastructure
+EUAL,Equipment Alarm,Infrastructure
+EUATC,Automatic Train Control Equipment,Signal
+EUBK,Brake Equipment Fault,Infrastructure
+EUBO,Equipment Breakdown,Infrastructure
+EUCA,Communication Alarm,Infrastructure
+EUCD,Communication Equipment Delay,Infrastructure
+EUCO,Equipment Control Issue,Infrastructure
+EUDO,Door Equipment Malfunction,Infrastructure
+EUECD,Emergency Communication Delay,Infrastructure
+EUHV,HVAC Equipment Fault,Infrastructure
+EULT,Light Equipment Failure,Infrastructure
+EULV,Lost Vehicle,Infrastructure
+EUME,Mechanical Equipment Failure,Infrastructure
+EUNEA,Equipment Not Expected Activity,Infrastructure
+EUNT,Equipment Not Tracked,Infrastructure
+EUO,Other,Infrastructure
+EUOE,Operator Equipment Error,Infrastructure
+EUOPO,Operator Passed Station,Infrastructure
+EUPI,Personnel Incident - Equipment,Infrastructure
+EUSC,Speed Control Restriction,Infrastructure
+EUTAC,Track Auto Control Equipment,Infrastructure
+EUTL,Track Light Equipment,Infrastructure
+EUTM,Timing Equipment,Infrastructure
+EUTR,Track Related Equipment,Infrastructure
+EUTRD,Track Restriction Defect,Infrastructure
+EUVA,Vehicle Assignment Delay,Infrastructure
+EUVE,Vehicle Equipment Issue,Infrastructure
+EUYRD,Yard Departure Delay,Infrastructure
+Emergency Services,Emergency Services,Security
+General Delay,General Delay,General
+Held By,Held By,Operations
+Investigation,Investigation,Security
+Late,Late,Operations
+Late Entering Service,Late Entering Service,Operations
+Late Leaving Garage - Operator,Late Leaving Garage - Operator,Operations
+MFDV,Diversion - Fleet,Mechanical
+MFESA,Emergency Services - Fleet,Mechanical
+MFFD,Fire Department Activity - Fleet,Mechanical
+MFLD,Late Departure - Fleet,Mechanical
+MFO,Mechanical Other - Fleet,Mechanical
+MFPI,Personnel Incident - Fleet,Mechanical
+MFPR,Protocol Response - Fleet,Mechanical
+MFS,Short Turn - Fleet,Mechanical
+MFSAN,Sanitation - Fleet,Mechanical
+MFSH,Short Turn/Halt - Fleet,Mechanical
+MFTO,Turn Out Delay - Fleet,Mechanical
+MFUI,Vehicle Incident - Fleet,Mechanical
+MFUIR,Issue Reported - Fleet,Mechanical
+MFUS,Vehicle Stoppage - Fleet,Mechanical
+MFVIS,Vision Enforcement - Fleet,Mechanical
+MFWEA,Weather Delay - Fleet,Weather
+MRCL,Collision - SRT,Mechanical
+MRD,Door Malfunction - SRT,Mechanical
+MRDD,Door Delay - SRT,Mechanical
+MRFS,Fire Suppression - SRT,Mechanical
+MRIE,Incident Emergency - SRT,Mechanical
+MRNOA,Operator Not Assigned - SRT,Mechanical
+MRO,Mechanical Other - SRT,Mechanical
+MRPAA,Passenger Alarm Activation - SRT,Mechanical
+MRPLA,Platform Alarm Level A - SRT,Mechanical
+MRPLB,Platform Alarm Level B - SRT,Mechanical
+MRPLC,Platform Alarm Level C - SRT,Mechanical
+MRSAN,Sanitation - SRT,Mechanical
+MRSTM,Timing Equipment - SRT,Mechanical
+MRTO,Turn Out Delay - SRT,Mechanical
+MRUI,Vehicle Incident - SRT,Mechanical
+MRUIR,Issue Reported - SRT,Mechanical
+MRWEA,Weather - SRT,Weather
+MTAFR,After Run Delay,Mechanical
+MTCL,Collision - Streetcar,Mechanical
+MTDV,Diversion - Streetcar,Mechanical
+MTEC,Emergency Communication - Streetcar,Mechanical
+MTESA,Emergency Services - Streetcar,Mechanical
+MTGD,General Delay - Streetcar,Mechanical
+MTIE,Incident Emergency - Streetcar,Mechanical
+MTNOA,Operator Not Assigned - Streetcar,Mechanical
+MTO,Mechanical Other - Streetcar,Mechanical
+MTPI,Personnel Incident - Streetcar,Mechanical
+MTPOL,Police Activity - Streetcar,Mechanical
+MTPR,Protocol Response - Streetcar,Mechanical
+MTPU,Passenger Unit - Streetcar,Mechanical
+MTS,Short Turn - Streetcar,Mechanical
+MTSAN,Sanitation - Streetcar,Mechanical
+MTTD,Track Defect - Streetcar,Mechanical
+MTTO,Turn Out Delay - Streetcar,Mechanical
+MTTP,Track/Platform - Streetcar,Mechanical
+MTUI,Vehicle Incident - Streetcar,Mechanical
+MTUIR,Issue Reported - Streetcar,Mechanical
+MTUS,Vehicle Stoppage - Streetcar,Mechanical
+MTVIS,Vision Enforcement - Streetcar,Mechanical
+MTWEA,Weather Delay - Streetcar,Weather
+MTWR,Work Zone - Streetcar,Mechanical
+MUATC,Automatic Train Control - Mechanical,Signal
+MUCL,Collision - Mechanical,Mechanical
+MUCP,Communication Problem,Mechanical
+MUD,Door Malfunction,Mechanical
+MUDD,Door Delay,Mechanical
+MUEC,Emergency Communication,Mechanical
+MUESA,Emergency Services - Mechanical,Mechanical
+MUFM,Fare Machine Malfunction,Mechanical
+MUFS,Fire Suppression System,Mechanical
+MUGD,General Delay - Mechanical,Mechanical
+MUI,Mechanical Incident,Mechanical
+MUIE,Incident Emergency,Mechanical
+MUIR,Issue Reported,Mechanical
+MUIRS,In-Service Issue Reported,Mechanical
+MUIS,In-Service Delay,Mechanical
+MUNCA,No Car Available - Mechanical,Mechanical
+MUNOA,Operator Not Assigned,Mechanical
+MUO,Mechanical Other,Mechanical
+MUODC,Operator Door Control Issue,Mechanical
+MUPAA,Passenger Alarm Activation,Mechanical
+MUPF,Platform Fault - Mechanical,Mechanical
+MUPLA,Platform Alarm Level A,Mechanical
+MUPLB,Platform Alarm Level B,Mechanical
+MUPLC,Platform Alarm Level C,Mechanical
+MUPR1,Protocol Level 1 Mechanical,Mechanical
+MUSAN,Sanitation Issue,Mechanical
+MUSC,Speed Control - Mechanical,Mechanical
+MUTD,Track Defect - Mechanical,Mechanical
+MUTO,Turn Out Delay,Mechanical
+MUWEA,Weather - Mechanical Impact,Weather
+MUWR,Work Zone - Mechanical,Mechanical
+Management,Management,Operations
+Mechanical,Mechanical,Mechanical
+NTGD,General Delay - Not Tracked,General
+Operations,Operations,Operations
+Operations - Operator,Operations - Operator,Operations
+Overhead,Overhead,Infrastructure
+PFO,Passenger Other - Fleet,Passenger
+PFPD,Platform Door - Passenger Fleet,Passenger
+PREL,Presto/Fare Equipment,Infrastructure
+PRO,Passenger Other - SRT,Passenger
+PRS,Short Turn - SRT,Passenger
+PRSA,Safety Alert - SRT,Passenger
+PRSL,Schedule/Line Delay - SRT,Passenger
+PRSO,Security Other - SRT,Passenger
+PRSP,Speed Restriction - SRT,Passenger
+PRST,Short Turn - SRT,Passenger
+PRSW,Switch Delay - SRT,Passenger
+PRW,Weather - SRT Passenger,Weather
+PTNT,Not Tracked - Passenger Streetcar,Passenger
+PTNTF,Not Tracked - Fare,Passenger
+PTO,Passenger Other - Streetcar,Passenger
+PTOV,Passenger Overshoot - Streetcar,Passenger
+PTPD,Platform Door - Streetcar,Passenger
+PTSE,Safety Equipment - Passenger Streetcar,Passenger
+PTSW,Switch Delay - Passenger Streetcar,Passenger
+PTW,Weather - Passenger Streetcar,Weather
+PUATC,Automatic Train Control - Passenger,Signal
+PUCBI,Cab Issue - Passenger,Passenger
+PUCSC,Platform Edge Door - Passenger,Passenger
+PUCSS,Station Security Screen,Passenger
+PUDCS,Door Control System - Passenger,Passenger
+PUEME,Emergency - Passenger,Passenger
+PUEO,Employee/Operator - Passenger,Passenger
+PUEWZ,Emergency Work Zone - Passenger,Passenger
+PUMEL,Passenger Medical Emergency,Passenger
+PUMO,Passenger Medical Other,Passenger
+PUMST,Missed Short Turn,Passenger
+PUOPO,Passenger Overrun Platform,Passenger
+PUSAC,Security Activity - Passenger,Passenger
+PUSBE,Switch Blade - Passenger,Passenger
+PUSCA,Security Alarm - Passenger,Passenger
+PUSCR,Platform Edge Door Issue,Passenger
+PUSI,Passenger Incident,Passenger
+PUSIO,Security Incident - Passenger,Passenger
+PUSIS,Security Incident Serious - Passenger,Passenger
+PUSNT,Security Not Tracked,Passenger
+PUSO,Passenger Security Other,Passenger
+PUSRA,Security Response - Passenger,Passenger
+PUSSW,Security Switch - Passenger,Passenger
+PUSTC,Short Turn Control - Passenger,Passenger
+PUSTP,Security Platform - Passenger,Passenger
+PUSTS,Security Threat - Passenger,Passenger
+PUSWZ,Switch Work Zone - Passenger,Passenger
+PUSZC,Security Zone - Passenger,Passenger
+PUTCD,Track Circuit Delay - Passenger,Passenger
+PUTD,Track Delay - Passenger,Passenger
+PUTDN,Passenger Hold Down,Passenger
+PUTIJ,Trespasser Injury,Passenger
+PUTIS,Trespasser Incident Serious,Passenger
+PUTNT,Not Tracked - Passenger,Passenger
+PUTO,Passenger Turn Out Delay,Passenger
+PUTOE,Track Operator Error - Passenger,Passenger
+PUTR,Track Related - Passenger,Passenger
+PUTS,Short Turn - Passenger,Passenger
+PUTSC,Train Service Control - Passenger,Passenger
+PUTSM,Train Schedule - Passenger,Passenger
+PUTTC,Transit Control - Passenger,Passenger
+PUTTP,Track/Platform - Passenger,Passenger
+PUTWZ,Track Work Zone - Passenger,Passenger
+Rail/Switches,Rail/Switches,Infrastructure
+Road Blocked - NON-TTC Collision,Road Blocked - NON-TTC Collision,Operations
+SFAE,Alarm Escalator - Fleet,Security
+SFAP,Alarm Platform - Fleet,Security
+SFDP,Disorderly Patron - Fleet,Security
+SFO,Security Other - Fleet,Security
+SFPOL,Police Activity - Fleet,Security
+SFSA,Security Alert - Fleet,Security
+SFSP,Security Speed - Fleet,Security
+SRAE,Alarm Escalator - SRT,Security
+SRAP,Alarm Platform - SRT,Security
+SRDP,Disorderly Patron - SRT,Security
+SREAS,Early Access Shutdown - SRT,Security
+SRO,Security Response Other,Security
+SRSA,Security Alert - SRT,Security
+SRUT,Unauthorized Track Access - SRT,Security
+STAE,Alarm Escalator - Streetcar,Security
+STAP,Alarm Platform - Streetcar,Security
+STDP,Disorderly Patron - Streetcar,Security
+STO,Security Other - Streetcar/Fleet,Security
+STSA,Security Alert - Streetcar,Security
+STSP,Security Speed - Streetcar,Security
+SUAE,Alarm - Escalator,Security
+SUAP,Alarm - Platform,Security
+SUBT,Bomb Threat,Security
+SUCOL,Collision,Security
+SUDP,Disorderly Patron,Security
+SUEAS,Early Access Shutdown,Security
+SUG,Security Guard Activity,Security
+SUO,Security Other,Security
+SUPOL,Police Activity,Security
+SUROB,Road Obstruction,Security
+SUSA,Security Safety Alert,Security
+SUSP,Security Speed,Security
+SUUT,Unauthorized Track Access,Security
+Securitty,Securitty,Security
+Security,Security,Security
+TFCNO,Traffic Control No Operator,Operations
+TFLF,Late Finish - Fleet,Operations
+TFLL,Late Leaving - Fleet,Operations
+TFO,Traffic Operations Other - Fleet,Operations
+TFOI,Operations Incident - Fleet,Operations
+TFPD,Platform Door - Fleet,Operations
+TFPI,Personnel Incident - Fleet,Operations
+TRNCA,No Car Available - SRT,Operations
+TRNIP,No Issue Found - SRT,Operations
+TRNOA,Crew Not Assigned - SRT,Operations
+TRO,Operations Other - SRT,Operations
+TRSET,Service Entering Track - SRT,Operations
+TRST,Short Turn - SRT,Operations
+TRTC,Transit Control - SRT,Operations
+TTLF,Late Finish - Streetcar,Operations
+TTLL,Late Leaving - Streetcar,Operations
+TTO,Traffic Operations - Streetcar,Operations
+TTOI,Operations Incident - Streetcar,Operations
+TTPD,Platform Door - Streetcar,Operations
+TTPI,Personnel Incident - Streetcar,Operations
+TTSUP,Supervision - Streetcar,Operations
+TTSW,Switch Delay - Streetcar,Operations
+TTUS,Unscheduled Stoppage - Streetcar,Operations
+TUATC,Automatic Train Control - Train,Signal
+TUCC,Crew Change Delay,Operations
+TUDOE,Door Opening Error - Train,Operations
+TUKEY,Key Management Issue,Operations
+TUML,Main Line Delay,Operations
+TUMVS,Missing Vehicle/Service,Operations
+TUNCA,No Car Available,Operations
+TUNIP,No Issue Found on Inspection,Operations
+TUNOA,Train Crew Not Assigned,Operations
+TUO,Train Operations - Other,Operations
+TUOPO,Operator Passed Station,Operations
+TUOS,Operational Speed Restriction,Operations
+TUS,Train Service Delay,Operations
+TUSC,Speed Control - Train,Operations
+TUSET,Service Entering Track Delay,Operations
+TUST,Short Turn - Train,Operations
+TUSUP,Supervision Delay,Operations
+TUUR,Unauthorized Run,Operations
+Utilized Off Route,Utilized Off Route,Operations
+Vision,Vision,Operations
+XXXXX,Unknown/Placeholder Code,General
