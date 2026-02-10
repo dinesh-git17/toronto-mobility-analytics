@@ -83,10 +83,12 @@ def _render_ttc_metrics(df: pd.DataFrame) -> None:
             if pd.notna(row.get("top_delay_category"))
             else "N/A"
         )
+        avg_val = row["avg_delay_minutes"]
+        avg_fmt = f"{float(avg_val):.1f} min" if pd.notna(avg_val) else "0 min"
         values = (
             f"{int(row['delay_count']):,}",
             f"{int(row['total_delay_minutes']):,}",
-            f"{float(row['avg_delay_minutes']):.1f} min",
+            avg_fmt,
             top_cause,
         )
 
@@ -116,7 +118,8 @@ def _render_bike_metrics(
     else:
         row = metrics_df.iloc[0]
         trip_count = f"{int(row['trip_count']):,}"
-        avg_duration = f"{float(row['avg_duration_minutes']):.1f} min"
+        avg_val = row["avg_duration_minutes"]
+        avg_duration = f"{float(avg_val):.1f} min" if pd.notna(avg_val) else "0 min"
 
     busiest = "N/A"
     if timeline_df is not None and not timeline_df.empty:
@@ -331,9 +334,10 @@ def _render_comparison_ttc_card(df: pd.DataFrame, variant: str) -> None:
         f"{int(row['total_delay_minutes']):,}",
         border_variant=variant,
     )
+    _avg_d = row["avg_delay_minutes"]
     render_metric_card(
         "Avg Delay",
-        f"{float(row['avg_delay_minutes']):.1f} min",
+        f"{float(_avg_d):.1f} min" if pd.notna(_avg_d) else "0 min",
         border_variant=variant,
     )
     render_metric_card("Top Cause", top_cause, border_variant=variant)
@@ -356,9 +360,10 @@ def _render_comparison_bike_card(
     render_metric_card(
         "Total Trips", f"{int(row['trip_count']):,}", border_variant=variant
     )
+    _avg_t = row["avg_duration_minutes"]
     render_metric_card(
         "Avg Duration",
-        f"{float(row['avg_duration_minutes']):.1f} min",
+        f"{float(_avg_t):.1f} min" if pd.notna(_avg_t) else "0 min",
         border_variant=variant,
     )
     render_metric_card("Busiest Month", busiest, border_variant=variant)
