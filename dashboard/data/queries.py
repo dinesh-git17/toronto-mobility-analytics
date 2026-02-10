@@ -315,3 +315,166 @@ def ttc_monthly_trend(modes: list[str]) -> str:
         GROUP BY d.year, d.month_num, d.month_name
         ORDER BY d.year, d.month_num
     """
+
+
+# ---------------------------------------------------------------------------
+# Bike Share Deep Dive queries (E-1302)
+# ---------------------------------------------------------------------------
+
+_VALID_USER_TYPES: frozenset[str] = frozenset({"Annual Member", "Casual Member"})
+
+
+def _validate_user_types(user_types: list[str]) -> str:
+    """Validate user types and return a SQL IN clause fragment.
+
+    Args:
+        user_types: User type identifiers to validate.
+
+    Returns:
+        SQL-safe IN clause like ``('Annual Member', 'Casual Member')``.
+
+    Raises:
+        ValueError: If user_types is empty or contains unrecognized values.
+    """
+    if not user_types:
+        msg = "At least one user type required"
+        raise ValueError(msg)
+    invalid = set(user_types) - _VALID_USER_TYPES
+    if invalid:
+        msg = f"Invalid user types: {invalid}"
+        raise ValueError(msg)
+    quoted = ", ".join(f"'{t}'" for t in sorted(user_types))
+    return f"({quoted})"
+
+
+def bike_station_activity(user_types: list[str]) -> str:
+    """Station-level trip count aggregation with geographic coordinates.
+
+    Joins ``fct_bike_trips`` to ``dim_station`` on ``start_station_key``
+    for latitude, longitude, and neighborhood. INNER JOIN excludes trips
+    with unmatchable stations (91 station_ids not in GBFS snapshot).
+
+    Args:
+        user_types: User types to include (validated against closed set).
+
+    Returns:
+        SQL with ``%(start_date)s`` / ``%(end_date)s`` bind variables.
+        Columns: station_name, latitude, longitude, neighborhood,
+        trip_count.
+    """
+    in_clause = _validate_user_types(user_types)
+    return f"""
+        SELECT
+            s.station_name,
+            s.latitude,
+            s.longitude,
+            s.neighborhood,
+            COUNT(*) AS trip_count
+        FROM fct_bike_trips f
+        INNER JOIN dim_station s
+            ON f.start_station_key = s.station_key
+        WHERE f.date_key BETWEEN %(start_date)s AND %(end_date)s
+            AND f.user_type IN {in_clause}
+        GROUP BY s.station_name, s.latitude, s.longitude, s.neighborhood
+        ORDER BY trip_count DESC
+    """
+
+
+def bike_yearly_summary() -> str:
+    """Annual trip totals with member and casual breakdowns.
+
+    Aggregates ``fct_daily_mobility`` joined to ``dim_date`` for year.
+    User type filtering handled in Python from returned columns.
+
+    Returns:
+        SQL with ``%(start_date)s`` / ``%(end_date)s`` bind variables.
+        Columns: year, total_trips, member_trips, casual_trips,
+        total_duration_seconds.
+    """
+    return """
+        SELECT
+            d.year,
+            SUM(m.total_bike_trips) AS total_trips,
+            SUM(m.member_trips) AS member_trips,
+            SUM(m.casual_trips) AS casual_trips,
+            SUM(m.total_bike_duration_seconds) AS total_duration_seconds
+        FROM fct_daily_mobility m
+        INNER JOIN dim_date d
+            ON m.date_key = d.date_key
+        WHERE m.date_key BETWEEN %(start_date)s AND %(end_date)s
+            AND m.total_bike_trips IS NOT NULL
+        GROUP BY d.year
+        ORDER BY d.year
+    """
+
+
+def bike_monthly_seasonality() -> str:
+    """Year x month trip totals for seasonality analysis.
+
+    Aggregates ``fct_daily_mobility`` joined to ``dim_date`` for year,
+    month number, and month name columns enabling year-over-year
+    seasonality overlay.
+
+    Returns:
+        SQL with ``%(start_date)s`` / ``%(end_date)s`` bind variables.
+        Columns: year, month_num, month_name, total_trips,
+        member_trips, casual_trips.
+    """
+    return """
+        SELECT
+            d.year,
+            d.month_num,
+            d.month_name,
+            SUM(m.total_bike_trips) AS total_trips,
+            SUM(m.member_trips) AS member_trips,
+            SUM(m.casual_trips) AS casual_trips
+        FROM fct_daily_mobility m
+        INNER JOIN dim_date d
+            ON m.date_key = d.date_key
+        WHERE m.date_key BETWEEN %(start_date)s AND %(end_date)s
+            AND m.total_bike_trips IS NOT NULL
+        GROUP BY d.year, d.month_num, d.month_name
+        ORDER BY d.year, d.month_num
+    """
+
+
+# ---------------------------------------------------------------------------
+# Weather Impact queries (E-1303)
+# ---------------------------------------------------------------------------
+
+
+def weather_daily_metrics() -> str:
+    """Per-day weather conditions and mobility totals for impact analysis.
+
+    Joins ``fct_daily_mobility`` to ``dim_weather`` on ``date_key`` to
+    produce daily rows with weather measurements and trip/delay counts.
+    Excludes dates missing temperature observations or mobility data.
+
+    No parameters — queries the full date range for statistical power.
+
+    Returns:
+        SQL string. Columns: weather_condition, mean_temp_c,
+        total_precip_mm, total_rain_mm, total_snow_cm, total_bike_trips,
+        total_delay_incidents, total_delay_minutes, member_trips,
+        casual_trips.
+    """
+    return """
+        SELECT
+            w.weather_condition,
+            w.mean_temp_c::FLOAT AS mean_temp_c,
+            COALESCE(w.total_precip_mm, 0)::FLOAT AS total_precip_mm,
+            w.total_rain_mm::FLOAT AS total_rain_mm,
+            w.total_snow_cm::FLOAT AS total_snow_cm,
+            m.total_bike_trips,
+            m.total_delay_incidents,
+            m.total_delay_minutes,
+            m.member_trips,
+            m.casual_trips
+        FROM fct_daily_mobility m
+        INNER JOIN dim_weather w
+            ON m.date_key = w.date_key
+        WHERE w.mean_temp_c IS NOT NULL
+            AND (m.total_bike_trips IS NOT NULL
+                 OR m.total_delay_incidents IS NOT NULL)
+        ORDER BY m.date_key
+    """

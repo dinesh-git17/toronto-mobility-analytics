@@ -16,6 +16,13 @@ _DEFAULT_RADIUS: int = 100
 _MIN_RADIUS: int = 50
 _MAX_RADIUS: int = 500
 
+_BIKE_GREEN_GRADIENT: list[list[int]] = [
+    [236, 252, 235],
+    [134, 239, 172],
+    [67, 176, 42],
+    [22, 101, 52],
+]
+
 
 def _compute_radius_column(
     data: pd.DataFrame,
@@ -144,4 +151,80 @@ def scatterplot_map(
         ),
         map_style=pydeck.map_styles.DARK,
         tooltip=_build_tooltip(tooltip_cols),  # pyright: ignore[reportArgumentType]
+    )
+
+
+def heatmap_map(
+    data: pd.DataFrame,
+    lat_col: str,
+    lon_col: str,
+    weight_col: str | None = None,
+    radius: int = 200,
+    color_range: list[list[int]] | None = None,
+    opacity: float = 0.8,
+    zoom: int = 11,
+    center_lat: float | None = None,
+    center_lon: float | None = None,
+) -> pydeck.Deck:
+    """Build a HeatmapLayer map for geographic density visualization.
+
+    Renders point-density data on a Carto DARK basemap with configurable
+    weight encoding, green color gradient, and influence radius.
+
+    Args:
+        data: Source DataFrame with latitude and longitude columns.
+        lat_col: Column name containing latitude values.
+        lon_col: Column name containing longitude values.
+        weight_col: Column for point contribution weight.  When ``None``,
+            all points contribute equally with a uniform weight of 1.
+        radius: Influence radius of each point in meters.
+        color_range: Color gradient as a list of ``[r, g, b]`` stops.
+            Defaults to a Bike Share green gradient.
+        opacity: Overall layer opacity from 0.0 to 1.0.
+        zoom: Initial map zoom level.
+        center_lat: Viewport center latitude.  Auto-computed from data
+            mean when ``None``.
+        center_lon: Viewport center longitude.  Auto-computed from data
+            mean when ``None``.
+
+    Returns:
+        A ``pydeck.Deck`` renderable via ``st.pydeck_chart``.
+    """
+    if color_range is None:
+        color_range = _BIKE_GREEN_GRADIENT
+
+    plot_data = data.copy()
+    if weight_col is None:
+        plot_data["_weight"] = 1
+        weight_field = "_weight"
+    else:
+        weight_field = weight_col
+
+    records = _to_records(plot_data)
+
+    lat_mean = float(plot_data[lat_col].mean())
+    lon_mean = float(plot_data[lon_col].mean())
+    view_lat = center_lat if center_lat is not None else lat_mean
+    view_lon = center_lon if center_lon is not None else lon_mean
+
+    layer = pydeck.Layer(
+        "HeatmapLayer",
+        data=records,
+        get_position=[lon_col, lat_col],
+        get_weight=weight_field,
+        color_range=color_range,
+        radius_pixels=radius,
+        opacity=opacity,
+        aggregation="SUM",
+    )
+
+    return pydeck.Deck(
+        layers=[layer],
+        initial_view_state=pydeck.ViewState(
+            latitude=view_lat,
+            longitude=view_lon,
+            zoom=zoom,
+            pitch=0,
+        ),
+        map_style=pydeck.map_styles.DARK,
     )
