@@ -1,0 +1,80 @@
+version: 2
+
+models:
+  - name: stg_weather_daily
+    description: >
+      Staged Environment Canada daily weather observations from
+      RAW.WEATHER_DAILY (Toronto Pearson, Station ID 51459). Type-casts
+      15 measurement columns from VARCHAR via TRY_CAST and excludes
+      11 flag columns and 8 metadata columns. One row per calendar day.
+    columns:
+      - name: weather_sk
+        description: >
+          Surrogate key derived from date_time via
+          dbt_utils.generate_surrogate_key.
+        tests:
+          - unique
+          - not_null
+
+      - name: weather_date
+        description: >
+          Calendar date of the weather observation, cast from VARCHAR
+          to DATE. Join key to dim_date.full_date in downstream models.
+        tests:
+          - unique
+          - not_null
+
+      - name: max_temp_c
+        description: >
+          Maximum daily temperature in degrees Celsius, cast to
+          DECIMAL(10,1). NULL when the reading is missing or flagged.
+
+      - name: min_temp_c
+        description: >
+          Minimum daily temperature in degrees Celsius, cast to
+          DECIMAL(10,1). NULL when the reading is missing or flagged.
+
+      - name: mean_temp_c
+        description: >
+          Mean daily temperature in degrees Celsius, cast to
+          DECIMAL(10,1). NULL when the reading is missing or flagged.
+
+      - name: heat_degree_days
+        description: >
+          Heating degree days relative to 18C baseline, cast to
+          DECIMAL(10,1). Measures heating demand for the day.
+
+      - name: cool_degree_days
+        description: >
+          Cooling degree days relative to 18C baseline, cast to
+          DECIMAL(10,1). Measures cooling demand for the day.
+
+      - name: total_rain_mm
+        description: >
+          Total rainfall in millimeters for the day, cast to
+          DECIMAL(10,1). NULL when not measured.
+
+      - name: total_snow_cm
+        description: >
+          Total snowfall in centimeters for the day, cast to
+          DECIMAL(10,1). NULL when not measured.
+
+      - name: total_precip_mm
+        description: >
+          Total precipitation (rain + snow water equivalent) in
+          millimeters for the day, cast to DECIMAL(10,1).
+
+      - name: snow_on_ground_cm
+        description: >
+          Depth of snow on the ground in centimeters at observation
+          time, cast to DECIMAL(10,1). NULL when not measured.
+
+      - name: max_wind_gust_kmh
+        description: >
+          Speed of the maximum wind gust in kilometers per hour,
+          cast to DECIMAL(10,1). NULL when no gust recorded.
+
+      - name: max_wind_gust_dir_deg
+        description: >
+          Direction of the maximum wind gust in tens of degrees
+          (compass bearing), cast to INTEGER. NULL when no gust recorded.

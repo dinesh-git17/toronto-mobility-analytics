@@ -1,0 +1,77 @@
+version: 2
+
+models:
+  - name: stg_bike_trips
+    description: >
+      Staged Bike Share Toronto trip records from RAW.BIKE_SHARE_TRIPS.
+      Type-casts VARCHAR columns to native types, generates a surrogate key
+      from trip_id, and filters trips with duration under 60 seconds per
+      DESIGN-DOC Decision D9. One row per trip with duration >= 60 seconds.
+    columns:
+      - name: trip_sk
+        description: >
+          Surrogate key derived from trip_id via
+          dbt_utils.generate_surrogate_key.
+        tests:
+          - unique
+          - not_null
+
+      - name: trip_id
+        description: >
+          Unique trip identifier from the Bike Share Toronto source system.
+          Natural key for this model.
+        tests:
+          - unique
+          - not_null
+
+      - name: trip_duration_seconds
+        description: >
+          Duration of the trip in seconds, cast from VARCHAR to INTEGER.
+          Trips under 60 seconds are excluded at the staging boundary.
+        tests:
+          - not_null
+
+      - name: start_station_id
+        description: >
+          Numeric identifier of the station where the trip originated,
+          cast from VARCHAR to INTEGER.
+
+      - name: start_time
+        description: >
+          Timestamp when the trip started, cast from VARCHAR to
+          TIMESTAMP_NTZ.
+        tests:
+          - not_null
+
+      - name: start_station_name
+        description: >
+          Display name of the station where the trip originated.
+          Sourced from the Bike Share system without transformation.
+
+      - name: end_station_id
+        description: >
+          Numeric identifier of the station where the trip ended,
+          cast from VARCHAR to INTEGER.
+
+      - name: end_time
+        description: >
+          Timestamp when the trip ended, cast from VARCHAR to
+          TIMESTAMP_NTZ.
+
+      - name: end_station_name
+        description: >
+          Display name of the station where the trip ended.
+          Sourced from the Bike Share system without transformation.
+
+      - name: bike_id
+        description: >
+          Numeric identifier of the bicycle used for the trip,
+          cast from VARCHAR to INTEGER.
+
+      - name: user_type
+        description: >
+          Membership category of the rider. Either 'Annual Member'
+          (yearly subscription) or 'Casual Member' (single trip or day pass).
+        tests:
+          - accepted_values:
+              values: ['Annual Member', 'Casual Member']
