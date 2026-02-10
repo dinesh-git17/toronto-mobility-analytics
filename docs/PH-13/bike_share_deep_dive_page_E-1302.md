@@ -99,8 +99,8 @@ This is the first dashboard page to visualize Bike Share ridership data and the 
 
 ## Stories
 
-| ID   | Story                                                                        | Points | Dependencies                   | Status |
-| ---- | ---------------------------------------------------------------------------- | ------ | ------------------------------ | ------ |
+| ID   | Story                                                                        | Points | Dependencies                   | Status   |
+| ---- | ---------------------------------------------------------------------------- | ------ | ------------------------------ | -------- |
 | S001 | Add Bike Share parameterized queries to the data layer                       | 5      | None                           | Complete |
 | S002 | Build station activity heatmap and yearly growth sections                    | 5      | S001, E-1301.S001, E-1301.S003 | Complete |
 | S003 | Build member vs casual stacked bar and seasonality overlay sections          | 5      | S001, E-1301.S004              | Complete |

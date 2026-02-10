@@ -95,8 +95,8 @@ This page completes the dashboard's core analytical coverage by introducing the 
 
 ## Stories
 
-| ID   | Story                                                                   | Points | Dependencies      | Status |
-| ---- | ----------------------------------------------------------------------- | ------ | ----------------- | ------ |
+| ID   | Story                                                                   | Points | Dependencies      | Status   |
+| ---- | ----------------------------------------------------------------------- | ------ | ----------------- | -------- |
 | S001 | Add weather impact query function to the data layer                     | 3      | None              | Complete |
 | S002 | Build bike trips and transit delays by weather bar charts               | 5      | S001              | Complete |
 | S003 | Build temperature and precipitation scatter plots                       | 5      | S001, E-1301.S002 | Complete |

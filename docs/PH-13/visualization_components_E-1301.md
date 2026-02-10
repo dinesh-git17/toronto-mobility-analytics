@@ -77,8 +77,8 @@ This epic extends `dashboard/components/maps.py` with one new builder function a
 
 ## Stories
 
-| ID   | Story                                                 | Points | Dependencies | Status |
-| ---- | ----------------------------------------------------- | ------ | ------------ | ------ |
+| ID   | Story                                                 | Points | Dependencies | Status   |
+| ---- | ----------------------------------------------------- | ------ | ------------ | -------- |
 | S001 | Build PyDeck HeatmapLayer map builder component       | 5      | None         | Complete |
 | S002 | Build Altair scatter plot builder function            | 5      | None         | Complete |
 | S003 | Build Altair area chart builder function              | 3      | None         | Complete |
