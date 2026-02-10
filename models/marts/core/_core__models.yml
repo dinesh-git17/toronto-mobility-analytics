@@ -7,6 +7,9 @@ models:
       Passthrough from the date_spine seed with type casting: VARCHAR dates to DATE,
       string booleans to BOOLEAN, and string integers to INTEGER. One row per
       calendar day. Primary key is date_key (YYYYMMDD integer format).
+    tests:
+      - elementary.volume_anomalies
+      - elementary.schema_changes
     columns:
       - name: date_key
         description: >
@@ -72,6 +75,9 @@ models:
       stations (from bike_station_ref seed). Total 1,085 rows. Surrogate key
       generated from composite natural key [station_type, station_id] to prevent
       cross-type collision.
+    tests:
+      - elementary.volume_anomalies
+      - elementary.schema_changes
     columns:
       - name: station_key
         description: >
@@ -126,6 +132,11 @@ models:
       precipitation, and wind measurements. Includes a derived weather_condition
       classification column (Snow/Rain/Clear). Type 0 SCD — historical weather
       is immutable.
+    tests:
+      - elementary.volume_anomalies
+      - elementary.freshness_anomalies:
+          timestamp_column: weather_date
+      - elementary.schema_changes
     columns:
       - name: date_key
         description: >
@@ -206,6 +217,9 @@ models:
       delay codes to human-readable descriptions and operational categories.
       Covers subway, bus, streetcar, and SRT modes for the 2020-2025 period.
       Surrogate key generated from the natural delay_code column.
+    tests:
+      - elementary.volume_anomalies
+      - elementary.schema_changes
     columns:
       - name: delay_code_key
         description: >
