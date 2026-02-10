@@ -160,3 +160,158 @@ def reference_date_bounds() -> str:
             MAX(full_date) AS max_date
         FROM dim_date
     """
+
+
+# ---------------------------------------------------------------------------
+# TTC Deep Dive queries (E-1202)
+# ---------------------------------------------------------------------------
+
+_VALID_MODES: frozenset[str] = frozenset({"subway", "bus", "streetcar"})
+
+
+def _validate_modes(modes: list[str]) -> str:
+    """Validate transit modes and return a SQL IN clause fragment.
+
+    Args:
+        modes: Transit mode identifiers to validate.
+
+    Returns:
+        SQL-safe IN clause like ``('bus', 'subway')``.
+
+    Raises:
+        ValueError: If modes is empty or contains unrecognized values.
+    """
+    if not modes:
+        msg = "At least one transit mode required"
+        raise ValueError(msg)
+    invalid = set(modes) - _VALID_MODES
+    if invalid:
+        msg = f"Invalid transit modes: {invalid}"
+        raise ValueError(msg)
+    quoted = ", ".join(f"'{m}'" for m in sorted(modes))
+    return f"({quoted})"
+
+
+def ttc_station_delays(modes: list[str]) -> str:
+    """Station-level delay aggregation with geographic coordinates.
+
+    Joins ``fct_transit_delays`` to ``dim_station`` for latitude/longitude.
+    Filters to records with a mapped station (``station_key IS NOT NULL``),
+    which effectively scopes results to subway mode.
+
+    Args:
+        modes: Transit modes to include (validated against closed set).
+
+    Returns:
+        SQL with ``%(start_date)s`` / ``%(end_date)s`` bind variables.
+        Columns: station_name, latitude, longitude, delay_count,
+        total_delay_minutes.
+    """
+    in_clause = _validate_modes(modes)
+    return f"""
+        SELECT
+            s.station_name,
+            s.latitude,
+            s.longitude,
+            COUNT(*) AS delay_count,
+            SUM(f.delay_minutes) AS total_delay_minutes
+        FROM fct_transit_delays f
+        INNER JOIN dim_station s
+            ON f.station_key = s.station_key
+        WHERE f.date_key BETWEEN %(start_date)s AND %(end_date)s
+            AND f.transit_mode IN {in_clause}
+            AND f.station_key IS NOT NULL
+        GROUP BY s.station_name, s.latitude, s.longitude
+        ORDER BY total_delay_minutes DESC
+    """
+
+
+def ttc_delay_causes(modes: list[str]) -> str:
+    """Delay cause hierarchy: category-to-description breakdown.
+
+    Joins ``fct_transit_delays`` to ``dim_ttc_delay_codes`` for category
+    and description labels used in treemap visualization.
+
+    Args:
+        modes: Transit modes to include.
+
+    Returns:
+        SQL with date range bind variables. Columns: delay_category,
+        delay_description, incident_count, total_delay_minutes.
+    """
+    in_clause = _validate_modes(modes)
+    return f"""
+        SELECT
+            c.delay_category,
+            c.delay_description,
+            COUNT(*) AS incident_count,
+            SUM(f.delay_minutes) AS total_delay_minutes
+        FROM fct_transit_delays f
+        INNER JOIN dim_ttc_delay_codes c
+            ON f.delay_code_key = c.delay_code_key
+        WHERE f.date_key BETWEEN %(start_date)s AND %(end_date)s
+            AND f.transit_mode IN {in_clause}
+            AND f.delay_code_key IS NOT NULL
+        GROUP BY c.delay_category, c.delay_description
+    """
+
+
+def ttc_hourly_pattern(modes: list[str]) -> str:
+    """Hour-of-day x day-of-week delay count matrix.
+
+    Extracts hour from ``incident_timestamp`` and joins ``dim_date``
+    for day-of-week labels and numeric sort keys.
+
+    Args:
+        modes: Transit modes to include.
+
+    Returns:
+        SQL with date range bind variables. Columns: hour_of_day,
+        day_of_week, day_of_week_num, delay_count.
+    """
+    in_clause = _validate_modes(modes)
+    return f"""
+        SELECT
+            EXTRACT(HOUR FROM f.incident_timestamp) AS hour_of_day,
+            d.day_of_week,
+            d.day_of_week_num,
+            COUNT(*) AS delay_count
+        FROM fct_transit_delays f
+        INNER JOIN dim_date d
+            ON f.date_key = d.date_key
+        WHERE f.date_key BETWEEN %(start_date)s AND %(end_date)s
+            AND f.transit_mode IN {in_clause}
+        GROUP BY hour_of_day, d.day_of_week, d.day_of_week_num
+        ORDER BY d.day_of_week_num, hour_of_day
+    """
+
+
+def ttc_monthly_trend(modes: list[str]) -> str:
+    """Year x month delay aggregation for trend analysis.
+
+    Joins ``dim_date`` for year, month number, and month name columns
+    enabling year-over-year line chart comparison.
+
+    Args:
+        modes: Transit modes to include.
+
+    Returns:
+        SQL with date range bind variables. Columns: year, month_num,
+        month_name, delay_count, total_delay_minutes.
+    """
+    in_clause = _validate_modes(modes)
+    return f"""
+        SELECT
+            d.year,
+            d.month_num,
+            d.month_name,
+            COUNT(*) AS delay_count,
+            SUM(f.delay_minutes) AS total_delay_minutes
+        FROM fct_transit_delays f
+        INNER JOIN dim_date d
+            ON f.date_key = d.date_key
+        WHERE f.date_key BETWEEN %(start_date)s AND %(end_date)s
+            AND f.transit_mode IN {in_clause}
+        GROUP BY d.year, d.month_num, d.month_name
+        ORDER BY d.year, d.month_num
+    """
