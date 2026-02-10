@@ -87,7 +87,7 @@ select = [
 ]
 
 [tool.ruff.lint.isort]
-known-first-party = ["scripts"]
+known-first-party = ["scripts", "components", "data"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
