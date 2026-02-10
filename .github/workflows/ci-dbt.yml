@@ -173,6 +173,29 @@ jobs:
         if: steps.creds.outputs.has_creds == 'true' && needs.detect-dbt.outputs.has_models == 'true'
         run: dbt docs generate
 
+      - name: Install Elementary CLI
+        if: steps.creds.outputs.has_creds == 'true' && needs.detect-dbt.outputs.has_models == 'true'
+        run: uv pip install --system "elementary-data[snowflake]"
+
+      - name: Materialize Elementary models
+        if: steps.creds.outputs.has_creds == 'true' && needs.detect-dbt.outputs.has_models == 'true'
+        continue-on-error: true
+        run: dbt run --select elementary
+
+      - name: Generate Elementary report
+        if: steps.creds.outputs.has_creds == 'true' && needs.detect-dbt.outputs.has_models == 'true'
+        continue-on-error: true
+        run: edr report
+
+      - name: Upload Elementary report
+        if: steps.creds.outputs.has_creds == 'true' && needs.detect-dbt.outputs.has_models == 'true'
+        continue-on-error: true
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: elementary-report
+          path: edr_target/elementary_report.html
+          retention-days: 30
+
       - name: Upload dbt artifacts
         if: steps.creds.outputs.has_creds == 'true' && github.ref == 'refs/heads/main'
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0

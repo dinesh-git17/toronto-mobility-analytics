@@ -1,6 +1,6 @@
 # Test Strategy
 
-**Last Updated:** 2026-02-09
+**Last Updated:** 2026-02-10
 **Scope:** Full test suite across staging, intermediate, and marts layers
 **Regression Baseline:** 135 tests | PASS=130 WARN=5 ERROR=0 | 66s on X-Small warehouse
 
@@ -14,7 +14,7 @@ Five layers of validation, ordered from foundational to analytical. Each layer b
 
 ```
     ┌─────────────────────────┐
-    │  Performance Benchmarks │  PH-09 (deferred)
+    │  Performance Benchmarks │  5 queries, all < 5s (E-902)
     ├─────────────────────────┤
     │   Data Quality Tests    │  dbt_expectations, Elementary
     ├─────────────────────────┤
@@ -26,13 +26,13 @@ Five layers of validation, ordered from foundational to analytical. Each layer b
     └─────────────────────────┘
 ```
 
-| Layer                  | Purpose                                                         | Tools                                   | Coverage                  |
-| ---------------------- | --------------------------------------------------------------- | --------------------------------------- | ------------------------- |
-| Schema Tests           | Source structure validation, freshness monitoring               | dbt source tests                        | All 5 sources             |
-| Unit Tests             | Primary key integrity, null constraints, categorical membership | `unique`, `not_null`, `accepted_values` | All PKs (100%), all enums |
-| Integration Tests      | Foreign key referential integrity, cross-model consistency      | `relationships`                         | All FKs (100%)            |
-| Data Quality Tests     | Value range validation, row count bounds, anomaly detection     | dbt_expectations, Elementary            | All mart models           |
-| Performance Benchmarks | Query execution within 5s on X-Small warehouse                  | Benchmark queries                       | Deferred to PH-09         |
+| Layer                  | Purpose                                                         | Tools                                   | Coverage                                                      |
+| ---------------------- | --------------------------------------------------------------- | --------------------------------------- | ------------------------------------------------------------- |
+| Schema Tests           | Source structure validation, freshness monitoring               | dbt source tests                        | All 5 sources                                                 |
+| Unit Tests             | Primary key integrity, null constraints, categorical membership | `unique`, `not_null`, `accepted_values` | All PKs (100%), all enums                                     |
+| Integration Tests      | Foreign key referential integrity, cross-model consistency      | `relationships`                         | All FKs (100%)                                                |
+| Data Quality Tests     | Value range validation, row count bounds, anomaly detection     | dbt_expectations, Elementary            | All mart models                                               |
+| Performance Benchmarks | Query execution within 5s on X-Small warehouse                  | Benchmark queries                       | 5 queries, all < 5s ([results](PH-09/performance_results.md)) |
 
 ---
 
