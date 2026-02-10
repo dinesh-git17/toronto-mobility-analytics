@@ -21,14 +21,23 @@ sources:
           Grain: one row per delay incident (date, time, station, line, code).
         columns:
           - name: DATE
+            description: Date of the subway delay incident in VARCHAR format.
           - name: TIME
+            description: Time of the subway delay incident in VARCHAR format.
           - name: DAY
+            description: Day of the week when the delay occurred.
           - name: STATION
+            description: Name of the TTC subway station where the delay occurred.
           - name: CODE
+            description: TTC incident code identifying the delay cause.
           - name: MIN_DELAY
+            description: Duration of the delay in minutes as VARCHAR.
           - name: MIN_GAP
+            description: Service gap resulting from the delay in minutes as VARCHAR.
           - name: BOUND
+            description: Compass direction of travel (N, S, E, W).
           - name: LINE
+            description: TTC subway line identifier (YU, BD, SHP, SRT).
 
       - name: ttc_bus_delays
         loaded_at_field: "try_cast(date as timestamp)"
@@ -38,14 +47,23 @@ sources:
           Grain: one row per delay incident (date, time, route, direction, delay code).
         columns:
           - name: DATE
+            description: Date of the bus delay incident in VARCHAR format.
           - name: ROUTE
+            description: TTC bus route number or identifier.
           - name: TIME
+            description: Time of the bus delay incident in VARCHAR format.
           - name: DAY
+            description: Day of the week when the delay occurred.
           - name: LOCATION
+            description: Intersection or landmark description of the delay location.
           - name: DELAY_CODE
+            description: TTC incident code identifying the delay cause.
           - name: MIN_DELAY
+            description: Duration of the delay in minutes as VARCHAR.
           - name: MIN_GAP
+            description: Service gap resulting from the delay in minutes as VARCHAR.
           - name: DIRECTION
+            description: Direction of travel at the time of delay.
 
       - name: ttc_streetcar_delays
         loaded_at_field: "try_cast(date as timestamp)"
@@ -55,11 +73,20 @@ sources:
           Grain: one row per delay incident (date, time, route, direction, delay code).
         columns:
           - name: DATE
+            description: Date of the streetcar delay incident in VARCHAR format.
           - name: ROUTE
+            description: TTC streetcar route number or identifier.
           - name: TIME
+            description: Time of the streetcar delay incident in VARCHAR format.
           - name: DAY
+            description: Day of the week when the delay occurred.
           - name: LOCATION
+            description: Intersection or landmark description of the delay location.
           - name: DELAY_CODE
+            description: TTC incident code identifying the delay cause.
           - name: MIN_DELAY
+            description: Duration of the delay in minutes as VARCHAR.
           - name: MIN_GAP
+            description: Service gap resulting from the delay in minutes as VARCHAR.
           - name: DIRECTION
+            description: Direction of travel at the time of delay.

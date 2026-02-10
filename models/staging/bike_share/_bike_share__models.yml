@@ -2,6 +2,10 @@ version: 2
 
 models:
   - name: stg_bike_trips
+    config:
+      persist_docs:
+        relation: true
+        columns: true
     description: >
       Staged Bike Share Toronto trip records from RAW.BIKE_SHARE_TRIPS.
       Type-casts VARCHAR columns to native types, generates a surrogate key

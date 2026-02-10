@@ -2,6 +2,10 @@ version: 2
 
 seeds:
   - name: ttc_station_mapping
+    config:
+      persist_docs:
+        relation: true
+        columns: true
     description: >
       Maps raw TTC station name variants from delay CSVs to canonical
       station names and surrogate keys. Covers 1,101 unique raw name
@@ -39,6 +43,10 @@ seeds:
               values: ['YU', 'BD', 'SHP', 'SRT']
 
   - name: ttc_delay_codes
+    config:
+      persist_docs:
+        relation: true
+        columns: true
     description: >
       Reference mapping of TTC delay incident codes to human-readable
       descriptions and operational categories. Covers 334 codes across
@@ -68,6 +76,10 @@ seeds:
               values: ['Mechanical', 'Signal', 'Passenger', 'Infrastructure', 'Operations', 'Weather', 'Security', 'General']
 
   - name: bike_station_ref
+    config:
+      persist_docs:
+        relation: true
+        columns: true
     description: >
       Bike Share Toronto station reference data sourced from a GBFS
       station_information endpoint snapshot. Provides station identity,
@@ -108,6 +120,10 @@ seeds:
           - not_null
 
   - name: date_spine
+    config:
+      persist_docs:
+        relation: true
+        columns: true
     description: >
       Pre-computed date dimension covering 2019-01-01 through 2026-12-31
       (2,922 rows). Includes calendar attributes and Ontario statutory

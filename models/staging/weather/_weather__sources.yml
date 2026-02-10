@@ -21,33 +21,64 @@ sources:
           Grain: one row per observation date (date_time).
         columns:
           - name: LONGITUDE
+            description: Geographic longitude of the weather station.
           - name: LATITUDE
+            description: Geographic latitude of the weather station.
           - name: STATION_NAME
+            description: Environment Canada weather station name.
           - name: CLIMATE_ID
+            description: Environment Canada climate station identifier.
           - name: DATE_TIME
+            description: Observation date in VARCHAR format.
           - name: YEAR
+            description: Calendar year of the observation.
           - name: MONTH
+            description: Calendar month of the observation.
           - name: DAY
+            description: Calendar day of the observation.
           - name: DATA_QUALITY
+            description: Quality indicator for the observation record.
           - name: MAX_TEMP_C
+            description: Maximum daily temperature in degrees Celsius as VARCHAR.
           - name: MAX_TEMP_FLAG
+            description: Quality flag for maximum temperature reading.
           - name: MIN_TEMP_C
+            description: Minimum daily temperature in degrees Celsius as VARCHAR.
           - name: MIN_TEMP_FLAG
+            description: Quality flag for minimum temperature reading.
           - name: MEAN_TEMP_C
+            description: Mean daily temperature in degrees Celsius as VARCHAR.
           - name: MEAN_TEMP_FLAG
+            description: Quality flag for mean temperature reading.
           - name: HEAT_DEG_DAYS_C
+            description: Heating degree days relative to 18C baseline as VARCHAR.
           - name: HEAT_DEG_DAYS_FLAG
+            description: Quality flag for heating degree days reading.
           - name: COOL_DEG_DAYS_C
+            description: Cooling degree days relative to 18C baseline as VARCHAR.
           - name: COOL_DEG_DAYS_FLAG
+            description: Quality flag for cooling degree days reading.
           - name: TOTAL_RAIN_MM
+            description: Total rainfall in millimeters as VARCHAR.
           - name: TOTAL_RAIN_FLAG
+            description: Quality flag for total rain reading.
           - name: TOTAL_SNOW_CM
+            description: Total snowfall in centimeters as VARCHAR.
           - name: TOTAL_SNOW_FLAG
+            description: Quality flag for total snow reading.
           - name: TOTAL_PRECIP_MM
+            description: Total precipitation in millimeters as VARCHAR.
           - name: TOTAL_PRECIP_FLAG
+            description: Quality flag for total precipitation reading.
           - name: SNOW_ON_GRND_CM
+            description: Snow depth on ground in centimeters as VARCHAR.
           - name: SNOW_ON_GRND_FLAG
+            description: Quality flag for snow on ground reading.
           - name: DIR_OF_MAX_GUST_10S_DEG
+            description: Direction of maximum wind gust in tens of degrees as VARCHAR.
           - name: DIR_OF_MAX_GUST_FLAG
+            description: Quality flag for wind gust direction reading.
           - name: SPD_OF_MAX_GUST_KMH
+            description: Speed of maximum wind gust in km/h as VARCHAR.
           - name: SPD_OF_MAX_GUST_FLAG
+            description: Quality flag for wind gust speed reading.

@@ -2,6 +2,10 @@ version: 2
 
 models:
   - name: fct_transit_delays
+    config:
+      persist_docs:
+        relation: true
+        columns: true
     description: >
       Fact table of TTC delay incidents across subway, bus, and streetcar modes.
       One row per non-zero delay incident with surrogate FK keys to dim_date,
@@ -99,6 +103,10 @@ models:
           Constructed via timestamp_from_parts in the staging layer.
 
   - name: fct_bike_trips
+    config:
+      persist_docs:
+        relation: true
+        columns: true
     description: >
       Fact table of Bike Share Toronto trip records. One row per trip with
       surrogate FK keys to dim_date and dim_station (start and end). Sourced
@@ -192,6 +200,10 @@ models:
           M/DD/YYYY HH24:MI source format in the staging layer.
 
   - name: fct_daily_mobility
+    config:
+      persist_docs:
+        relation: true
+        columns: true
     description: >
       Cross-modal daily aggregation fact table joining transit delay metrics
       and Bike Share ridership metrics via FULL OUTER JOIN on date_key. One row
