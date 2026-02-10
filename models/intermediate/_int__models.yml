@@ -1,0 +1,439 @@
+version: 2
+
+models:
+  - name: int_ttc_delays_unioned
+    description: >
+      Unified TTC delay incidents across subway, bus, and streetcar modes.
+      Combines the three staging models via UNION ALL into a single
+      14-column structure with NULL placeholders for mode-specific fields
+      (line_code and raw_station_name for surface modes; route and location
+      for subway). One row per non-zero delay incident across all modes.
+    columns:
+      - name: delay_sk
+        description: >
+          Surrogate key inherited from the source staging model. Unique
+          within each transit mode; derived from the mode-specific natural
+          key via dbt_utils.generate_surrogate_key.
+
+      - name: delay_date
+        description: >
+          Date of the delay incident (DATE type). Common across all three
+          transit modes.
+        tests:
+          - not_null
+
+      - name: delay_time
+        description: >
+          Time of the delay incident (TIME type). Common across all three
+          transit modes.
+
+      - name: incident_timestamp
+        description: >
+          Combined date and time as TIMESTAMP_NTZ. Constructed via
+          timestamp_from_parts in the staging layer.
+
+      - name: day_of_week
+        description: >
+          English day name when the delay occurred (e.g., Monday).
+          Sourced from the DAY column without transformation.
+
+      - name: transit_mode
+        description: >
+          Transit mode identifier: subway, bus, or streetcar. Assigned
+          as a literal string in each staging model.
+        tests:
+          - accepted_values:
+              values: ['subway', 'bus', 'streetcar']
+
+      - name: line_code
+        description: >
+          TTC subway line identifier (YU, BD, SHP, SRT). Populated for
+          subway records only; NULL for bus and streetcar.
+
+      - name: route
+        description: >
+          TTC bus or streetcar route number. Populated for surface transit
+          records only; NULL for subway.
+
+      - name: raw_station_name
+        description: >
+          Verbatim station name from subway delay records. Populated for
+          subway only; NULL for bus and streetcar. Joined to
+          ttc_station_mapping in the enrichment layer.
+
+      - name: location
+        description: >
+          Intersection or landmark description of the delay location.
+          Populated for bus and streetcar only; NULL for subway.
+
+      - name: delay_code
+        description: >
+          TTC incident code identifying the delay cause. Present across
+          all three modes. Joined to ttc_delay_codes in the enrichment
+          layer.
+
+      - name: delay_minutes
+        description: >
+          Duration of the delay in minutes (INTEGER). Records with zero
+          delay are excluded at the staging boundary.
+        tests:
+          - not_null
+
+      - name: gap_minutes
+        description: >
+          Service gap resulting from the delay in minutes (INTEGER).
+          NULL when not recorded in the source data.
+
+      - name: direction
+        description: >
+          Direction of travel at the time of delay. Compass direction
+          (N, S, E, W) for subway; free-text for surface modes.
+
+  - name: int_ttc_delays_enriched
+    description: >
+      Enriched TTC delay incidents with canonical station names, delay
+      code descriptions, and a date dimension key. Extends
+      int_ttc_delays_unioned with LEFT JOINs to ttc_station_mapping
+      and ttc_delay_codes seeds. Station fields populate for subway
+      records only; bus and streetcar retain NULL. One row per delay
+      incident with 19 columns.
+    columns:
+      - name: delay_sk
+        description: >
+          Surrogate key inherited from the unioned model. Unique within
+          each transit mode.
+
+      - name: delay_date
+        description: >
+          Date of the delay incident (DATE type).
+        tests:
+          - not_null
+
+      - name: delay_time
+        description: >
+          Time of the delay incident (TIME type).
+
+      - name: incident_timestamp
+        description: >
+          Combined date and time as TIMESTAMP_NTZ.
+
+      - name: day_of_week
+        description: >
+          English day name when the delay occurred.
+
+      - name: transit_mode
+        description: >
+          Transit mode identifier: subway, bus, or streetcar.
+        tests:
+          - accepted_values:
+              values: ['subway', 'bus', 'streetcar']
+
+      - name: line_code
+        description: >
+          TTC subway line identifier (YU, BD, SHP, SRT). NULL for
+          bus and streetcar records.
+
+      - name: route
+        description: >
+          TTC bus or streetcar route number. NULL for subway records.
+
+      - name: raw_station_name
+        description: >
+          Verbatim station name from subway delay records. NULL for
+          bus and streetcar.
+
+      - name: location
+        description: >
+          Intersection or landmark description. NULL for subway.
+
+      - name: delay_code
+        description: >
+          TTC incident code identifying the delay cause.
+
+      - name: delay_minutes
+        description: >
+          Duration of the delay in minutes (INTEGER).
+        tests:
+          - not_null
+
+      - name: gap_minutes
+        description: >
+          Service gap in minutes (INTEGER). NULL when not recorded.
+
+      - name: direction
+        description: >
+          Direction of travel at the time of delay.
+
+      - name: canonical_station_name
+        description: >
+          Standardized station name from ttc_station_mapping seed.
+          Resolves raw name variants to official TTC station names.
+          NULL for bus and streetcar records, and for unmapped subway
+          entries that resolve to 'Unknown'.
+
+      - name: station_id
+        description: >
+          Station surrogate key (ST_NNN format) from ttc_station_mapping.
+          ST_001-ST_075 for canonical stations, ST_000 for Unknown.
+          NULL for bus and streetcar records.
+
+      - name: delay_description
+        description: >
+          Human-readable description of the delay incident type from
+          ttc_delay_codes seed. NULL when the delay code has no match
+          in the reference table.
+
+      - name: delay_category
+        description: >
+          Operational category grouping from ttc_delay_codes seed:
+          Mechanical, Signal, Passenger, Infrastructure, Operations,
+          Weather, Security, or General. NULL when unmatched.
+        tests:
+          - accepted_values:
+              values: ['Mechanical', 'Signal', 'Passenger', 'Infrastructure', 'Operations', 'Weather', 'Security', 'General']
+              config:
+                severity: warn
+
+      - name: date_key
+        description: >
+          Integer surrogate key in YYYYMMDD format (e.g., 20240115).
+          Computed from delay_date for joining to the date_spine seed
+          and downstream dim_date dimension.
+        tests:
+          - not_null
+
+  - name: int_bike_trips_enriched
+    description: >
+      Enriched Bike Share Toronto trip records with station geography
+      and duration classification. Extends stg_bike_trips with LEFT JOINs
+      to the bike_station_ref seed for start and end station coordinates
+      and neighborhood assignment. Adds trip_date, date_key, and a five-
+      category duration_bucket. One row per trip with 20 columns.
+    columns:
+      - name: trip_sk
+        description: >
+          Surrogate key derived from trip_id via
+          dbt_utils.generate_surrogate_key in the staging layer.
+
+      - name: trip_id
+        description: >
+          Unique trip identifier from the Bike Share Toronto source system.
+
+      - name: trip_duration_seconds
+        description: >
+          Duration of the trip in seconds (INTEGER). Minimum 60 seconds
+          per staging filter (DESIGN-DOC Decision D9).
+
+      - name: start_station_id
+        description: >
+          Numeric identifier of the station where the trip originated.
+          Join key to bike_station_ref for start station geography.
+
+      - name: start_time
+        description: >
+          Timestamp when the trip started (TIMESTAMP_NTZ).
+
+      - name: start_station_name
+        description: >
+          Display name of the originating station from the Bike Share
+          source system.
+
+      - name: end_station_id
+        description: >
+          Numeric identifier of the station where the trip ended.
+          Join key to bike_station_ref for end station geography.
+
+      - name: end_time
+        description: >
+          Timestamp when the trip ended (TIMESTAMP_NTZ).
+
+      - name: end_station_name
+        description: >
+          Display name of the destination station from the Bike Share
+          source system.
+
+      - name: bike_id
+        description: >
+          Numeric identifier of the bicycle used for the trip (INTEGER).
+
+      - name: user_type
+        description: >
+          Membership category of the rider: 'Annual Member' (yearly
+          subscription) or 'Casual Member' (single trip or day pass).
+        tests:
+          - accepted_values:
+              values: ['Annual Member', 'Casual Member']
+
+      - name: trip_date
+        description: >
+          Calendar date of the trip start, derived as start_time::date.
+          Used for daily aggregation in int_daily_bike_metrics.
+        tests:
+          - not_null
+
+      - name: date_key
+        description: >
+          Integer surrogate key in YYYYMMDD format computed from trip_date
+          via to_number(to_char(...)). Join key to date_spine seed and
+          downstream dim_date dimension.
+        tests:
+          - not_null
+
+      - name: start_latitude
+        description: >
+          WGS84 latitude of the start station dock location from
+          bike_station_ref. NULL for decommissioned or missing stations.
+
+      - name: start_longitude
+        description: >
+          WGS84 longitude of the start station dock location from
+          bike_station_ref. NULL for decommissioned or missing stations.
+
+      - name: start_neighborhood
+        description: >
+          Toronto neighborhood of the start station derived from GBFS
+          group taxonomy. NULL for unmatched stations.
+
+      - name: end_latitude
+        description: >
+          WGS84 latitude of the end station dock location from
+          bike_station_ref. NULL for decommissioned or missing stations.
+
+      - name: end_longitude
+        description: >
+          WGS84 longitude of the end station dock location from
+          bike_station_ref. NULL for decommissioned or missing stations.
+
+      - name: end_neighborhood
+        description: >
+          Toronto neighborhood of the end station derived from GBFS
+          group taxonomy. NULL for unmatched stations.
+
+      - name: duration_bucket
+        description: >
+          Categorical trip duration classification: 'Under 5 min' (60-299s),
+          '5-15 min' (300-899s), '15-30 min' (900-1799s), '30-60 min'
+          (1800-3599s), 'Over 60 min' (3600+s). Exhaustive coverage
+          guaranteed by CASE expression with staging minimum of 60s.
+        tests:
+          - accepted_values:
+              values: ['Under 5 min', '5-15 min', '15-30 min', '30-60 min', 'Over 60 min']
+
+  - name: int_daily_transit_metrics
+    description: >
+      Daily pre-aggregation of TTC delay incidents from
+      int_ttc_delays_enriched. Computes total and per-mode (subway, bus,
+      streetcar) delay counts and duration sums using conditional
+      aggregation. One row per calendar date with delay activity.
+      12 columns at daily grain.
+    columns:
+      - name: delay_date
+        description: >
+          Calendar date of the delay incidents (DATE type). Natural
+          grouping key inherited from int_ttc_delays_enriched.
+
+      - name: date_key
+        description: >
+          Integer surrogate key in YYYYMMDD format. Join key to
+          date_spine seed and downstream dim_date dimension. Inherited
+          from int_ttc_delays_enriched.
+        tests:
+          - not_null
+
+      - name: total_delay_incidents
+        description: >
+          Count of all TTC delay incidents on this date across subway,
+          bus, and streetcar modes.
+        tests:
+          - not_null
+
+      - name: total_delay_minutes
+        description: >
+          Sum of delay_minutes across all modes on this date (INTEGER).
+
+      - name: avg_delay_minutes
+        description: >
+          Mean delay duration in minutes across all modes on this date,
+          rounded to two decimal places (DECIMAL).
+
+      - name: total_gap_minutes
+        description: >
+          Sum of gap_minutes across all modes on this date (INTEGER).
+          NULL values in source gap_minutes are excluded from the sum.
+
+      - name: subway_delay_incidents
+        description: >
+          Count of subway delay incidents on this date. Computed via
+          count_if conditional aggregation.
+
+      - name: bus_delay_incidents
+        description: >
+          Count of bus delay incidents on this date. Computed via
+          count_if conditional aggregation.
+
+      - name: streetcar_delay_incidents
+        description: >
+          Count of streetcar delay incidents on this date. Computed
+          via count_if conditional aggregation.
+
+      - name: subway_delay_minutes
+        description: >
+          Sum of delay_minutes for subway incidents on this date.
+          Zero when no subway delays occurred.
+
+      - name: bus_delay_minutes
+        description: >
+          Sum of delay_minutes for bus incidents on this date.
+          Zero when no bus delays occurred.
+
+      - name: streetcar_delay_minutes
+        description: >
+          Sum of delay_minutes for streetcar incidents on this date.
+          Zero when no streetcar delays occurred.
+
+  - name: int_daily_bike_metrics
+    description: >
+      Daily pre-aggregation of Bike Share Toronto trips from
+      int_bike_trips_enriched. Computes total and per-user-type (Annual
+      Member, Casual Member) trip counts and duration sums using
+      conditional aggregation. One row per calendar date with bike
+      trip activity. 7 columns at daily grain.
+    columns:
+      - name: trip_date
+        description: >
+          Calendar date of the bike trips (DATE type). Derived from
+          start_time::date in int_bike_trips_enriched.
+
+      - name: date_key
+        description: >
+          Integer surrogate key in YYYYMMDD format. Join key to
+          date_spine seed and downstream dim_date dimension.
+        tests:
+          - not_null
+
+      - name: total_trips
+        description: >
+          Count of all Bike Share trips on this date across all
+          user types.
+        tests:
+          - not_null
+
+      - name: total_duration_seconds
+        description: >
+          Sum of trip_duration_seconds across all trips on this date
+          (INTEGER).
+
+      - name: avg_duration_seconds
+        description: >
+          Mean trip duration in seconds across all trips on this date,
+          rounded to two decimal places (DECIMAL).
+
+      - name: member_trips
+        description: >
+          Count of trips by Annual Member riders on this date.
+          Computed via count_if conditional aggregation.
+
+      - name: casual_trips
+        description: >
+          Count of trips by Casual Member riders on this date.
+          Computed via count_if conditional aggregation.
