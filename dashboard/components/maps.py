@@ -143,5 +143,5 @@ def scatterplot_map(
             pitch=0,
         ),
         map_style=pydeck.map_styles.DARK,
-        tooltip=_build_tooltip(tooltip_cols),
+        tooltip=_build_tooltip(tooltip_cols),  # pyright: ignore[reportArgumentType]
     )

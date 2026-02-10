@@ -89,7 +89,7 @@ def _peak_window(df: pd.DataFrame) -> str | None:
     peak_idx = df["delay_count"].idxmax()
     peak = df.loc[peak_idx]
     day = str(peak["day_of_week"])[:3]
-    hour = int(peak["hour_of_day"])
+    hour: int = int(peak["hour_of_day"])  # pyright: ignore[reportArgumentType]
     return f"{day} {hour}-{hour + 1}"
 
 
