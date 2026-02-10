@@ -103,7 +103,7 @@ def bar_chart(
     if color:
         chart = chart.encode(color=alt.Color(color, type="nominal"))
 
-    return cast(alt.Chart, chart.properties(width="container", title=title))
+    return cast("alt.Chart", chart.properties(width="container", title=title))
 
 
 def line_chart(
@@ -137,7 +137,7 @@ def line_chart(
     if color:
         chart = chart.encode(color=alt.Color(color, type="nominal"))
 
-    return cast(alt.Chart, chart.properties(width="container", title=title))
+    return cast("alt.Chart", chart.properties(width="container", title=title))
 
 
 def sparkline(
@@ -171,7 +171,7 @@ def sparkline(
         y2=1,
     )
     return cast(
-        alt.Chart,
+        "alt.Chart",
         alt.Chart(data)
         .mark_area(line={"color": "#2563EB"}, color=gradient)
         .encode(
