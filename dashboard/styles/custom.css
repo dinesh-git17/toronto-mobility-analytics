@@ -1,0 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400&display=swap');
+
+:root {
+    --ttc-red: #DA291C;
+    --bike-green: #43B02A;
+    --neutral-slate: #334155;
+    --bg-offwhite: #FAFAFA;
+    --accent-blue: #2563EB;
+    --warning-amber: #F59E0B;
+}
+
+/* Base typography */
+html, body, [class*="css"] {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+code, pre, [data-testid="stCode"] {
+    font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+}
+
+/* Metric card base */
+.metric-card {
+    padding: 1rem 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    border-left: 4px solid var(--accent-blue);
+    background: #FFFFFF;
+}
+
+/* Metric card variants */
+.metric-card--ttc {
+    border-left-color: var(--ttc-red);
+}
+
+.metric-card--bike {
+    border-left-color: var(--bike-green);
+}
+
+/* Metric card typography */
+.metric-card .metric-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #64748B;
+    margin-bottom: 0.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+}
+
+.metric-card .metric-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--neutral-slate);
+    line-height: 1.2;
+}
+
+.metric-card .metric-delta {
+    font-size: 0.8125rem;
+    margin-top: 0.25rem;
+}
+
+.metric-card .metric-delta--positive {
+    color: #16A34A;
+}
+
+.metric-card .metric-delta--negative {
+    color: var(--ttc-red);
+}
+
+.metric-card .metric-delta--neutral {
+    color: #64748B;
+}

@@ -77,6 +77,7 @@ profiles.yml
 secrets/
 credentials.json
 **/service_account*.json
+dashboard/.streamlit/secrets.toml
 
 #===============================================================================
 # DATA FILES
@@ -84,7 +85,7 @@ credentials.json
 # Per DESIGN-DOC.md §15.1: data/raw/ is gitignored
 # Raw source files (XLSX, CSV) are not committed
 
-data/
+/data/
 
 #===============================================================================
 # JUPYTER
