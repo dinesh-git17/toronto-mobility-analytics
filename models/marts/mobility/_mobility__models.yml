@@ -1,0 +1,255 @@
+version: 2
+
+models:
+  - name: fct_transit_delays
+    description: >
+      Fact table of TTC delay incidents across subway, bus, and streetcar modes.
+      One row per non-zero delay incident with surrogate FK keys to dim_date,
+      dim_station (subway only), and dim_ttc_delay_codes. Sourced from
+      int_ttc_delays_enriched. Primary analytical surface for transit delay
+      analysis.
+    columns:
+      - name: delay_sk
+        description: >
+          Surrogate primary key carried forward from the staging layer. Generated
+          via dbt_utils.generate_surrogate_key from the mode-specific natural key
+          in each staging model.
+        tests:
+          - unique
+          - not_null
+
+      - name: date_key
+        description: >
+          Integer FK to dim_date in YYYYMMDD format (e.g., 20240115). Computed
+          from the delay incident date. Enables date-based partition pruning.
+        tests:
+          - relationships:
+              to: ref('dim_date')
+              field: date_key
+
+      - name: station_key
+        description: >
+          Surrogate FK to dim_station generated from ['TTC_SUBWAY', station_id].
+          Populated for subway records where station_id is not NULL; NULL for all
+          bus and streetcar records (no station dimension for surface routes).
+        tests:
+          - relationships:
+              to: ref('dim_station')
+              field: station_key
+              config:
+                where: "station_key is not null"
+
+      - name: delay_code_key
+        description: >
+          Surrogate FK to dim_ttc_delay_codes generated from ['delay_code'].
+          NULL when the source delay_code is NULL or unrecognized.
+        tests:
+          - relationships:
+              to: ref('dim_ttc_delay_codes')
+              field: delay_code_key
+              config:
+                where: "delay_code_key is not null"
+
+      - name: delay_minutes
+        description: >
+          Duration of the delay in minutes (INTEGER). Records with zero delay
+          are excluded at the staging boundary.
+
+      - name: gap_minutes
+        description: >
+          Service gap resulting from the delay in minutes (INTEGER). NULL when
+          not recorded in the source data.
+
+      - name: transit_mode
+        description: >
+          Transit mode identifier: subway, bus, or streetcar. Lowercase string
+          assigned as a literal in each staging model.
+        tests:
+          - accepted_values:
+              values: ['subway', 'bus', 'streetcar']
+
+      - name: line_code
+        description: >
+          TTC subway line identifier (YU, BD, SHP, SRT). Populated for subway
+          records only; NULL for bus and streetcar.
+
+      - name: direction
+        description: >
+          Direction of travel at the time of delay. Compass direction (N, S, E, W)
+          for subway; free-text for surface modes.
+
+      - name: incident_timestamp
+        description: >
+          Combined date and time of the delay incident as TIMESTAMP_NTZ.
+          Constructed via timestamp_from_parts in the staging layer.
+
+  - name: fct_bike_trips
+    description: >
+      Fact table of Bike Share Toronto trip records. One row per trip with
+      surrogate FK keys to dim_date and dim_station (start and end). Sourced
+      from int_bike_trips_enriched. Primary analytical surface for ridership
+      analysis.
+    columns:
+      - name: trip_sk
+        description: >
+          Surrogate primary key carried forward from the staging layer. Generated
+          via dbt_utils.generate_surrogate_key from trip_id.
+        tests:
+          - unique
+          - not_null
+
+      - name: date_key
+        description: >
+          Integer FK to dim_date in YYYYMMDD format derived from the trip start
+          date. Enables date-based partition pruning.
+        tests:
+          - relationships:
+              to: ref('dim_date')
+              field: date_key
+
+      - name: start_station_key
+        description: >
+          Surrogate FK to dim_station generated from ['BIKE_SHARE', start_station_id].
+          References the docking station where the trip originated. NULL when
+          the start station is not in the GBFS reference snapshot.
+        tests:
+          - relationships:
+              to: ref('dim_station')
+              field: station_key
+              config:
+                where: "start_station_key is not null"
+
+      - name: end_station_key
+        description: >
+          Surrogate FK to dim_station generated from ['BIKE_SHARE', end_station_id].
+          References the docking station where the trip ended. NULL when the
+          end station is not in the GBFS reference snapshot.
+        tests:
+          - relationships:
+              to: ref('dim_station')
+              field: station_key
+              config:
+                where: "end_station_key is not null"
+
+      - name: duration_seconds
+        description: >
+          Duration of the trip in seconds (INTEGER). Minimum 60 seconds per
+          staging filter (DESIGN-DOC Decision D9). Aliased from
+          trip_duration_seconds.
+
+      - name: user_type
+        description: >
+          Membership category of the rider: 'Annual Member' (yearly subscription)
+          or 'Casual Member' (single trip or day pass).
+        tests:
+          - accepted_values:
+              values: ['Annual Member', 'Casual Member']
+
+      - name: bike_id
+        description: >
+          Numeric identifier of the bicycle used for the trip (INTEGER).
+
+      - name: start_time
+        description: >
+          Timestamp when the trip started (TIMESTAMP_NTZ). Parsed from the
+          M/DD/YYYY HH24:MI source format in the staging layer.
+
+      - name: end_time
+        description: >
+          Timestamp when the trip ended (TIMESTAMP_NTZ). Parsed from the
+          M/DD/YYYY HH24:MI source format in the staging layer.
+
+  - name: fct_daily_mobility
+    description: >
+      Cross-modal daily aggregation fact table joining transit delay metrics
+      and Bike Share ridership metrics via FULL OUTER JOIN on date_key. One row
+      per calendar date with activity in either data source. Transit-only dates
+      have NULL bike columns; bike-only dates have NULL transit columns.
+    columns:
+      - name: date_key
+        description: >
+          Integer PK and FK to dim_date in YYYYMMDD format. Computed as
+          COALESCE of transit and bike date_key values to preserve all dates
+          from both data sources.
+        tests:
+          - unique
+          - not_null
+          - relationships:
+              to: ref('dim_date')
+              field: date_key
+
+      - name: total_delay_incidents
+        description: >
+          Count of all TTC delay incidents on this date across subway, bus, and
+          streetcar modes. NULL for dates with no transit delay data.
+
+      - name: total_delay_minutes
+        description: >
+          Sum of delay_minutes across all modes on this date (INTEGER). NULL
+          for dates with no transit delay data.
+
+      - name: avg_delay_minutes
+        description: >
+          Mean delay duration in minutes across all modes on this date, rounded
+          to two decimal places (DECIMAL). NULL for dates with no transit data.
+
+      - name: total_gap_minutes
+        description: >
+          Sum of gap_minutes across all modes on this date (INTEGER). NULL
+          values in source gap_minutes excluded from summation. NULL for dates
+          with no transit delay data.
+
+      - name: subway_delay_incidents
+        description: >
+          Count of subway delay incidents on this date. NULL for dates with
+          no transit delay data.
+
+      - name: bus_delay_incidents
+        description: >
+          Count of bus delay incidents on this date. NULL for dates with no
+          transit delay data.
+
+      - name: streetcar_delay_incidents
+        description: >
+          Count of streetcar delay incidents on this date. NULL for dates with
+          no transit delay data.
+
+      - name: subway_delay_minutes
+        description: >
+          Sum of delay_minutes for subway incidents on this date. NULL for
+          dates with no transit delay data.
+
+      - name: bus_delay_minutes
+        description: >
+          Sum of delay_minutes for bus incidents on this date. NULL for dates
+          with no transit delay data.
+
+      - name: streetcar_delay_minutes
+        description: >
+          Sum of delay_minutes for streetcar incidents on this date. NULL for
+          dates with no transit delay data.
+
+      - name: total_bike_trips
+        description: >
+          Count of all Bike Share trips on this date across all user types.
+          NULL for dates with no bike trip data.
+
+      - name: total_bike_duration_seconds
+        description: >
+          Sum of trip_duration_seconds across all trips on this date (INTEGER).
+          NULL for dates with no bike trip data.
+
+      - name: avg_bike_duration_seconds
+        description: >
+          Mean trip duration in seconds across all trips on this date, rounded
+          to two decimal places (DECIMAL). NULL for dates with no bike trip data.
+
+      - name: member_trips
+        description: >
+          Count of trips by Annual Member riders on this date. NULL for dates
+          with no bike trip data.
+
+      - name: casual_trips
+        description: >
+          Count of trips by Casual Member riders on this date. NULL for dates
+          with no bike trip data.

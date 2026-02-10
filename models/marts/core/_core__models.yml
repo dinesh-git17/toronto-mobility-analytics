@@ -1,0 +1,238 @@
+version: 2
+
+models:
+  - name: dim_date
+    description: >
+      Calendar date dimension spanning 2019-01-01 through 2026-12-31 (2,922 rows).
+      Passthrough from the date_spine seed with type casting: VARCHAR dates to DATE,
+      string booleans to BOOLEAN, and string integers to INTEGER. One row per
+      calendar day. Primary key is date_key (YYYYMMDD integer format).
+    columns:
+      - name: date_key
+        description: >
+          Integer surrogate key in YYYYMMDD format (e.g., 20240101). Primary key
+          for the date dimension and FK target for all fact tables.
+        tests:
+          - unique
+          - not_null
+
+      - name: full_date
+        description: >
+          ISO 8601 calendar date (DATE type). Natural key representation for
+          human-readable filtering and display.
+        tests:
+          - unique
+          - not_null
+
+      - name: day_of_week
+        description: >
+          Full English day name: Monday through Sunday. Derived from ISO 8601
+          weekday computation in the date_spine seed.
+        tests:
+          - accepted_values:
+              values: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+
+      - name: day_of_week_num
+        description: >
+          ISO 8601 weekday number: 1 (Monday) through 7 (Sunday). Enables
+          numeric sorting and weekday/weekend partitioning.
+
+      - name: month_num
+        description: >
+          Calendar month number: 1 (January) through 12 (December).
+
+      - name: month_name
+        description: >
+          Full English month name: January through December.
+
+      - name: quarter
+        description: >
+          Calendar quarter: 1 (Jan-Mar), 2 (Apr-Jun), 3 (Jul-Sep),
+          4 (Oct-Dec).
+
+      - name: year
+        description: >
+          Four-digit calendar year (2019 through 2026).
+
+      - name: is_weekend
+        description: >
+          Boolean flag. True for Saturday and Sunday, false for weekdays.
+          Cast from string to native Snowflake BOOLEAN for predicate pushdown.
+
+      - name: is_holiday
+        description: >
+          Boolean flag. True for Ontario statutory holidays: New Year's Day,
+          Family Day, Good Friday, Victoria Day, Canada Day, Civic Holiday,
+          Labour Day, Thanksgiving, Christmas Day.
+
+  - name: dim_station
+    description: >
+      Unified station dimension combining 76 canonical TTC subway stations
+      (deduplicated from ttc_station_mapping seed) and 1,009 Bike Share Toronto
+      stations (from bike_station_ref seed). Total 1,085 rows. Surrogate key
+      generated from composite natural key [station_type, station_id] to prevent
+      cross-type collision.
+    columns:
+      - name: station_key
+        description: >
+          Surrogate primary key generated via dbt_utils.generate_surrogate_key
+          from [station_type, station_id]. Unique across TTC subway and Bike
+          Share station types.
+        tests:
+          - unique
+          - not_null
+
+      - name: station_id
+        description: >
+          Natural key identifying the station within its type. ST_NNN format
+          for TTC subway (ST_000 through ST_075); numeric string for Bike Share
+          (e.g., '7001').
+
+      - name: station_name
+        description: >
+          Canonical station name. Official TTC station name for subway entries
+          (e.g., 'Bloor-Yonge'); street intersection for Bike Share entries
+          (e.g., 'King St W / York St'). 'Unknown' for unmappable subway records
+          (ST_000).
+
+      - name: station_type
+        description: >
+          Station classification: TTC_SUBWAY for TTC subway stations, BIKE_SHARE
+          for Bike Share Toronto docking stations. UPPER_SNAKE_CASE convention
+          enforced across dimension and fact models.
+        tests:
+          - accepted_values:
+              values: ['TTC_SUBWAY', 'BIKE_SHARE']
+
+      - name: latitude
+        description: >
+          WGS84 latitude of the station location (DECIMAL). Populated for Bike
+          Share stations from the GBFS feed; NULL for TTC subway stations.
+
+      - name: longitude
+        description: >
+          WGS84 longitude of the station location (DECIMAL). Populated for Bike
+          Share stations from the GBFS feed; NULL for TTC subway stations.
+
+      - name: neighborhood
+        description: >
+          Toronto neighborhood derived from the GBFS station group taxonomy.
+          Populated for Bike Share stations; NULL for TTC subway stations.
+
+  - name: dim_weather
+    description: >
+      Daily weather dimension sourced from stg_weather_daily (Environment Canada
+      Toronto City station data). One row per calendar day with temperature,
+      precipitation, and wind measurements. Includes a derived weather_condition
+      classification column (Snow/Rain/Clear). Type 0 SCD — historical weather
+      is immutable.
+    columns:
+      - name: date_key
+        description: >
+          Integer key in YYYYMMDD format computed from weather_date. Primary key
+          and FK to dim_date.date_key. Enables partition pruning on date-filtered
+          queries.
+        tests:
+          - unique
+          - not_null
+          - relationships:
+              to: ref('dim_date')
+              field: date_key
+
+      - name: weather_date
+        description: >
+          Calendar date of the weather observation (DATE type). One observation
+          per day from the Environment Canada Toronto City climate station.
+
+      - name: mean_temp_c
+        description: >
+          Mean daily temperature in degrees Celsius (DECIMAL). Arithmetic mean
+          of hourly observations. NULL when the source station reports no data.
+
+      - name: max_temp_c
+        description: >
+          Maximum daily temperature in degrees Celsius (DECIMAL). Highest hourly
+          reading for the day. NULL when the source station reports no data.
+
+      - name: min_temp_c
+        description: >
+          Minimum daily temperature in degrees Celsius (DECIMAL). Lowest hourly
+          reading for the day. NULL when the source station reports no data.
+
+      - name: total_precip_mm
+        description: >
+          Total precipitation in millimetres (DECIMAL). Combined rain and
+          melted-snow equivalent. NULL when not recorded.
+
+      - name: total_rain_mm
+        description: >
+          Total rainfall in millimetres (DECIMAL). Liquid precipitation only,
+          excluding snow. NULL when not recorded.
+
+      - name: total_snow_cm
+        description: >
+          Total snowfall in centimetres (DECIMAL). Frozen precipitation only.
+          NULL when not recorded.
+
+      - name: snow_on_ground_cm
+        description: >
+          Depth of snow on ground at observation time in centimetres (DECIMAL).
+          NULL when not recorded.
+
+      - name: max_wind_gust_kmh
+        description: >
+          Maximum wind gust speed in kilometres per hour (DECIMAL). Peak
+          instantaneous wind measurement for the day. NULL when not recorded.
+
+      - name: max_wind_gust_dir_deg
+        description: >
+          Direction of maximum wind gust in tens of degrees (INTEGER). Compass
+          bearing where 0/36 = North, 9 = East, 18 = South, 27 = West. NULL
+          when not recorded.
+
+      - name: weather_condition
+        description: >
+          Derived categorical weather classification: 'Snow' when total_snow_cm
+          > 0, 'Rain' when total_rain_mm > 0 and no snow, 'Clear' otherwise.
+          No NULL values — the ELSE clause defaults to Clear for days with no
+          precipitation or missing data.
+        tests:
+          - accepted_values:
+              values: ['Snow', 'Rain', 'Clear']
+
+  - name: dim_ttc_delay_codes
+    description: >
+      TTC delay incident code lookup dimension with 334 rows. Maps alphanumeric
+      delay codes to human-readable descriptions and operational categories.
+      Covers subway, bus, streetcar, and SRT modes for the 2020-2025 period.
+      Surrogate key generated from the natural delay_code column.
+    columns:
+      - name: delay_code_key
+        description: >
+          Surrogate primary key generated via dbt_utils.generate_surrogate_key
+          from delay_code. FK target for fct_transit_delays.delay_code_key.
+        tests:
+          - unique
+          - not_null
+
+      - name: delay_code
+        description: >
+          Alphanumeric incident code from TTC delay records. Short prefix codes
+          (e.g., MUPAA, SUDP) for subway/SRT and full-text descriptions for
+          bus/streetcar pre-2025 data. Natural key for the dimension.
+        tests:
+          - unique
+          - not_null
+
+      - name: delay_description
+        description: >
+          Human-readable description of the delay incident type. Limited to
+          1-10 words for consistency across transit modes.
+
+      - name: delay_category
+        description: >
+          Operational category grouping: Mechanical, Signal, Passenger,
+          Infrastructure, Operations, Weather, Security, or General.
+        tests:
+          - accepted_values:
+              values: ['Mechanical', 'Signal', 'Passenger', 'Infrastructure', 'Operations', 'Weather', 'Security', 'General']
