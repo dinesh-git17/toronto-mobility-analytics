@@ -5,7 +5,7 @@
 [![CI Lint](https://github.com/dinesh-git17/toronto-mobility-analytics/actions/workflows/ci-lint.yml/badge.svg?branch=main)](https://github.com/dinesh-git17/toronto-mobility-analytics/actions/workflows/ci-lint.yml)
 [![Governance](https://github.com/dinesh-git17/toronto-mobility-analytics/actions/workflows/governance.yml/badge.svg?branch=main)](https://github.com/dinesh-git17/toronto-mobility-analytics/actions/workflows/governance.yml)
 
-A production-grade data platform that integrates Toronto's transit delay records, bike share ridership, and daily weather observations into a unified analytical warehouse. The platform ingests data from five public sources, validates schemas at the boundary, and transforms raw records through a medallion architecture (staging, intermediate, marts) in Snowflake using dbt. The result is a star-schema warehouse powering cross-modal urban mobility analysis across six years of Toronto transit and cycling data.
+A production-grade data platform that integrates Toronto's transit delay records, bike share ridership, and daily weather observations into a unified analytical warehouse. The platform ingests data from five public sources, validates schemas at the boundary, and transforms raw records through a medallion architecture (staging, intermediate, marts) in Snowflake using dbt. An interactive Streamlit dashboard provides cross-modal urban mobility analysis across six years of Toronto transit and cycling data.
 
 ---
 
@@ -19,7 +19,9 @@ A production-grade data platform that integrates Toronto's transit delay records
 | --------------- | ---------------------- | ----------- | ----------------------------------------------------- |
 | Warehouse       | Snowflake              | Enterprise  | Cloud data warehouse with RBAC and micro-partitioning |
 | Transformation  | dbt Core               | 1.8+        | SQL-based medallion architecture transforms           |
+| Dashboard       | Streamlit              | 1.41+       | Interactive multi-page analytics dashboard            |
 | Ingestion       | Python                 | 3.12+       | Atomic download, validation, and loading pipeline     |
+| Visualization   | Altair / PyDeck        | 5.x / 0.9+  | Statistical charts and geospatial map layers          |
 | Orchestration   | GitHub Actions         | --          | CI/CD with 5 workflow gates on every PR               |
 | Testing         | dbt tests + pytest     | --          | 135 dbt schema/data tests, 158 Python unit tests      |
 | Observability   | Elementary             | 0.16.1      | Volume anomalies, freshness monitoring, schema drift  |
@@ -71,6 +73,7 @@ flowchart TD
     end
 
     subgraph Consumers["Analytics"]
+        DASH[Streamlit Dashboard\n5 Pages]
         QRY[Ad-hoc Queries]
         ELEM[Elementary Reports]
         DOCS[dbt Docs Lineage]
@@ -79,6 +82,7 @@ flowchart TD
     Sources --> DL --> TX --> VL --> LD --> RAW
     RAW --> STG --> INT --> MARTS
     SEEDS --> INT
+    MARTS --> DASH
     MARTS --> QRY
     MARTS --> ELEM
     MARTS --> DOCS
@@ -337,6 +341,42 @@ dbt build
 
 ---
 
+## Dashboard
+
+An interactive Streamlit dashboard connects directly to the mart layer for cross-modal mobility analysis. The application is organized into five pages, each addressing a distinct analytical question.
+
+| Page                 | File                       | Description                                                      |
+| -------------------- | -------------------------- | ---------------------------------------------------------------- |
+| **Overview**         | `1_Overview.py`            | Cross-modal summary with headline KPIs, daily trends, and YoY comparisons |
+| **TTC Deep Dive**    | `2_TTC_Deep_Dive.py`       | Delay patterns by station, cause code, time of day, and transit mode       |
+| **Bike Share**       | `3_Bike_Share.py`          | Trip volume, seasonality, duration distribution, and user type breakdown   |
+| **Weather Impact**   | `4_Weather_Impact.py`      | Temperature and precipitation effects on transit delays and ridership      |
+| **Station Explorer** | `5_Station_Explorer.py`    | Geospatial drill-down with PyDeck maps, station metrics, and comparison    |
+
+The landing page (`app.py`) serves as a navigation hub with live hero metrics (total delay hours, total bike trips, data freshness) and page cards linking to each analytical view.
+
+**Key features:**
+
+- Tiered caching strategy (1-hour for aggregates, 10-minute for filtered queries, 24-hour for reference data)
+- Custom CSS theme with Inter typography, 8px spacing grid, and semantic color system
+- PyDeck geospatial maps with ScatterplotLayer for station visualization
+- Altair and Plotly charts following Tufte data-ink ratio principles
+
+### Running Locally
+
+```bash
+cd dashboard
+pip install -r requirements.txt
+
+# Configure Snowflake credentials
+cp secrets.toml.example .streamlit/secrets.toml
+# Edit .streamlit/secrets.toml with your Snowflake connection details
+
+streamlit run app.py
+```
+
+---
+
 ## Sample Queries
 
 Five analytical queries are provided in the [`analyses/`](analyses/) directory. Compile and execute via dbt or run directly in Snowflake after replacing `{{ ref() }}` with fully qualified table names.
@@ -415,6 +455,16 @@ All five checks must pass before merge. Squash-merge only; linear history enforc
 
 ---
 
+## Project Documentation
+
+The full implementation roadmap — organized by phases, epics, and stories — is published as a browsable documentation site:
+
+**[dinesh-git17.github.io/toronto-mobility-analytics](https://dinesh-git17.github.io/toronto-mobility-analytics/)**
+
+The site covers every phase of the project from infrastructure provisioning through warehouse modeling, data quality, and dashboard development. Each epic contains detailed stories with acceptance criteria, technical approach, and implementation status.
+
+---
+
 ## Observability
 
 Elementary monitors all 7 mart models for volume anomalies, freshness anomalies, and schema changes. Reports are generated as self-contained HTML:
@@ -460,6 +510,30 @@ toronto-mobility-analytics/
 │   ├── daily_mobility_summary.sql
 │   ├── monthly_trends.sql
 │   └── top_delay_stations.sql
+├── dashboard/
+│   ├── .streamlit/
+│   │   └── config.toml
+│   ├── components/
+│   │   ├── charts.py
+│   │   ├── maps.py
+│   │   └── metrics.py
+│   ├── data/
+│   │   ├── cache.py
+│   │   ├── connection.py
+│   │   └── queries.py
+│   ├── pages/
+│   │   ├── 1_Overview.py
+│   │   ├── 2_TTC_Deep_Dive.py
+│   │   ├── 3_Bike_Share.py
+│   │   ├── 4_Weather_Impact.py
+│   │   └── 5_Station_Explorer.py
+│   ├── styles/
+│   │   └── custom.css
+│   ├── utils/
+│   │   └── geo.py
+│   ├── app.py
+│   ├── requirements.txt
+│   └── secrets.toml.example
 ├── docs/
 │   ├── PH-02/
 │   ├── PH-03/
@@ -470,6 +544,10 @@ toronto-mobility-analytics/
 │   ├── PH-08/
 │   ├── PH-09/
 │   ├── PH-10/
+│   ├── PH-11/
+│   ├── PH-12/
+│   ├── PH-13/
+│   ├── PH-14/
 │   ├── OBSERVABILITY.md
 │   ├── RUNBOOK.md
 │   ├── TESTS.md
@@ -574,17 +652,18 @@ toronto-mobility-analytics/
 
 ### Key Directories
 
-| Directory   | Purpose                                                                  |
-| ----------- | ------------------------------------------------------------------------ |
-| `models/`   | dbt models organized by medallion layer (staging/intermediate/marts)     |
-| `scripts/`  | Python ingestion pipeline (download, transform, validate, load)          |
-| `seeds/`    | Reference data: station mappings, delay codes, date spine, bike stations |
-| `tests/`    | Singular SQL tests and Python unit tests                                 |
-| `analyses/` | Five analytical queries for benchmarking and exploration                 |
-| `setup/`    | Snowflake DDL for database, schemas, warehouses, and roles               |
-| `docs/`     | Epic specifications, test strategy, runbook, observability               |
-| `macros/`   | Custom dbt macros (schema routing, date spine generation)                |
-| `tools/`    | Local development scripts (pre-commit hooks, governance checks)          |
+| Directory    | Purpose                                                                  |
+| ------------ | ------------------------------------------------------------------------ |
+| `dashboard/` | Streamlit multi-page analytics dashboard (5 pages, PyDeck maps, Altair)  |
+| `models/`    | dbt models organized by medallion layer (staging/intermediate/marts)     |
+| `scripts/`   | Python ingestion pipeline (download, transform, validate, load)          |
+| `seeds/`     | Reference data: station mappings, delay codes, date spine, bike stations |
+| `tests/`     | Singular SQL tests and Python unit tests                                 |
+| `analyses/`  | Five analytical queries for benchmarking and exploration                 |
+| `setup/`     | Snowflake DDL for database, schemas, warehouses, and roles               |
+| `docs/`      | Epic specifications, test strategy, runbook, observability               |
+| `macros/`    | Custom dbt macros (schema routing, date spine generation)                |
+| `tools/`     | Local development scripts (pre-commit hooks, governance checks)          |
 
 ---
 
@@ -636,6 +715,7 @@ MIT
 
 ## References
 
+- [Project Documentation Site](https://dinesh-git17.github.io/toronto-mobility-analytics/) -- Browsable phases, epics, and stories
 - [DESIGN-DOC.md](DESIGN-DOC.md) -- Technical architecture and data model specification
 - [docs/TESTS.md](docs/TESTS.md) -- Test strategy and full test inventory
 - [docs/RUNBOOK.md](docs/RUNBOOK.md) -- Pipeline operations and incident response
