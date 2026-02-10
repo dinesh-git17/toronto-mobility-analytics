@@ -483,6 +483,50 @@ def rename_csv_columns(
     return True
 
 
+def strip_extra_columns(
+    csv_path: Path,
+    allowed_columns: frozenset[str],
+) -> bool:
+    """Remove columns not in the allowed set from a CSV file in-place.
+
+    Uses proper CSV parsing to handle quoted fields containing delimiters.
+    Comparison is case-insensitive to match the validation engine.
+
+    Args:
+        csv_path: Path to the CSV file to modify.
+        allowed_columns: Set of column names to retain.
+
+    Returns:
+        True if any columns were removed, False if no changes needed.
+    """
+    with csv_path.open("r", encoding="utf-8", newline="") as f:
+        reader = csv.reader(f)
+        header = next(reader, None)
+        if header is None:
+            return False
+
+        allowed_lower = {c.lower() for c in allowed_columns}
+        keep_indices = [
+            i for i, col in enumerate(header) if col.strip().lower() in allowed_lower
+        ]
+
+        if len(keep_indices) == len(header):
+            return False
+
+        removed = [header[i] for i in range(len(header)) if i not in set(keep_indices)]
+
+        rows: list[list[str]] = [[header[i] for i in keep_indices]]
+        for row in reader:
+            rows.append([row[i] if i < len(row) else "" for i in keep_indices])
+
+    with csv_path.open("w", encoding="utf-8", newline="") as f:
+        writer = csv.writer(f, quoting=csv.QUOTE_MINIMAL)
+        writer.writerows(rows)
+
+    logger.info("Stripped extra columns from %s: %s", csv_path.name, removed)
+    return True
+
+
 def batch_extract_zips(
     source_dir: Path,
     output_dir: Path,
