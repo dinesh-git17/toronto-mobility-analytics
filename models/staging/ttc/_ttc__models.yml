@@ -2,6 +2,10 @@ version: 2
 
 models:
   - name: stg_ttc_subway_delays
+    config:
+      persist_docs:
+        relation: true
+        columns: true
     description: >
       Staged TTC subway delay incidents from RAW.TTC_SUBWAY_DELAYS.
       Type-casts VARCHAR columns to native types, generates a surrogate key
@@ -90,6 +94,10 @@ models:
               values: ['subway']
 
   - name: stg_ttc_bus_delays
+    config:
+      persist_docs:
+        relation: true
+        columns: true
     description: >
       Staged TTC bus delay incidents from RAW.TTC_BUS_DELAYS.
       Type-casts VARCHAR columns to native types, generates a surrogate key
@@ -166,6 +174,10 @@ models:
               values: ['bus']
 
   - name: stg_ttc_streetcar_delays
+    config:
+      persist_docs:
+        relation: true
+        columns: true
     description: >
       Staged TTC streetcar delay incidents from RAW.TTC_STREETCAR_DELAYS.
       Type-casts VARCHAR columns to native types, generates a surrogate key

@@ -2,6 +2,10 @@ version: 2
 
 models:
   - name: dim_date
+    config:
+      persist_docs:
+        relation: true
+        columns: true
     description: >
       Calendar date dimension spanning 2019-01-01 through 2026-12-31 (2,922 rows).
       Passthrough from the date_spine seed with type casting: VARCHAR dates to DATE,
@@ -69,6 +73,10 @@ models:
           Labour Day, Thanksgiving, Christmas Day.
 
   - name: dim_station
+    config:
+      persist_docs:
+        relation: true
+        columns: true
     description: >
       Unified station dimension combining 76 canonical TTC subway stations
       (deduplicated from ttc_station_mapping seed) and 1,009 Bike Share Toronto
@@ -126,6 +134,10 @@ models:
           Populated for Bike Share stations; NULL for TTC subway stations.
 
   - name: dim_weather
+    config:
+      persist_docs:
+        relation: true
+        columns: true
     description: >
       Daily weather dimension sourced from stg_weather_daily (Environment Canada
       Toronto City station data). One row per calendar day with temperature,
@@ -212,6 +224,10 @@ models:
               values: ['Snow', 'Rain', 'Clear']
 
   - name: dim_ttc_delay_codes
+    config:
+      persist_docs:
+        relation: true
+        columns: true
     description: >
       TTC delay incident code lookup dimension with 334 rows. Maps alphanumeric
       delay codes to human-readable descriptions and operational categories.

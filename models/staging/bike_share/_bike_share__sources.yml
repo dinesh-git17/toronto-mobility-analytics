@@ -21,12 +21,22 @@ sources:
           Grain: one row per trip (trip_id).
         columns:
           - name: TRIP_ID
+            description: Unique trip identifier from the Bike Share Toronto source system.
           - name: TRIP_DURATION
+            description: Duration of the trip in seconds as VARCHAR.
           - name: START_STATION_ID
+            description: Numeric identifier of the trip origin station as VARCHAR.
           - name: START_TIME
+            description: Trip start timestamp in M/DD/YYYY HH24:MI format as VARCHAR.
           - name: START_STATION_NAME
+            description: Display name of the trip origin station.
           - name: END_STATION_ID
+            description: Numeric identifier of the trip destination station as VARCHAR.
           - name: END_TIME
+            description: Trip end timestamp in M/DD/YYYY HH24:MI format as VARCHAR.
           - name: END_STATION_NAME
+            description: Display name of the trip destination station.
           - name: BIKE_ID
+            description: Numeric identifier of the bicycle used as VARCHAR.
           - name: USER_TYPE
+            description: Membership category of the rider (Annual Member or Casual Member).

@@ -2,6 +2,10 @@ version: 2
 
 models:
   - name: stg_weather_daily
+    config:
+      persist_docs:
+        relation: true
+        columns: true
     description: >
       Staged Environment Canada daily weather observations from
       RAW.WEATHER_DAILY (Toronto Pearson, Station ID 51459). Type-casts
