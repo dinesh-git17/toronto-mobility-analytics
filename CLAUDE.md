@@ -125,16 +125,17 @@ A skill is **invalid** and MUST be rejected if:
 
 ### 3.6 Installed Skills Registry
 
-| Skill            | Path                             | Purpose                                        |
-| ---------------- | -------------------------------- | ---------------------------------------------- |
-| `skill-creator`  | `.claude/skills/skill-creator/`  | Meta-skill for creating compliant skills       |
-| `dbt-model`      | `.claude/skills/dbt-model/`      | dbt model development (medallion architecture) |
-| `python-writing` | `.claude/skills/python-writing/` | Production-grade Python code generation        |
-| `epic-writer`    | `.claude/skills/epic-writer/`    | Epic and story generation from phases          |
+| Skill              | Path                               | Purpose                                        |
+| ------------------ | ---------------------------------- | ---------------------------------------------- |
+| `skill-creator`    | `.claude/skills/skill-creator/`    | Meta-skill for creating compliant skills       |
+| `dbt-model`        | `.claude/skills/dbt-model/`        | dbt model development (medallion architecture) |
+| `python-writing`   | `.claude/skills/python-writing/`   | Production-grade Python code generation        |
+| `epic-writer`      | `.claude/skills/epic-writer/`      | Epic and story generation from phases          |
+| `dashboard-design` | `.claude/skills/dashboard-design/` | Dashboard design, layout, and visual standards |
 
 **Usage:**
 
-- Invoke directly: `/skill-creator`, `/dbt-model`, `/python-writing`, `/epic-writer`
+- Invoke directly: `/skill-creator`, `/dbt-model`, `/python-writing`, `/epic-writer`, `/dashboard-design`
 - Automatic activation based on description triggers
 
 ---
@@ -261,7 +262,83 @@ All epic files MUST:
 
 ---
 
-## 6. Engineering Standards: Data Stack
+## 6. Dashboard Design Skill Enforcement (MANDATORY)
+
+### 6.1 Skill Requirement
+
+Claude Code MUST use the `dashboard-design` skill for **ALL dashboard, visualization, and presentation work**.
+
+**This applies to:**
+
+- Dashboard page design or layout
+- Streamlit application development
+- Chart creation, selection, or configuration
+- KPI card composition
+- UI theming, color systems, or typography decisions
+- Page composition or information architecture
+- Visual quality review or critique
+- CSS styling for data presentation
+- Any task within PH-11 or later phases involving user-facing output
+
+### 6.2 Trigger Conditions
+
+The `dashboard-design` skill MUST be activated when **any** of the following conditions are true:
+
+1. The task involves creating, modifying, or reviewing a dashboard page
+2. The task involves Streamlit layout, theming, or component composition
+3. The task involves chart type selection, chart formatting, or data visualization
+4. The task involves KPI presentation, metric cards, or summary displays
+5. The task involves CSS injection, visual styling, or presentation polish
+6. The task falls within PH-11 or any subsequent phase that produces user-facing output
+7. The output will be rendered in a browser or presentation context
+
+### 6.3 Mandatory Compliance
+
+When performing dashboard or visualization work, Claude Code MUST:
+
+1. **Activate the dashboard-design skill** (automatic or `/dashboard-design`)
+2. **Follow all standards** defined in `.claude/skills/dashboard-design/SKILL.md`
+3. **Apply the color system** — no ad-hoc color choices outside the defined tokens
+4. **Apply the typography scale** — no arbitrary font sizes or weights
+5. **Apply the spacing grid** — all spacing values derive from the 8px base unit
+6. **Apply chart standards** — no pie charts, no rainbow palettes, no 3D effects
+7. **Pass the review checklist** before declaring any dashboard work complete
+
+### 6.4 Absolute Prohibitions
+
+- ❌ Designing dashboards without the `dashboard-design` skill active
+- ❌ Using default Streamlit theme without custom CSS overrides
+- ❌ Using pie charts in any context
+- ❌ Using rainbow or arbitrary multi-color palettes
+- ❌ Using more than 3 semantic accent colors per page
+- ❌ Placing more than 4 KPI cards in a single row
+- ❌ Creating charts without section headings or contextual labels
+- ❌ Adding decorative elements (gradient fills, drop shadows, 3D effects, animations)
+- ❌ Bypassing the skill for "quick mockups" or "rough drafts"
+
+### 6.5 Enforcement
+
+**If the dashboard-design skill is unavailable:**
+
+- HALT immediately
+- Report the skill is missing
+- Do NOT proceed with any dashboard, visualization, or presentation work
+
+**Dashboard output produced without this skill constitutes a governance violation.**
+
+### 6.6 Rejection Authority
+
+The `dashboard-design` skill defines explicit rejection criteria. A dashboard MUST be rejected and redesigned if it:
+
+- Looks like a tutorial or demo
+- Uses default framework styling
+- Contains a pie chart
+- Contains more than 4 colors in a single chart without sequential justification
+- Would not pass a senior engineering design review
+
+---
+
+## 7. Engineering Standards: Data Stack
 
 ### 5.1 Snowflake & SQL Standards
 
@@ -295,41 +372,41 @@ All epic files MUST:
 
 ---
 
-## 7. LLM / Agent Rules (Critical)
+## 8. LLM / Agent Rules (Critical)
 
-### 7.1 Modification Discipline
+### 8.1 Modification Discipline
 
 - **No Silent Refactors:** Do not "clean up" dbt models or Python scripts outside the requested scope.
 - **Schema Protection:** Agents are forbidden from altering `RAW` schema definitions without an explicit architectural review.
 - **Dependency Management:** All dbt packages MUST be pinned to specific versions in `packages.yml` (as of 2026-02-02). Do not upgrade packages unless instructed.
-- **Skill Compliance:** All skill operations MUST use the Skill Creator skill. All Python operations MUST use the python-writing skill. No exceptions.
+- **Skill Compliance:** All skill operations MUST use the Skill Creator skill. All Python operations MUST use the python-writing skill. All dashboard and visualization operations MUST use the dashboard-design skill. No exceptions.
 
-### 7.2 Research & Verification
+### 8.2 Research & Verification
 
 - Before utilizing a Snowflake function or dbt macro, verify its availability in the pinned versions.
 - **No Guessing:** If the mapping for a TTC station or Bike Share ID is ambiguous, STOP and request clarification.
 
 ---
 
-## 8. Safety & Reliability
+## 9. Safety & Reliability
 
-### 8.1 Testing Requirements
+### 9.1 Testing Requirements
 
 - **100% Coverage:** Every Mart model MUST have `unique` and `not_null` tests on primary keys.
 - **Integrity:** Relationship tests (FK to PK) are mandatory for all Fact tables.
 - **Custom Logic:** Complex business rules (e.g., "no negative delays") must be implemented as singular dbt tests in `/tests`.
 - **Python Tests:** All Python modules MUST have corresponding pytest tests.
 
-### 8.2 Observability & Logging
+### 9.2 Observability & Logging
 
 - **Elementary:** Every Mart model must be configured for Elementary anomaly detection (`volume_anomalies`, `freshness_anomalies`).
 - **Fail-Fast:** Schema mismatches in the Python layer must raise a `SchemaValidationError` and terminate the process with exit code 1.
 
 ---
 
-## 9. Repository Workflow
+## 10. Repository Workflow
 
-### 9.1 GitHub Repository Configuration
+### 10.1 GitHub Repository Configuration
 
 **Repository:** `dinesh-git17/toronto-mobility-analytics`
 **Visibility:** Public
@@ -348,7 +425,7 @@ All epic files MUST:
 - Merge commits (squash only)
 - Rebase merges (squash only)
 
-### 9.2 Branch Protection Rules (main)
+### 10.2 Branch Protection Rules (main)
 
 The `main` branch enforces strict protection:
 
@@ -374,14 +451,14 @@ The `main` branch enforces strict protection:
 - `protocol-zero` — Governance workflow AI attribution scan
 - `dependency-audit` — Security workflow vulnerability scan
 
-### 9.3 Merge Strategy
+### 10.3 Merge Strategy
 
 - **Squash merge only** — All PRs squash to single commit
 - **Commit title:** PR title (imperative mood)
 - **Commit body:** PR description
 - **Auto-delete branches:** Enabled after merge
 
-### 9.4 Branching Convention
+### 10.4 Branching Convention
 
 **Format:** `<type>/<issue-id>-<short-description>`
 
@@ -402,7 +479,7 @@ The `main` branch enforces strict protection:
 - `fix/DATA-15-correct-timestamp-casting`
 - `refactor/DATA-22-normalize-station-names`
 
-### 9.5 Commit Messages
+### 10.5 Commit Messages
 
 **Format:** `type(scope): imperative description`
 
@@ -416,7 +493,7 @@ The `main` branch enforces strict protection:
 - `feat(skills): add python-writing skill for code generation standards`
 - `feat(scripts): add schema validation to ingestion pipeline`
 
-### 9.6 Issue Management
+### 10.6 Issue Management
 
 **All work MUST begin with an issue.** No direct commits without issue linkage.
 
@@ -445,7 +522,7 @@ The `main` branch enforces strict protection:
 
 **Blank issues are disabled.** All issues MUST use a template.
 
-### 9.7 Pull Request Workflow
+### 10.7 Pull Request Workflow
 
 **PR Template enforces governance compliance.** All sections MUST be completed.
 
@@ -457,7 +534,7 @@ The `main` branch enforces strict protection:
 4. **Design Impact** — Architecture layer and schema change classification
 5. **Testing Evidence** — Commands executed and pass confirmation
 6. **Risk Assessment** — Low/Medium/High with rollback plan
-7. **Governance Checklist** — CLAUDE.md Section 11 compliance verification
+7. **Governance Checklist** — CLAUDE.md Section 12 compliance verification
 
 **PR Lifecycle:**
 
@@ -467,7 +544,7 @@ Issue Created → Branch Created → Development → PR Opened → CI Passes →
 
 **CI/CD Gate:** GitHub Actions is the source of truth. A task is NOT complete until all required checks pass.
 
-### 9.8 Label System
+### 10.8 Label System
 
 **Category Labels:**
 
@@ -491,7 +568,7 @@ Issue Created → Branch Created → Development → PR Opened → CI Passes →
 | `priority:medium` | `#FF9500` | Standard — scheduled work      |
 | `priority:low`    | `#0E8A16` | Backlog item                   |
 
-### 9.9 Security Configuration
+### 10.9 Security Configuration
 
 **Enabled Protections:**
 
@@ -507,7 +584,7 @@ Issue Created → Branch Created → Development → PR Opened → CI Passes →
 - Read-only tokens by default
 - Workflow permissions minimized
 
-### 9.10 CODEOWNERS
+### 10.10 CODEOWNERS
 
 ```
 # Default owner for all files
@@ -518,9 +595,9 @@ All PRs require CODEOWNER approval. CODEOWNERS may bypass protections for emerge
 
 ---
 
-## 10. Performance Expectations
+## 11. Performance Expectations
 
-### 10.1 Snowflake Efficiency
+### 11.1 Snowflake Efficiency
 
 - **Warehouse:** Use `TRANSFORM_WH` (X-Small). Any query taking > 5 seconds on production-scale data (~30M rows) is a failure.
 - **Pruning:** Ensure queries leverage partition pruning (Filtering by `date_key`).
@@ -528,7 +605,7 @@ All PRs require CODEOWNER approval. CODEOWNERS may bypass protections for emerge
 
 ---
 
-## 11. Definition of Done (Checklist)
+## 12. Definition of Done (Checklist)
 
 An agent may only declare a task complete if:
 
@@ -549,10 +626,13 @@ An agent may only declare a task complete if:
 - [ ] **Epics generated via `epic-writer` skill** (if applicable).
 - [ ] **Epic files saved to `docs/<phase_id>/`** (if applicable).
 - [ ] **All stories have testable acceptance criteria** (if applicable).
+- [ ] **Dashboard output generated via `dashboard-design` skill** (if applicable).
+- [ ] **Dashboard passes review checklist** defined in `.claude/skills/dashboard-design/SKILL.md` (if applicable).
+- [ ] **No default Streamlit theme used without custom CSS overrides** (if applicable).
 
 ---
 
-## 12. Final Acknowledgment
+## 13. Final Acknowledgment
 
 Execution of any task within this repository constitutes a binding agreement to these standards. Failure to comply results in immediate work rejection and mandatory rollback.
 
@@ -561,3 +641,5 @@ Execution of any task within this repository constitutes a binding agreement to 
 **Python Enforcement Clause:** Any attempt to write Python code without the `python-writing` skill active is a governance violation. Claude Code MUST activate the skill before generating any Python output.
 
 **Epic Writing Enforcement Clause:** Any attempt to write epics, stories, or backlog items without the `epic-writer` skill active is a governance violation. Claude Code MUST activate the skill before generating any planning artifacts. All epics MUST be saved to `docs/<phase_id>/` following the deterministic naming convention. Manual epic creation outside this skill is forbidden.
+
+**Dashboard Design Enforcement Clause:** Any attempt to design, build, review, or modify dashboards, visualizations, charts, Streamlit pages, or presentation-layer output without the `dashboard-design` skill active is a governance violation. Claude Code MUST activate the skill before generating any dashboard or visualization output. All dashboard work MUST comply with the color system, typography scale, spacing grid, chart standards, and rejection criteria defined in `.claude/skills/dashboard-design/SKILL.md`. Dashboard output that uses default framework styling, pie charts, rainbow palettes, or fails the review checklist is rejected on sight.
