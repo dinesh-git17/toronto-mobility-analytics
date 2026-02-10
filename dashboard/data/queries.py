@@ -478,3 +478,130 @@ def weather_daily_metrics() -> str:
                  OR m.total_delay_incidents IS NOT NULL)
         ORDER BY m.date_key
     """
+
+
+# ---------------------------------------------------------------------------
+# Station Explorer queries (E-1402)
+# ---------------------------------------------------------------------------
+
+
+def station_delay_metrics() -> str:
+    """Aggregate delay statistics for a single TTC subway station.
+
+    Parameters: station_key (str), start_date (int), end_date (int).
+    Returns single-row DataFrame with delay_count, total_delay_minutes,
+    avg_delay_minutes, top_delay_category from fct_transit_delays joined
+    to dim_ttc_delay_codes for category ranking.
+    """
+    return """
+        WITH base AS (
+            SELECT
+                f.delay_minutes,
+                c.delay_category
+            FROM fct_transit_delays f
+            LEFT JOIN dim_ttc_delay_codes c
+                ON f.delay_code_key = c.delay_code_key
+            WHERE f.station_key = %(station_key)s
+                AND f.date_key BETWEEN %(start_date)s AND %(end_date)s
+        ),
+        ranked_categories AS (
+            SELECT
+                delay_category,
+                ROW_NUMBER() OVER (ORDER BY COUNT(*) DESC) AS rn
+            FROM base
+            WHERE delay_category IS NOT NULL
+            GROUP BY delay_category
+        )
+        SELECT
+            COUNT(*) AS delay_count,
+            COALESCE(SUM(delay_minutes), 0) AS total_delay_minutes,
+            ROUND(AVG(delay_minutes), 1) AS avg_delay_minutes,
+            (SELECT delay_category FROM ranked_categories WHERE rn = 1)
+                AS top_delay_category
+        FROM base
+    """
+
+
+def station_trip_metrics() -> str:
+    """Aggregate trip statistics for a single Bike Share station.
+
+    Parameters: station_key (str), start_date (int), end_date (int).
+    Uses start_station_key (trip origin) consistent with
+    bike_station_activity() pattern from E-1302.
+    Returns single-row DataFrame with trip_count, avg_duration_minutes,
+    top_user_type from fct_bike_trips.
+    """
+    return """
+        WITH base AS (
+            SELECT
+                duration_seconds,
+                user_type
+            FROM fct_bike_trips
+            WHERE start_station_key = %(station_key)s
+                AND date_key BETWEEN %(start_date)s AND %(end_date)s
+        ),
+        ranked_users AS (
+            SELECT
+                user_type,
+                ROW_NUMBER() OVER (ORDER BY COUNT(*) DESC) AS rn
+            FROM base
+            WHERE user_type IS NOT NULL
+            GROUP BY user_type
+        )
+        SELECT
+            COUNT(*) AS trip_count,
+            ROUND(AVG(duration_seconds) / 60, 1) AS avg_duration_minutes,
+            (SELECT user_type FROM ranked_users WHERE rn = 1)
+                AS top_user_type
+        FROM base
+    """
+
+
+def station_delay_timeline() -> str:
+    """Monthly delay trend for a single TTC subway station.
+
+    Parameters: station_key (str), start_date (int), end_date (int).
+    Returns DataFrame with year, month_num, month_name, delay_count,
+    total_delay_minutes from fct_transit_delays joined to dim_date.
+    """
+    return """
+        SELECT
+            d.year,
+            d.month_num,
+            d.month_name,
+            COUNT(*) AS delay_count,
+            SUM(f.delay_minutes) AS total_delay_minutes
+        FROM fct_transit_delays f
+        INNER JOIN dim_date d
+            ON f.date_key = d.date_key
+        WHERE f.station_key = %(station_key)s
+            AND f.date_key BETWEEN %(start_date)s AND %(end_date)s
+        GROUP BY d.year, d.month_num, d.month_name
+        ORDER BY d.year, d.month_num
+    """
+
+
+def station_trip_timeline() -> str:
+    """Monthly trip trend for a single Bike Share station.
+
+    Parameters: station_key (str), start_date (int), end_date (int).
+    Uses start_station_key (trip origin) consistent with
+    bike_station_activity() pattern from E-1302.
+    Returns DataFrame with year, month_num, month_name, trip_count,
+    avg_duration_minutes from fct_bike_trips joined to dim_date.
+    """
+    return """
+        SELECT
+            d.year,
+            d.month_num,
+            d.month_name,
+            COUNT(*) AS trip_count,
+            ROUND(AVG(f.duration_seconds) / 60, 1) AS avg_duration_minutes
+        FROM fct_bike_trips f
+        INNER JOIN dim_date d
+            ON f.date_key = d.date_key
+        WHERE f.start_station_key = %(station_key)s
+            AND f.date_key BETWEEN %(start_date)s AND %(end_date)s
+        GROUP BY d.year, d.month_num, d.month_name
+        ORDER BY d.year, d.month_num
+    """

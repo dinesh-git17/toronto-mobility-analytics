@@ -7,9 +7,11 @@ renderable via ``st.pydeck_chart()``.
 from __future__ import annotations
 
 import json
+from typing import Any
 
 import pandas as pd
 import pydeck
+from pydeck.data_utils import compute_view
 
 _TTC_RED_RGBA: list[int] = [218, 41, 28, 180]
 _DEFAULT_RADIUS: int = 100
@@ -22,6 +24,23 @@ _BIKE_GREEN_GRADIENT: list[list[int]] = [
     [67, 176, 42],
     [22, 101, 52],
 ]
+
+STATION_COLORS: dict[str, list[int]] = {
+    "TTC_SUBWAY": [218, 41, 28, 180],
+    "BIKE_SHARE": [67, 176, 42, 180],
+    "SELECTED": [37, 99, 235, 220],
+}
+
+STATION_HEX_COLORS: dict[str, str] = {
+    "TTC_SUBWAY": "#DA291C",
+    "BIKE_SHARE": "#43B02A",
+    "SELECTED": "#2563EB",
+}
+
+STATION_TYPE_LABELS: dict[str, str] = {
+    "TTC_SUBWAY": "TTC Subway",
+    "BIKE_SHARE": "Bike Share",
+}
 
 
 def _compute_radius_column(
@@ -227,4 +246,131 @@ def heatmap_map(
             pitch=0,
         ),
         map_style=pydeck.map_styles.DARK,
+    )
+
+
+def station_focus_map(
+    selected_station: dict[str, Any] | list[dict[str, Any]],
+    nearby_stations: pd.DataFrame,
+    *,
+    lat_col: str = "latitude",
+    lon_col: str = "longitude",
+    type_col: str = "station_type",
+    zoom: int = 14,
+) -> pydeck.Deck:
+    """Build a multi-layer station focus map with selection highlight.
+
+    Renders one to three selected stations as blue highlight markers
+    surrounded by type-colored nearby station markers on a dark basemap.
+
+    Single-station mode centers the viewport on the selected station at
+    the specified zoom level.  Multi-station mode auto-computes the
+    viewport to frame all selected stations.
+
+    Args:
+        selected_station: Station dict or list of up to 3 station dicts.
+            Each dict must contain keys matching ``lat_col`` and
+            ``lon_col``.
+        nearby_stations: DataFrame of nearby stations with coordinate,
+            type, and ``distance_km`` columns produced by
+            ``find_nearby_stations()``.
+        lat_col: Column name for latitude values.
+        lon_col: Column name for longitude values.
+        type_col: Column name for station type values.
+        zoom: Initial zoom level for single-station mode.
+
+    Returns:
+        A ``pydeck.Deck`` renderable via ``st.pydeck_chart()``.
+
+    Raises:
+        ValueError: When more than 3 stations are provided.
+    """
+    stations: list[dict[str, Any]] = (
+        [selected_station]
+        if isinstance(selected_station, dict)
+        else list(selected_station)
+    )
+    if len(stations) > 3:
+        msg = f"Maximum 3 stations supported, received {len(stations)}"
+        raise ValueError(msg)
+
+    multi_mode = len(stations) > 1
+    highlight_radius = 120 if multi_mode else 150
+
+    selected_records = _to_records(pd.DataFrame(stations))
+
+    selected_layer = pydeck.Layer(
+        "ScatterplotLayer",
+        data=selected_records,
+        get_position=[lon_col, lat_col],
+        get_radius=highlight_radius,
+        get_fill_color=STATION_COLORS["SELECTED"],
+        pickable=False,
+        radius_min_pixels=6,
+    )
+
+    layers: list[pydeck.Layer] = [selected_layer]
+
+    if not nearby_stations.empty:
+        plot_data = nearby_stations.copy()
+
+        if "station_key" in plot_data.columns:
+            plot_data = plot_data.drop_duplicates(subset="station_key")
+
+        color_map: dict[str, list[int]] = {
+            "TTC_SUBWAY": STATION_COLORS["TTC_SUBWAY"],
+            "BIKE_SHARE": STATION_COLORS["BIKE_SHARE"],
+        }
+        fallback_color: list[int] = [160, 160, 160, 180]
+        plot_data["_color"] = plot_data[type_col].map(color_map)
+        plot_data["_color"] = plot_data["_color"].apply(
+            lambda c: c if isinstance(c, list) else fallback_color
+        )
+
+        max_dist = float(plot_data["distance_km"].max())
+        if max_dist > 0:
+            plot_data["_radius"] = plot_data["distance_km"].apply(
+                lambda d: max(60.0, min(80.0, 80.0 - (float(d) / max_dist) * 20.0))
+            )
+        else:
+            plot_data["_radius"] = 80
+
+        plot_data["_type_label"] = (
+            plot_data[type_col].map(STATION_TYPE_LABELS).fillna("Station")
+        )
+
+        nearby_layer = pydeck.Layer(
+            "ScatterplotLayer",
+            data=_to_records(plot_data),
+            get_position=[lon_col, lat_col],
+            get_radius="_radius",
+            get_fill_color="_color",
+            pickable=True,
+            radius_min_pixels=3,
+        )
+        layers.append(nearby_layer)
+
+    if multi_mode:
+        coords = [[float(s[lon_col]), float(s[lat_col])] for s in stations]
+        view_state = compute_view(coords, view_proportion=0.9)  # pyright: ignore[reportArgumentType]
+        view_state.pitch = 0
+    else:
+        view_state = pydeck.ViewState(
+            latitude=float(stations[0][lat_col]),
+            longitude=float(stations[0][lon_col]),
+            zoom=zoom,
+            pitch=0,
+        )
+
+    tooltip: dict[str, str] | None = None
+    if not nearby_stations.empty:
+        tooltip = {
+            "html": ("<b>{station_name}</b><br/>{_type_label}<br/>{distance_km} km"),
+        }
+
+    return pydeck.Deck(
+        layers=layers,
+        initial_view_state=view_state,
+        map_style=pydeck.map_styles.DARK,
+        tooltip=tooltip,  # pyright: ignore[reportArgumentType]
     )
