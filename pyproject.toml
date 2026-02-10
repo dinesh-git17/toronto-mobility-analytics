@@ -53,6 +53,15 @@ ignore_missing_imports = true
 
 [[tool.mypy.overrides]]
 module = [
+    "pydeck",
+    "pydeck.*",
+    "plotly",
+    "plotly.*",
+]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = [
     "streamlit",
     "streamlit.*",
     "altair",

@@ -9,9 +9,11 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, cast
 
 import altair as alt
+import plotly.express as px
 
 if TYPE_CHECKING:
     import pandas as pd
+    import plotly.graph_objects as go
     from altair.theme import ThemeConfig
 
 # ---------------------------------------------------------------------------
@@ -180,4 +182,121 @@ def sparkline(
         )
         .properties(width="container", height=height)
         .configure_view(strokeWidth=0),
+    )
+
+
+# ---------------------------------------------------------------------------
+# Extended chart builders (E-1201)
+# ---------------------------------------------------------------------------
+
+_DEFAULT_TREEMAP_SCALE: list[list[float | str]] = [
+    [0, "#FEE2E2"],
+    [0.5, "#F87171"],
+    [1, "#DA291C"],
+]
+
+
+def treemap(
+    data: pd.DataFrame,
+    path_cols: list[str],
+    value_col: str,
+    color_col: str | None = None,
+    title: str = "",
+    color_scale: list[list[float | str]] | None = None,
+) -> go.Figure:
+    """Build a Plotly treemap for hierarchical category breakdowns.
+
+    Renders nested tiles sized by ``value_col`` with an optional
+    sequential color encoding and project-aligned typography.
+
+    Args:
+        data: Source DataFrame with hierarchy and value columns.
+        path_cols: Column names defining hierarchy levels from outermost
+            to innermost.
+        value_col: Numeric column for proportional tile area.
+        color_col: Numeric column for color intensity.  When ``None``,
+            all tiles render in uniform TTC red.
+        title: Chart title.
+        color_scale: Plotly color scale as ``[[position, color], ...]``.
+            Defaults to a light-pink-to-red sequential palette.
+
+    Returns:
+        A ``plotly.graph_objects.Figure`` renderable via
+        ``st.plotly_chart``.
+    """
+    resolved_scale = color_scale if color_scale is not None else _DEFAULT_TREEMAP_SCALE
+
+    if color_col is not None:
+        fig = px.treemap(
+            data,
+            path=path_cols,
+            values=value_col,
+            color=color_col,
+            color_continuous_scale=resolved_scale,
+            title=title,
+        )
+    else:
+        fig = px.treemap(
+            data.assign(_uniform=1.0),
+            path=path_cols,
+            values=value_col,
+            color="_uniform",
+            color_continuous_scale=[[0, "#DA291C"], [1, "#DA291C"]],
+            title=title,
+        )
+        fig.update_coloraxes(showscale=False)
+
+    fig.update_traces(textinfo="label+percent parent")
+    fig.update_layout(
+        font_family="Inter",
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)",
+        margin={"t": 40, "l": 10, "r": 10, "b": 10},
+    )
+    return fig
+
+
+def heatmap(
+    data: pd.DataFrame,
+    x: str,
+    y: str,
+    color: str,
+    title: str = "",
+    x_sort: list[str] | None = None,
+    y_sort: list[str] | None = None,
+) -> alt.Chart:
+    """Build a heatmap of colored cells with ordinal axes.
+
+    Uses ``mark_rect()`` to render a two-dimensional matrix with
+    sequential red color encoding and hover tooltips.
+
+    Args:
+        data: Source DataFrame.
+        x: Column for the x-axis (ordinal).
+        y: Column for the y-axis (ordinal).
+        color: Quantitative column for cell color intensity.
+        title: Chart title.
+        x_sort: Explicit x-axis category order.  Alphabetical when
+            ``None``.
+        y_sort: Explicit y-axis category order.  Alphabetical when
+            ``None``.
+
+    Returns:
+        Altair Chart object ready for ``st.altair_chart``.
+    """
+    return cast(
+        "alt.Chart",
+        alt.Chart(data)
+        .mark_rect()
+        .encode(
+            x=alt.X(f"{x}:O", sort=x_sort),
+            y=alt.Y(f"{y}:O", sort=y_sort),
+            color=alt.Color(f"{color}:Q", scale=alt.Scale(scheme="reds")),
+            tooltip=[
+                alt.Tooltip(f"{x}:O"),
+                alt.Tooltip(f"{y}:O"),
+                alt.Tooltip(f"{color}:Q"),
+            ],
+        )
+        .properties(width="container", title=title),
     )
