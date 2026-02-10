@@ -121,12 +121,14 @@ models:
       - name: latitude
         description: >
           WGS84 latitude of the station location (DECIMAL). Populated for Bike
-          Share stations from the GBFS feed; NULL for TTC subway stations.
+          Share stations from the GBFS feed and for TTC subway stations from the
+          ttc_station_coords seed. NULL only for the ST_000 Unknown placeholder.
 
       - name: longitude
         description: >
           WGS84 longitude of the station location (DECIMAL). Populated for Bike
-          Share stations from the GBFS feed; NULL for TTC subway stations.
+          Share stations from the GBFS feed and for TTC subway stations from the
+          ttc_station_coords seed. NULL only for the ST_000 Unknown placeholder.
 
       - name: neighborhood
         description: >

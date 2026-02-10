@@ -5,17 +5,27 @@ with
         from {{ ref('ttc_station_mapping') }}
     ),
 
+    ttc_coords as (
+        select
+            canonical_station_name,
+            cast(latitude as decimal(10, 6)) as latitude,
+            cast(longitude as decimal(10, 6)) as longitude
+        from {{ ref('ttc_station_coords') }}
+    ),
+
     ttc_dim as (
         select
             {{ dbt_utils.generate_surrogate_key(["'TTC_SUBWAY'", 'station_id']) }}
             as station_key,
-            station_id,
-            station_name,
+            ttc_stations.station_id,
+            ttc_stations.station_name,
             'TTC_SUBWAY' as station_type,
-            cast(null as decimal(10, 6)) as latitude,
-            cast(null as decimal(10, 6)) as longitude,
+            ttc_coords.latitude,
+            ttc_coords.longitude,
             cast(null as varchar) as neighborhood
         from ttc_stations
+        left join
+            ttc_coords on ttc_stations.station_name = ttc_coords.canonical_station_name
     ),
 
     bike_dim as (
