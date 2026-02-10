@@ -119,6 +119,46 @@ seeds:
         tests:
           - not_null
 
+  - name: ttc_station_coords
+    config:
+      persist_docs:
+        relation: true
+        columns: true
+    description: >
+      Geographic coordinates for 74 canonical TTC subway stations across all
+      four lines (Yonge-University, Bloor-Danforth, Scarborough RT, Sheppard).
+      Sourced from TTC and OpenStreetMap reference data. Keyed on
+      canonical_station_name for join to ttc_station_mapping and dim_station.
+    columns:
+      - name: canonical_station_name
+        description: >
+          Canonical station name matching the ttc_station_mapping seed.
+          Unique per station; interchange stations appear once under the
+          primary line assignment.
+        tests:
+          - unique
+          - not_null
+      - name: line_number
+        description: >
+          TTC line number: 1 (Yonge-University), 2 (Bloor-Danforth),
+          3 (Scarborough RT), 4 (Sheppard).
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['1', '2', '3', '4']
+      - name: latitude
+        description: >
+          WGS84 latitude of the station entrance, constrained to the
+          Greater Toronto Area bounding box (43.58 to 43.86).
+        tests:
+          - not_null
+      - name: longitude
+        description: >
+          WGS84 longitude of the station entrance, constrained to the
+          Greater Toronto Area bounding box (-79.64 to -79.10).
+        tests:
+          - not_null
+
   - name: date_spine
     config:
       persist_docs:
