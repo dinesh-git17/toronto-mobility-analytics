@@ -22,6 +22,7 @@ from scripts.transform import (
     extract_zip,
     normalize_encoding,
     rename_csv_columns,
+    strip_extra_columns,
 )
 
 
@@ -266,3 +267,120 @@ class TestRenameCsvColumns:
         assert lines[0] == "Incident,Value"
         assert lines[1] == "ABC,123"
         assert lines[2] == "DEF,456"
+
+
+class TestStripExtraColumns:
+    """Column stripping tests for removing _id/Vehicle from 2025 files."""
+
+    def test_strips_leading_and_trailing_extra_columns(self, tmp_path: Path) -> None:
+        csv_path = tmp_path / "data.csv"
+        csv_path.write_text(
+            "_id,Date,Time,Station,Vehicle\n"
+            "1,2025-01-01,08:00,UNION,5931\n"
+            "2,2025-01-02,09:00,BLOOR,5904\n",
+            encoding="utf-8",
+        )
+
+        result = strip_extra_columns(
+            csv_path,
+            frozenset({"Date", "Time", "Station"}),
+        )
+
+        assert result is True
+        content = csv_path.read_text(encoding="utf-8")
+        lines = content.strip().split("\n")
+        assert lines[0] == "Date,Time,Station"
+        assert lines[1] == "2025-01-01,08:00,UNION"
+        assert lines[2] == "2025-01-02,09:00,BLOOR"
+
+    def test_returns_false_when_no_extra_columns(self, tmp_path: Path) -> None:
+        csv_path = tmp_path / "data.csv"
+        csv_path.write_text(
+            "Date,Time,Station\n2025-01-01,08:00,UNION\n",
+            encoding="utf-8",
+        )
+
+        result = strip_extra_columns(
+            csv_path,
+            frozenset({"Date", "Time", "Station"}),
+        )
+
+        assert result is False
+
+    def test_case_insensitive_matching(self, tmp_path: Path) -> None:
+        csv_path = tmp_path / "data.csv"
+        csv_path.write_text(
+            "_id,date,TIME,Station\n1,2025-01-01,08:00,UNION\n",
+            encoding="utf-8",
+        )
+
+        result = strip_extra_columns(
+            csv_path,
+            frozenset({"Date", "Time", "Station"}),
+        )
+
+        assert result is True
+        header = csv_path.read_text(encoding="utf-8").split("\n")[0]
+        assert header == "date,TIME,Station"
+
+    def test_handles_quoted_fields_with_commas(self, tmp_path: Path) -> None:
+        csv_path = tmp_path / "data.csv"
+        csv_path.write_text(
+            '_id,Date,Location,Vehicle\n1,2025-01-01,"271 MARIA STREET, DUND",5931\n',
+            encoding="utf-8",
+        )
+
+        strip_extra_columns(
+            csv_path,
+            frozenset({"Date", "Location"}),
+        )
+
+        import csv as csv_mod
+
+        with csv_path.open("r", encoding="utf-8", newline="") as f:
+            reader = csv_mod.reader(f)
+            header = next(reader)
+            row = next(reader)
+
+        assert header == ["Date", "Location"]
+        assert row == ["2025-01-01", "271 MARIA STREET, DUND"]
+
+    def test_returns_false_for_empty_file(self, tmp_path: Path) -> None:
+        csv_path = tmp_path / "empty.csv"
+        csv_path.write_text("", encoding="utf-8")
+
+        result = strip_extra_columns(csv_path, frozenset({"A"}))
+
+        assert result is False
+
+    def test_preserves_column_order_from_original(self, tmp_path: Path) -> None:
+        csv_path = tmp_path / "data.csv"
+        header_row = (
+            "_id,Date,Route,Time,Day,Location,"
+            "Incident,Min Delay,Min Gap,Direction,Vehicle"
+        )
+        csv_path.write_text(
+            f"{header_row}\n1,2025-01-01,65,08:00,Wed,KIPLING,MFUS,0,0,N,3442\n",
+            encoding="utf-8",
+        )
+
+        strip_extra_columns(
+            csv_path,
+            frozenset(
+                {
+                    "Date",
+                    "Route",
+                    "Time",
+                    "Day",
+                    "Location",
+                    "Incident",
+                    "Min Delay",
+                    "Min Gap",
+                    "Direction",
+                }
+            ),
+        )
+
+        header = csv_path.read_text(encoding="utf-8").split("\n")[0]
+        expected = "Date,Route,Time,Day,Location,Incident,Min Delay,Min Gap,Direction"
+        assert header == expected

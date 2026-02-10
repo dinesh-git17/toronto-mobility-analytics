@@ -6,7 +6,7 @@ All chart builder functions inherit the theme automatically.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 
 import altair as alt
 
@@ -27,7 +27,7 @@ _CATEGORY_COLORS: list[str] = [
 ]
 
 
-@alt.theme.register("toronto_mobility", enable=True)  # type: ignore[misc]
+@alt.theme.register("toronto_mobility", enable=True)
 def toronto_theme() -> ThemeConfig:
     """Return a Vega-Lite theme config for Toronto Mobility charts.
 
@@ -103,7 +103,7 @@ def bar_chart(
     if color:
         chart = chart.encode(color=alt.Color(color, type="nominal"))
 
-    return chart.properties(width="container", title=title)
+    return cast("alt.Chart", chart.properties(width="container", title=title))
 
 
 def line_chart(
@@ -137,7 +137,7 @@ def line_chart(
     if color:
         chart = chart.encode(color=alt.Color(color, type="nominal"))
 
-    return chart.properties(width="container", title=title)
+    return cast("alt.Chart", chart.properties(width="container", title=title))
 
 
 def sparkline(
@@ -159,26 +159,25 @@ def sparkline(
     Returns:
         Altair Chart object with all chrome removed.
     """
-    return (
+    gradient = alt.Gradient(  # type: ignore[no-untyped-call]
+        gradient="linear",
+        stops=[
+            alt.GradientStop(color="rgba(37,99,235,0.3)", offset=0),
+            alt.GradientStop(color="rgba(37,99,235,0.02)", offset=1),
+        ],
+        x1=0,
+        x2=0,
+        y1=0,
+        y2=1,
+    )
+    return cast(
+        "alt.Chart",
         alt.Chart(data)
-        .mark_area(
-            line={"color": "#2563EB"},
-            color=alt.Gradient(
-                gradient="linear",
-                stops=[
-                    alt.GradientStop(color="rgba(37,99,235,0.3)", offset=0),
-                    alt.GradientStop(color="rgba(37,99,235,0.02)", offset=1),
-                ],
-                x1=0,
-                x2=0,
-                y1=0,
-                y2=1,
-            ),
-        )
+        .mark_area(line={"color": "#2563EB"}, color=gradient)
         .encode(
             x=alt.X(x, axis=None),
             y=alt.Y(y, type="quantitative", axis=None, scale=alt.Scale(zero=False)),
         )
         .properties(width="container", height=height)
-        .configure_view(strokeWidth=0)
+        .configure_view(strokeWidth=0),
     )

@@ -436,6 +436,7 @@ def _run_pipeline(
         convert_xlsx_to_csv,
         normalize_encoding,
         rename_csv_columns,
+        strip_extra_columns,
     )
 
     subdir = _dataset_source_dir(source_dir, dataset_name)
@@ -493,6 +494,14 @@ def _run_pipeline(
             year = _extract_year(csv_file)
             if year is not None and year >= _UNIFIED_YEAR:
                 rename_csv_columns(csv_file, rename_map)
+
+    # Step 2.7: Strip columns not in the contract (e.g. _id, Vehicle).
+    # 2025 Open Data files prepended an _id column that shifts positional
+    # COPY INTO mapping in the Snowflake load step.
+    if dataset_name.startswith("ttc_"):
+        allowed = contract.required_columns
+        for csv_file in sorted(validated_dir.rglob("*.csv")):
+            strip_extra_columns(csv_file, allowed)
 
     # Step 3: Copy weather CSVs to validated dir
     if dataset_name == "weather_daily":

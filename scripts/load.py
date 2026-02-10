@@ -710,9 +710,19 @@ def _execute_merge(
     insert_cols = ", ".join(all_columns)
     insert_vals = ", ".join(f"staging.{c}" for c in all_columns)
 
+    # Deduplicate staging rows by natural key to prevent Snowflake
+    # error 100090 ("Duplicate row detected during DML action").
+    # Source CSVs contain duplicates (14 subway, 1228 bus, 1014 streetcar).
+    partition_cols = ", ".join(natural_keys)
+    dedup_source = (
+        f"(SELECT * FROM {staging_table} "
+        f"QUALIFY ROW_NUMBER() OVER "
+        f"(PARTITION BY {partition_cols} ORDER BY {natural_keys[0]}) = 1)"
+    )
+
     merge_sql = (
         f"MERGE INTO {target_table} AS target "
-        f"USING {staging_table} AS staging "
+        f"USING {dedup_source} AS staging "
         f"ON {on_clause}"
     )
 

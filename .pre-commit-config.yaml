@@ -159,7 +159,8 @@ repos:
           - --strict
           - --ignore-missing-imports
           - --no-error-summary
-        additional_dependencies: []
+        additional_dependencies:
+          - altair>=5.0.0
         pass_filenames: true
         types: [python]
 
