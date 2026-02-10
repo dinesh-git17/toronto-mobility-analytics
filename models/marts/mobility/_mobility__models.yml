@@ -8,6 +8,17 @@ models:
       dim_station (subway only), and dim_ttc_delay_codes. Sourced from
       int_ttc_delays_enriched. Primary analytical surface for transit delay
       analysis.
+    tests:
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          # Calibrated 2026-02-09 against 237,446 rows
+          min_value: 100000
+          max_value: 500000
+          config:
+            severity: warn
+      - elementary.volume_anomalies
+      - elementary.freshness_anomalies:
+          timestamp_column: incident_timestamp
+      - elementary.schema_changes
     columns:
       - name: delay_sk
         description: >
@@ -54,6 +65,10 @@ models:
         description: >
           Duration of the delay in minutes (INTEGER). Records with zero delay
           are excluded at the staging boundary.
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 1440
 
       - name: gap_minutes
         description: >
@@ -89,6 +104,17 @@ models:
       surrogate FK keys to dim_date and dim_station (start and end). Sourced
       from int_bike_trips_enriched. Primary analytical surface for ridership
       analysis.
+    tests:
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          # Calibrated 2026-02-09 against 21,795,223 rows
+          min_value: 10000000
+          max_value: 50000000
+          config:
+            severity: warn
+      - elementary.volume_anomalies
+      - elementary.freshness_anomalies:
+          timestamp_column: start_time
+      - elementary.schema_changes
     columns:
       - name: trip_sk
         description: >
@@ -136,6 +162,12 @@ models:
           Duration of the trip in seconds (INTEGER). Minimum 60 seconds per
           staging filter (DESIGN-DOC Decision D9). Aliased from
           trip_duration_seconds.
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 60
+              max_value: 86400
+              config:
+                severity: warn
 
       - name: user_type
         description: >
@@ -165,6 +197,15 @@ models:
       and Bike Share ridership metrics via FULL OUTER JOIN on date_key. One row
       per calendar date with activity in either data source. Transit-only dates
       have NULL bike columns; bike-only dates have NULL transit columns.
+    tests:
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          # Calibrated 2026-02-09 against 1,827 rows
+          min_value: 1000
+          max_value: 5000
+          config:
+            severity: warn
+      - elementary.volume_anomalies
+      - elementary.schema_changes
     columns:
       - name: date_key
         description: >
